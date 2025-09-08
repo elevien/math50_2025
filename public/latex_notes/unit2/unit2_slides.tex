@@ -1,0 +1,104 @@
+\include{./../latex/slides_style.tex}
+
+ \title{Unit 2}
+ \subtitle{Expectation, Normal distribution and CLT}
+ \author{Ethan Levien}
+ \institute{Math 50}
+ \date{\today}
+
+
+
+\begin{document}
+
+% Title slide
+\begin{frame}
+  \titlepage
+\end{frame}
+
+% Outline
+\begin{frame}{Outline}
+  \tableofcontents
+\end{frame}
+
+% Section: Introduction
+\section{Introduction}
+\begin{frame}{Sample averages}
+In statistics, we often have iid samples $Y_1,\dots,Y_n$. Our goal is to say something about the probability distribution $P_Y(y)$. For example, 
+\begin{itemize}
+\item The sample mean {\bf sample mean}
+\begin{equation*}
+\bar{Y} = \frac{1}{n}\sum_{i=1}^n Y_i
+\end{equation*} 
+\item The probability of a given outcome: 
+\begin{equation*}
+\bar{Y} = \frac{1}{n}\sum_{i=1}^n 1_A(Y_i) \approx P(\{Y \in A\})
+\end{equation*}
+\end{itemize}
+In both cases we are using an {\bf sample average}. 
+\end{frame}
+
+
+\begin{frame}{Expectation}
+\begin{itemize}
+\item The sample average converges to an expectation 
+\begin{equation*}
+E[Y] = \sum_{y \in S}yP(\{Y = y\}) = \sum_{y \in S}y\frac{n_y}{n} = \frac{1}{n}\sum_{i=1}^nY_i
+\end{equation*}
+The function $E$ takes a random variable and outputs a deterministic quantity. 
+\item The sample average therefore converts are random dataset into a (approximately) deterministic number which can be used to deduce attributes of our probability model. 
+\end{itemize}
+
+The central structure of classical statistics is
+\begin{center}
+\begin{equation*}
+ \underset{\text{\tiny (from data)}}{\bar{g(Y)}} \approx \underset{}{E[f(Y)]} \underset{\text{\tiny solving equations}}{\longrightarrow} \text{Model parameters}
+\end{equation*}
+\end{center}
+
+
+\end{frame}
+
+
+\begin{frame}{Example}
+We are given $n$ samples $X_i$ of a Bernoulli random variable. If we want to estimate the parameter $q$, then 
+\begin{equation}
+q = P(X = 1) = 0 \times P(X = 0) + 1 \times P(X=1) = E[X]
+\end{equation}
+Therefore 
+\begin{equation}
+q \approx \bar{X}. 
+\end{equation}
+We say that $\bar{X}$ is an {\bf estimator} of $q$ and write $\hat{q}$. In general we write $\hat{\theta}$ for an estimator of some parameter $\theta$. 
+
+
+\end{frame}
+
+
+\begin{frame}{Conditional expectation}
+Regression models are built upon the idea of conditional expectation.
+\begin{itemize}
+\item  Conditional expectation is defined by
+\begin{align*}
+E[Y|X=x] &= \sum_{y \in S}yP(\{Y = y\}|X=x) 
+\end{align*}
+\item Given samples $(X_1,Y_1),\dots,(X_2,Y_2)$, we have
+\begin{equation}
+E[Y|X=x]  \approx  \sum_{y \in S}y\frac{P(Y = y,X=x)}{P(X=x)}\\
+& = \sum_{y \in S}y\frac{n_{x,y}/n}{n_x/n} = \frac{1}{|\{i:X_i =x\}|}\sum_{\{i:X_i =x\}}X_i
+\end{equation}
+where $n_{x,y}$ is the number of samples where $X=x$ and $Y=y$. 
+\item In Python this looks like: 
+\end{itemize}
+
+
+
+\end{frame}
+
+\begin{frame}{Sample distribution}
+How ``good'' an approximation is this? Intuitively, it will become better when $n$ becomes large, but how to we quantity 
+
+\end{frame}
+
+
+
+\end{document}

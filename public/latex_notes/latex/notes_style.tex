@@ -1,0 +1,228 @@
+\documentclass[10pt]{article}
+\usepackage{amsthm}
+\usepackage{amsfonts}
+%\usepackage{amsmath}
+\usepackage[utf8]{inputenc}
+\usepackage{graphicx}
+\usepackage{xcolor}
+\usepackage[margin=1.0in]{geometry}
+\usepackage{fancyvrb}
+\usepackage{cprotect}
+\usepackage{url}
+\usepackage{etoolbox}
+\usepackage[hidelinks]{hyperref}
+\usepackage[skins,theorems]{tcolorbox}
+\usepackage{enumitem}
+\usepackage{xcolor}
+\usepackage{pifont}
+\usepackage{tcolorbox}        % load once, no options
+\tcbuselibrary{theorems,skins,breakable} % add features here
+%\newcommand*{\vertbar}{\rule[-1ex]{0.5pt}{2.5ex}}
+%\newcommand*{\horzbar}{\rule[.5ex]{2.5ex}{0.5pt}}
+%\setlist[itemize]{align=parleft,left=1pt..1em}
+\usetikzlibrary{arrows.meta}
+\newcommand{\vertbar}{\,\big|\,}
+
+\usepackage{imakeidx}
+\makeindex
+
+\usepackage{listings}
+\usepackage{xcolor}
+
+% Define some colors
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+
+% Define a style
+\lstdefinestyle{mystyle}{
+    commentstyle=\color{codegreen},
+    keywordstyle=\color{blue},
+    numberstyle=\tiny\color{codegray},
+    stringstyle=\color{codepurple},
+    basicstyle=\ttfamily,
+    breakatwhitespace=false,
+    breaklines=true,
+    captionpos=b,
+    keepspaces=true,
+    numbersep=5pt,
+    showspaces=false,
+    showstringspaces=false,
+    showtabs=false,
+    tabsize=4
+}
+
+\lstset{style=mystyle}
+%\usepackage[T1]{fontenc}
+%\usepackage{inconsolata} % optional, nicer monospace font
+
+
+\usepackage{cmbright}
+%\usepackage[OT1]{fontenc}
+%\usepackage{helvet}
+%\renewcommand{\familydefault}{\sfdefault}
+
+%\usepackage{titlesec}
+
+
+
+%\titleformat{\section}
+%  {\normalfont\fontsize{14}{17}\sffamily\bfseries}
+%  {\thesection}
+%  {1em}
+%  {}
+%
+%\titleformat{\subsection}
+%  {\normalfont\fontsize{12}{17}\sffamily\slshape}
+%  {\thesubsection}
+%  {1em}
+%  {}
+
+
+
+% from https://www.pinterest.co.uk/pin/88664686405122253/
+\definecolor{C1}{RGB}{141, 125, 158} %purple
+\definecolor{C2}{RGB}{163,156,147} % yellow
+\definecolor{C3}{RGB}{99,151,153} % green
+\definecolor{C4}{RGB}{195,106,99} % red
+\definecolor{C5}{RGB}{124, 132, 128}
+\definecolor{C6}{RGB}{67, 69, 75}
+
+
+
+\definecolor{Gr}{HTML}{377D71}
+\definecolor{Pu}{HTML}{A459D1}
+\definecolor{Bl}{HTML}{4D455D}
+\definecolor{Te}{HTML}{C1ECE4}
+\definecolor{Or}{HTML}{EF6262}
+\definecolor{Am}{HTML}{F3AA60}
+\definecolor{Co}{HTML}{3C486B}
+\definecolor{Wh}{HTML}{FEFBF6}
+\definecolor{Ye}{HTML}{FFE196}
+\definecolor{Re}{HTML}{E96479}
+\definecolor{Pi}{HTML}{FFD0D0}
+\definecolor{Rp}{HTML}{FF9EAA}
+\definecolor{Wg}{HTML}{EEF3D2}
+
+\newcounter{unit}
+\renewcommand{\thesection}{\theunit.\arabic{section}}
+
+\hypersetup{
+    colorlinks=false,
+    linkcolor=red,
+    filecolor=red,      
+    urlcolor=red,
+    pdftitle={a},
+    pdfpagemode=FullScreen,
+    }
+    
+    
+ % TCOLORBOX STUFF ----------------------------------------------------------------------------
+ 
+
+ %  ----------------------------------------------------------------------------
+    
+%\patchcmd{\section}{\normalfont}{\color{C5}}{}{}
+%\patchcmd{\subsection}{\normalfont}{\color{C5}}{}{}
+
+
+\newcommand{\dfn}[1]{{\underline{#1}}}
+\definecolor{sidebarblue}{HTML}{E3F2FD}
+
+
+\renewcommand{\FancyVerbFormatLine}[1]{\color{gray}{>\,\,#1}}
+    
+\newtheorem{thm}{Theorem}
+
+
+\newtheoremstyle{exercise}
+{}                % Space above
+{}                % Space below
+{\color{black}}        % Theorem body font % (default is "\upshape")
+{}                % Indent amount
+{\bfseries}       % Theorem head font % (default is \mdseries)
+{:}               % Punctuation after theorem head % default: no punctuation
+{ }               % Space after theorem head
+{}                % Theorem head spec
+\theoremstyle{exercise}
+\newtheorem{exercise}{Exercise}
+
+
+\newtheoremstyle{example}
+  {}                % Space above
+  {}                % Space below
+  {\color{black}} % Theorem body font (default is "\upshape")
+  {}                % Indent amount
+  {\bfseries}       % Theorem head font (default is \mdseries)
+  {.}               % Punctuation after theorem head (default is no punctuation)
+  { }               % Space after theorem head
+  {\thmname{#1}\thmnumber{ #2}\thmnote{ \textnormal{(#3)}}}  % Theorem head spec: #1 is name, #2 is number, #3 is note
+
+\theoremstyle{example}
+\newtheorem{example}{Example}
+
+% Boxed, breakable 'example' with dashed continuation markers and custom background
+	\tcolorboxenvironment{example}{
+  enhanced,
+  breakable,
+  colback=sidebarblue,        % <<< background color
+  colframe=black,
+  boxrule=1pt,
+  arc=5pt,
+  left=6pt,right=6pt,top=6pt,bottom=6pt,
+  % dashed markers at page breaks
+  overlay unbroken={},   % no markers if the box doesn't break
+ }
+
+\newtheoremstyle{solution}
+{}                % Space above
+{}                % Space below
+{\color{C5}}        % Theorem body font % (default is "\upshape")
+{}                % Indent amount
+{\bfseries }       % Theorem head font % (default is \mdseries)
+{:}               % Punctuation after theorem head % default: no punctuation
+{\newline}               % Space after theorem head
+{}                % Theorem head spec
+\theoremstyle{solution}
+\newtheorem*{solution}{Solution}
+
+
+\newcommand{\mcS}{\mathcal S}
+\newcommand{\mcR}{\mathcal R}
+\newcommand{\mcC}{\mathcal C}
+\newcommand{\bS}{{\boldsymbol S}}
+\newcommand{\bR}{{\boldsymbol R}}
+\newcommand{\bC}{{\boldsymbol C}}
+\newcommand{\ba}{{\boldsymbol a}}
+\newcommand{\bb}{{\boldsymbol b}}
+\newcommand{\bs}{{\boldsymbol s}}
+\newcommand{\bff}{{\boldsymbol f}}
+\newcommand{\br}{{\boldsymbol r}}
+\newcommand{\bx}{{\boldsymbol x}}
+\newcommand{\bt}{{\boldsymbol t}}
+\newcommand{\bv}{{\boldsymbol v}}
+\newcommand{\bu}{{\boldsymbol u}}
+\newcommand{\bw}{{\boldsymbol w}}
+\newcommand{\bc}{{\boldsymbol c}}
+\newcommand{\be}{{\boldsymbol e}}
+\newcommand{\bq}{{\boldsymbol q}}
+\newcommand{\bphi}{{\boldsymbol \phi}}
+\newcommand{\brho}{{\boldsymbol \rho}}
+\newcommand{\btau}{{\boldsymbol \tau}}
+\newcommand{\reals}{\mathbb R}
+\newcommand{\ints}{\mathbb N}
+\newcommand{\E}{\mathbb E}
+\newcommand{\Prob}{\mathbb P}
+
+
+\newcommand{\sectionrefs}[1]{\par\smallskip\noindent\textbf{References:} #1\par\smallskip}
+
+
+%%%%%%%%%%%%%%%
+% adding space between items
+%\usepackage{enumitem}
+%\setlist{topsep=1.5em, itemsep=1.1em}
+
+
+

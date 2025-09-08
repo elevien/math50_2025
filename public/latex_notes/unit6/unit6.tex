@@ -1,0 +1,653 @@
+\include{./../latex/notes_style.tex}
+
+
+\setcounter{unit}{1}
+\setcounter{section}{0}
+
+
+\begin{document}
+
+
+
+\title{Unit 6: regularization, priors and Bayesian inference}
+\author{Ethan Levien}
+\maketitle
+
+
+\section{Introduction to Bayesian inference: some simple examples}
+
+
+\begin{itemize}
+\item Models encode our assumptions about how data was generate. Sometimes we want to incorporate vague information, such as ``the function describing my data is very smooth and changes roughly on a time-scale of 5 hours". Or, we might want to include many predictors, but to avoid overfitting penalize high values of the predictors. For example, we might believe there is an interaction term, but suspect it is much smaller than the additive terms. This motivates a different approach to statistics, one which treats parameters as themselves random variables.  
+
+\begin{example}[Bernoulli with priors]\label{ex:beta}
+Consider the model 
+\begin{equation*}
+X \sim {\rm Bernoullli}(q)
+\end{equation*}
+An implicit assumption we have made when we fit this model, is that before we see any data, each value of $q$ is equally likely. To make this more explicit, we can write
+\begin{align*}
+X|q &\sim {\rm Bernoullli}(q)\\
+q &\sim {\rm Uniform}(0,1)
+\end{align*}
+Another way to think about constructing an estimator of $q$, is that given data points $X_1,\dots,X_N$, we would like to know 
+\begin{equation}
+\hat{q}_b = E[q|X_1,\dots,X_N]\label{eq:qhatb}
+\end{equation}
+We can in principle solve this problem using Bayes' theorem. In fact, we would also take it a step further and ask: What is the distribution of
+\begin{equation*}
+q|X_1,\dots,X_N
+\end{equation*}
+Is turns out that this has a relatively simple form, called a $\beta$-distribution. We say 
+\begin{equation*}
+q \sim {\rm Beta}(a,b)
+\end{equation*}
+if $q$ is a random variable on $[0,1]$ which has density 
+\begin{equation*}
+f(q) = Bq^{a-1}(1-q)^{b-1}
+\end{equation*}
+The constant $B$ ensures the area under this curve between $q=0$ and $q=1$ is indeed one, as it must be for a random density. \\
+
+
+\noindent
+\underline{Question}: Show that 
+\begin{equation*}
+q|X_1,\dots,X_N \sim {\rm Beta}(Y+1,N-Y+1)
+\end{equation*}
+
+
+\noindent
+\underline{Solution}: Using Bayes' theorem 
+\begin{align*}
+f(q|Y) &= \frac{P(Y|q)f(q)}{P(Y)}\\
+&=  \frac{1}{P(Y)}{N \choose Y}q^{Y}(1-q)^{N-Y}
+\end{align*}
+Since we are thinking of this as a probability density in $q$, we don't actually need to compute $P(Y)$ explicitly (even though we could), instead, we can simply notice that 
+\begin{equation*}
+f(q|Y)  = Cq^{Y}(1-q)^{N-Y}
+\end{equation*}
+for some constant of proportionality $C$ which will depend on $Y$, but is uniquely determined by the fact that the area under this curve must be $1$.  In the colab notebook we plot this curve. 
+\end{example}
+\item To summarize the idea of Bayesian inference, If $D$ is a our data and $\theta$ is our parameter(s) Bayes' theorem tells us that 
+\begin{equation}\label{eq:bayes}
+P(\theta|D) = \frac{P(D|\theta)P(\theta)}{P(D)}
+\end{equation}
+
+
+
+\item The distributions appearing in Equation \eqref{eq:bayes} have the following names and interpretations:
+\begin{itemize}
+\item $P(\theta|D)$ is the \dfn{posterior} (a beta distribution in Example \ref{ex:beta}).
+\item $P(D|\theta)$ is the \dfn{likelihood} (Binomial distribution in Example \ref{ex:beta}).
+\item $P(\theta)$ is the prior distribution (Uniform distribution in Example \ref{ex:beta})
+\item $P(D)$ is the evidence. It represents the chance we observe the data \emph{unconditional} on the parameters. This can be obtained by marginalizing over the priors.
+\end{itemize}
+While in classical statistics, the objective is to determine (estimate) a parameter $\theta$, in Bayesian statistics our objective is to compute the posteior distribution. Once we have this, we can obtain so-called \dfn {point estimates}, for example, by taking the average of $\theta$ or maximum of $P(\theta|D)$ (maximum likelihood). 
+\item The beta distribution will play an important role in what follows, so we note that if 
+\begin{equation*}
+q \sim {\rm Beta}(a,b)
+\end{equation*}
+then (using calculus) it can be shown that 
+\begin{align*}
+E[q] &= \frac{a}{a+b}\\
+{\rm var}(q) &= \frac{ab}{(a+b)^2(a+b+1)}.
+\end{align*}
+Notice that this implies the estimator $\hat{q}_b$ in Equation \ref{eq:qhatb} becomes 
+\begin{equation*}
+\hat{q}_b = \frac{Y+1}{Y+1+N-Y+1} = \frac{Y+1}{N+2}
+\end{equation*}
+This is in-fact the estimator $\hat{q}_L$ from the week 7 exercise set!
+
+\item The \dfn{mode} -- the value which maximizes the probability density -- for the $\beta$-distribution is 
+\begin{equation*}
+\frac{a-1}{a+b-2}
+\end{equation*}
+ We can see that  the estimator $\hat{q} = Y/N$ comes comes from the mode $f(q|Y)$ -- recall that such an estimator is called the maximum likelihood estimator.  
+
+\item A very important observation, which is what the problem on the week 7 exercise set is all about, is that adding priors often has the effect of introducing a bias while reducing the variance. 
+
+\item 
+Another important feature of the $\beta$ distribution is that when $a$ and $b$ are very large, it is approximately Normal with this mean and variance. This means we can get a rough idea of the probabilities for a $\beta$ random variable. Equipped with this knowledge, we can try to go beyond the case where our prior assumption about the distribution of $q$, before fitting the model, is Uniform. 
+
+\begin{example}[Selecting priors]\label{ex:beta2}
+Suppose we are given a coin. We are trying to determine whether it is biased based on the outcome of $N$ flips. We are pretty sure that, like most coins, it is not biased. To be precise, let's say you are $95\%$ confident that the bias of the coin is less than $10\%$ biased towards heads or tails.\\
+
+\noindent 
+\underline{Question}: 
+\begin{enumerate}[label=(\alph*)]
+\item Select a prior distribution for $q$. 
+\item What is the posterior expectation if we flip the coin $5$ times and see $5$ heads? \\
+\end{enumerate} 
+
+
+\noindent 
+\underline{Solution}: 
+\begin{enumerate}[label=(\alph*)]
+\item We know that a $\beta$-distribution is approximately Normal if $a$ and $b$ are large enough. Assuming we can make a Normal approximation, we can use the formulas for the mean and variance of the $b$ distribution to select parameters such that 
+\begin{equation}\label{eq:Pqpriors}
+P(|q-0.5|<0.1)  = P(0.4<q<0.6) \approx 0.95
+\end{equation}
+Since we would like the mean of our prior distribution to be $1/2$, we select
+\begin{equation*}
+q \sim {\rm Beta}(a,a).
+\end{equation*}
+If $q$ is approximately Normal, then Equation \ref{eq:Pqpriors} will hold when 
+\begin{align*}
+1.96 \sqrt{{\rm var}(q)} &= 0.1 \\
+&\implies  \sqrt{\frac{a^2}{4a^2(2a+1)}} = \frac{1}{2}\sqrt{\frac{1}{2a+1}}= \frac{0.1}{1.6}\\
+&\implies a \approx 31.5
+\end{align*}
+\item In order to compute the posterior, we use Bayes' theorem 
+\begin{equation*}
+f(q|X_1,\dots,X_N) \propto q^{Y}(1-q)^{N-Y} \times q^{a-1}(1-q)^{a-1} = q^{Y+a-1}(1-q)^{N-Y+a-1}
+\end{equation*}
+where $Y = \sum_{i=1}^NX_i$. 
+Again, the $q$ dependence uniquely determines the distribution, since the area under this curve must be one. We can therefore say that 
+\begin{equation*}
+q|X_1,\dots,X_N \sim {\rm Beta}(Y+a,N-Y+a)
+\end{equation*}
+For the mean and variance we have
+\begin{align*}
+E[q|X_1,\dots,X_N] &= \frac{Y+a}{N+2a} =  \frac{5+31.5}{5+2\times 31.5}  \approx 0.54
+\end{align*}
+Note that if we used usual estimator we would have found $\hat{q} = 1$, while if we used uniform priors and taken the posterior expectation $\hat{q}_L = 0.85$. Yet another approach would be to take the posterior maximum (the mode) of the posterior in using the $\beta$-distribution priors. 
+
+\end{enumerate}
+
+\end{example}
+
+\item Something quite nice about using $\beta$-distribution priors for the Bernoulli model is that BOTH the prior and the posterior have a $\beta$-distribution, albeit with difference parameters. In general, when this is the case we say that the priors are \dfn{conjugate}. 
+
+
+
+
+\begin{example}[Bayesian inference with a Normal distribution]\label{ex:normal}
+
+Suppose we have a Normal model for $Y$
+\begin{equation*}
+Y|(\mu,\sigma) \sim {\rm Normal}(\mu,\sigma).
+\end{equation*}
+Assume that $\sigma$ is known and take our priors on $\mu$ to be 
+\begin{equation*}
+\mu \sim {\rm Normal}(\mu_0,\sigma_{\mu})\\
+\end{equation*}
+
+
+\noindent
+\underline{Question:} What is the posterior distribution of $\mu$? \\
+
+
+\noindent
+\underline{Solution:}   The likelihood is 
+\begin{align*}
+p(D|\theta) &= \prod_i \frac{1}{\sqrt{2 \sigma^2 \pi}}e^{-(Y_i - \mu)^2/2\sigma^2}\\
+&=  \frac{1}{(2 \sigma^2 \pi)^{N/2}}e^{-\sum_i (Y_i - \mu)^2/2\sigma^2}
+\end{align*}
+The posterior is \emph{proportional to} 
+\begin{align*}\label{eq:post_normal}
+ p(D|\theta)p(\theta) &= \frac{1}{(2 \sigma^2 \pi)^{N/2}}e^{-\sum_i (Y_i - \mu)^2/2\sigma^2}\frac{1}{\sqrt{2\pi \sigma_{\mu}^2}}e^{-(\mu-\mu_0)^2/2\sigma_{\mu}^2}\\
+&=  \frac{1}{(2 \sigma^2 \pi)^{N/2}}\frac{1}{\sqrt{2\pi \sigma_{\mu}^2}}e^{-\sum_i (Y_i - \mu)^2/2\sigma^2 - (\mu-\mu_0)^2/2\sigma_{\mu}^2}
+\end{align*}
+On this surface this looks a bit complicated as a function of $\mu$, but there is a trick: Notice that all the dependence on $\mu$ comes from the exponent. 
+%Let's simplify the exponent to get something that looks more recognizable. 
+%\begin{align}
+%-  \mu \left( \sum_i Y_i\right)/\sigma^2   + \mu^2/2\sigma^2  + \mu\mu_0/\sigma_{\mu}^2 - \mu^2/2\sigma_{\mu}^2
+%\end{align}
+We can rewrite this as 
+\begin{equation*}
+A\mu^2 + B \mu  + C 
+\end{equation*}
+where
+\begin{align*}
+A &= \frac{1}{2}\left(\frac{N}{\sigma^2} + \frac{1}{\sigma_{\mu}^2}\right)\\
+B &= -\frac{\sum_i Y_i}{\sigma^2} - \frac{\mu_0}{\sigma_{\mu}^2}\\
+C &= \frac{\sum_i Y_i^2}{2\sigma^2} + \frac{\mu_0^2}{\sigma_{\mu}^2}
+\end{align*}
+If we factor this quadratic equation, we find that is can be written 
+\begin{equation*}
+A(\mu - B/2A)^2 + {\rm const.}
+\end{equation*} 
+We don't care what the constant terms is, since the it is the first term which tells us the mean and standard deviation of $\mu$. Now observe that 
+\begin{equation*}
+-\frac{B}{2A} = \bar{Y} \frac{\sigma_{\mu}^2}{\sigma_{\mu}^2 + \sigma^2/N} + \mu_0 \frac{\sigma^2/N}{\sigma_{\mu}^2 + \sigma^2/N}  \equiv \mu_b
+\end{equation*}
+and 
+\begin{equation*}
+\frac{1}{A} =2\frac{\sigma_{\mu}^2\sigma^2/N}{\sigma_{\mu}^2+\sigma^2/N} \equiv 2\sigma_b^2
+\end{equation*}
+In particular, we can deduce that 
+\begin{equation*}
+\mu|D \sim {\rm Normal}\left( \mu_b,\sigma_b \right)
+\end{equation*}
+where $\mu_b$ and $\sigma_b^2$ defined above are the mean and variance of the posterior distribution. 
+%
+%Despite all the messiness, these actually have very clear interpretations which will give us an intuition above how Bayesian statistics really works. To understand these, think about the following questions: 
+%\begin{enumerate}
+%\item What happens as $N \to \infty$? 
+%\item What happens as $\sigma^2 \to 0$ or $\infty$? 
+%\item What happens as $\sigma_{\mu} \to 0$ or $\infty$? 
+%\end{enumerate}
+
+
+\end{example}
+
+\item Importantly, for the Normal distribution the mean and mode are the same, so there is really only one choice for the point estimate of a parameter which has a Normal posterior. 
+
+\end{itemize}
+
+
+%\subsection{Priors for regression model}
+%\begin{itemize}
+%\item To see what these means, let's consider our linear regression model with a single-predictor: 
+%\begin{equation}
+%Y|X \sim {\rm Normal}(aX + b,\sigma_{\epsilon}).
+%\end{equation}
+%This is how we would specify our model previously. $a$, $b$ and $\sigma_{\epsilon}$ are a fixed numbers, which is ``classical" statistics, we pretend we know absolutely nothing about. In general, for a linear regression model we can write 
+%\begin{align*}
+%Y|X,a,b,\sigma_{\epsilon} &\sim {\rm Normal}(aX + b,\sigma_{\epsilon})\\
+%a,b,\sigma_{\epsilon} &\sim {\text{Prior-Distribution}}({\rm hyperparameters})
+%\end{align*}
+%The prior distribution can in principle be anything, and we might impose priors on some parameters and not other. The \dfn {hyperparameters} are the parameters in the prior distribution. With priors, we can make predictions BEFORE we see the data. These are called \dfn {prior predictions}. 
+%
+%At this point there are a couple of questions we need to answer: 
+%\begin{itemize}
+%\item How do we select the prior distribution? 
+%\item How do we incorporate priors into our inference? 
+%\end{itemize}
+%
+%The answer to the first question is context dependent, but the following exercise will illustrate how this might play out in a concrete example. 
+%
+%
+%
+
+
+%----------------------------------------------------------------------------------------------------------------
+%\section{Bayesian inference for regression with single predictor}
+%\subsection{An analytically tractable example}
+%\begin{itemize}
+%\item In the general, the posterior is difficult or impossible to find a formula for. Instead, we need to relay on numerical methods. However, for the linear regression it turns out we can select the priors so that the posterior is analytically tractable, must like we did  
+%To see how this works, we start with the inference for a Normal distribution
+%\begin{equation}
+%Y \sim {\rm Normal}(\mu,\sigma)
+%\end{equation}
+% (we can think of this as a linear regression model with $a = 0$ and $\mu = b$). 
+% Recall that the distribution of the data $D = \{(Y_1,X_1),\dots,(Y_N,X_N)\}$ is 
+%\begin{align}
+%p(D|\theta) &= \prod_i \frac{1}{\sqrt{2 \sigma^2 \pi}}e^{-(Y_i - \mu)^2/2\sigma^2}\\
+%&=  \frac{1}{(2 \sigma^2 \pi)^{N/2}}e^{-\sum_i (Y_i - \mu)^2/2\sigma^2}
+%\end{align}
+%We can notice that if the priors are very flat, then this is also proportional to the posterior distribution. Let's start by pretending that $\sigma_{\epsilon}^2$ is known and take our priors on $\mu$ to be Normal as well
+%\begin{equation}
+%\mu \sim {\rm Normal}(\mu_0,\sigma_{\mu})
+%\end{equation}
+%Then the posterior is \emph{proportional to} 
+%\begin{align}\label{eq:post_normal}
+% p(D|\theta)p(\theta) &= \frac{1}{(2 \sigma^2 \pi)^{N/2}}e^{-\sum_i (Y_i - \mu)^2/2\sigma^2}\frac{1}{\sqrt{2\pi \sigma_{\mu}^2}}e^{-(\mu-\mu_0)^2/2\sigma_{\mu}^2}\\
+%&=  \frac{1}{(2 \sigma^2 \pi)^{N/2}}\frac{1}{\sqrt{2\pi \sigma_{\mu}^2}}e^{-\sum_i (Y_i - \mu)^2/2\sigma^2 - (\mu-\mu_0)^2/2\sigma_{\mu}^2}
+%\end{align}
+%On this surface this looks a bit complicated as a function of $\mu$, but there is a trick: Notice that all the dependence on $\mu$ comes from the exponent. 
+%%Let's simplify the exponent to get something that looks more recognizable. 
+%%\begin{align}
+%%-  \mu \left( \sum_i Y_i\right)/\sigma^2   + \mu^2/2\sigma^2  + \mu\mu_0/\sigma_{\mu}^2 - \mu^2/2\sigma_{\mu}^2
+%%\end{align}
+%We can rewrite this as 
+%\begin{equation}
+%A\mu^2 + B \mu  + C 
+%\end{equation}
+%where
+%\begin{align}
+%A &= \frac{1}{2}\left(\frac{N}{\sigma^2} + \frac{1}{\sigma_{\mu}^2}\right)\\
+%B &= -\frac{\sum_i Y_i}{\sigma^2} - \frac{\mu_0}{\sigma_{\mu}^2}\\
+%C &= \frac{\sum_i Y_i^2}{2\sigma^2} + \frac{\mu_0^2}{\sigma_{\mu}^2}
+%\end{align}
+%If we factor this quadratic equation, we find that is can be written 
+%\begin{equation}
+%A(\mu - B/2A)^2 + {\rm const.}
+%\end{equation} 
+%We don't care what the constant terms is, since the it is the first term which tells us the mean and standard deviation of $\mu$. Now observe that 
+%\begin{equation}
+%-\frac{B}{2A} = \bar{Y} \frac{\sigma_{\mu}^2}{\sigma_{\mu}^2 + \sigma^2/N} + \mu_0 \frac{\sigma^2/N}{\sigma_{\mu}^2 + \sigma^2/N}  \equiv \mu_b
+%\end{equation}
+%and 
+%\begin{equation}
+%\frac{1}{A} =2\frac{\sigma_{\mu}^2\sigma^2/N}{\sigma_{\mu}^2+\sigma^2/N} \equiv 2\sigma_b^2
+%\end{equation}
+%In particular, we can deduce that 
+%\begin{equation}
+%\mu|D \sim {\rm Normal}\left( \mu_b,\sigma_b \right)
+%\end{equation}
+%where $\mu_b$ and $\sigma_b^2$ defined above are the mean and variance of the posterior distribution. Despite all the messiness, these actually have very clear interpretations which will give us an intuition above how Bayesian statistics really works. To understand these, think about the following questions: 
+%\begin{enumerate}
+%\item What happens as $N \to \infty$? 
+%\item What happens as $\sigma^2 \to 0$ or $\infty$? 
+%\item What happens as $\sigma_{\mu} \to 0$ or $\infty$? 
+%\end{enumerate}
+%\end{itemize}
+
+
+
+%----------------------------------------------------------------------------------------------------------------
+\section{Bayesian inference for linear regression models}
+\begin{itemize}
+
+\item  We now discuss Bayesian inference for the general linear regression model with features. Let
+\begin{equation*}
+f(x) = \sum_{i=1}^K\beta_i\phi_i(x)
+\end{equation*}
+and suppose that our priors are 
+\begin{equation*}
+\beta_i \sim {\rm Normal}(0,\tau_i^2).
+\end{equation*}
+We will assume that $E[\phi_i(X)]=0$. We will also assume, for simplicity, that {\bf $\sigma$ is known. Hence, we do not need to consider estimating it.} This simplifies the conceptual picture considerably. 
+
+\item In this case, the Posterior distribution of the $\beta_i$ can be understood analytically. It turns out that the marginal posterior distribution of each $\beta_i$ is again Normal -- thus Normal priors on $\beta_i$ are conjugate priors!. The marginal mean of each $\beta_i$ are determined by the system of questions given in the following Theorem. 
+
+
+\begin{thm}[Posterior mean for regression coefficients]\label{thm:regpostmean}
+Define a $K\times K$ matrix $\Omega$ called the \dfn{empirical covariance matrix} which has entries
+\begin{equation*}
+\Omega_{i,j} = N\overline{\phi_i(X)\phi_j(X)} = \sum_{k=1}^N\sum_{z=1}^N\phi_i(X_k)\phi_j(X_z) 
+\end{equation*}
+and let $\bar{\beta}_i$ denote the posterior mean of $\beta_i$; that is, 
+\begin{equation*}
+\bar{\beta}_i =  E[\beta_i|D]. 
+\end{equation*}
+Then $\bar{\beta}_1,\dots,\bar{\beta}_K$ satisfy the $K$ equations 
+\begin{equation}\label{eq:barbeta}
+ \left(\frac{\sigma}{\tau_i}\right)^{2}\bar{\beta}_i  +\sum_{j=1}^K\Omega_{i,j}\bar{\beta}_j = \sum_{j=1}^N\phi_i(X_j)Y_j
+\end{equation}
+
+\end{thm}
+We make a few remarks on this Theorem:
+\begin{itemize}
+\item If $N> K$, then $\bar{\beta}_i$ actually have a solution. In-fact, depending on $\Omega$, there may not be a solution. For our discussion, we will assume there is however. 
+\item Under the assumption that $E[\phi_i(X)]=0$, the entries of $\Omega_{i,j}$ approximate the covariances between the predictor features. Moreover, if we take the predictors to be drawn from some distribution and average over the data (both $X$ and $Y$), we get
+\begin{equation*}
+\frac{E[\Omega_{i,j}]}{N}=  {\rm cov}(\phi_j(X),\phi_i(X)).
+\end{equation*}
+and  
+\begin{equation*}
+\frac{1}{N}\sum_{j=1}^NE[\phi_i(X_j)Y_j]= {\rm cov}(Y,\phi_i(X)).
+\end{equation*}
+Hence, we have the ``math world'' version of Equations \ref{eq:barbeta}, which is obtained by averaging over the data: 
+\begin{equation*}
+ \frac{1}{N}\left(\frac{\sigma}{\tau_i}\right)^{2}E[\bar{\beta}_i]  + \sum_{j=1}^K{\rm cov}(\phi_i(X),\phi_j(X))E[\bar{\beta}_j] = {\rm cov}(Y,\phi_i(X)).
+\end{equation*}
+In the limit $N \to \infty$ and with $K=2$, we obtain a system of equations recognizable from Week 5 notes for the regression coefficients in the two predictor model in terms of the covariances. In this context, the role of the regression coefficients (which we previously took to be fixed numbers), is now played by the averages $E[\bar{\beta}_j]$, which are the average values of $\beta_j$ with respect to both the posterior and the data. 
+\item Notice that the first term in  Equation \ref{eq:barbeta} vanishes as either $\tau_i \to \infty$ (very broad priors) or $\sigma \to 0$ (no variance in $Y$ conditional on the predictors). In both cases, the vales of $\bar{\beta}_i$ are entirely determined by the data, and the priors play no role. When $\tau_i \to 0$ or $\sigma \to \infty$, the priors entirely determine determine $\bar{\beta}_i$ and in fact $\bar{\beta}_i =0$. 
+\item The first term in  Equation \ref{eq:barbeta} is an example \dfn{regularization}. 
+\end{itemize}
+
+
+\item Theorem \ref{thm:regpostmean} can be elegantly stated using matrices (see Linear algebra review note for intro to matrix multiplication).  This is import if we want to implement these computations in Python. Observe that one way to construct $\Omega_{i,j}$ is to define the matrices
+\begin{align*}
+A &= \left[ 
+\begin{array}{cccc}
+\vertbar & \vertbar& & \vertbar\\
+\phi_1(X) & \phi_2(X) & \cdots & \phi_K(X) \\
+\vertbar & \vertbar& & \vertbar
+\end{array}
+\right],\quad 
+\Lambda_0 = \left[
+\begin{array}{cccc}
+\tau_1 & 0 & \dots & 0 \\
+0 & \tau_2 & \dots & 0 \\
+\vdots & \vdots & \ddots & \vdots \\
+0 & 0 & \dots & \tau_K \\
+\end{array}
+\right]
+\end{align*}
+Then $\Omega = A^TA$. 
+Now define another matrix $K\times K$ matrix 
+\begin{equation*}
+M = \Omega + \sigma^2\Lambda_0^{-1}
+\end{equation*}
+Then Equations \ref{eq:barbeta} can be written as 
+\begin{equation*}
+M \bar{\beta} = A^Ty
+\end{equation*}
+where $\bar{\beta}$ and $y$ are respectively a $K$-vector and $N$-vector
+\begin{equation*}
+\bar{\beta} = \left[\begin{array}{c} \bar{\beta}_1\\ 
+\vdots\\
+\bar{\beta}_K \end{array}\right],\quad y = \left[\begin{array}{c}Y_1\\ 
+\vdots\\
+Y_N \end{array}\right]. 
+\end{equation*}
+Then $\bar{\beta}$ satisfies  
+\begin{equation*}
+M\bar{\beta} = A^Ty  \implies \bar{\beta} =  \left( A^TA+ \sigma^2\Lambda_0^{-1}\right)^{-1}A^Ty
+\end{equation*}
+
+
+
+\begin{example}[Calculating posterior mean in python]\label{ex:regpostmean}
+
+Consider the model with two predictors:
+\begin{equation*}
+f(x) = \beta_1X_1 + \beta_2X_2\\
+\end{equation*}
+
+
+\noindent 
+\underline{Question}: Generate some simulated data and compute the posterior means of $\beta$ for different choices of $\tau$. \\
+
+
+\noindent 
+\underline{Solution}: See  \href{https://colab.research.google.com/drive/1sFlY0nvo7hrsNYGRdx8C4tKPihyOSmbx?usp=sharing}{colab notebook}. 
+
+\end{example}
+\end{itemize}
+
+
+
+\subsection{Posterior prediction}
+\begin{itemize}
+
+
+\item We will mostly focus on how we can use the posterior estimates to make predictions, although there is an entirely different set of questions we could ask concerning model assessment and hypothesis testing.Recall that $\hat{y}(x,D)$ is defined as our prediction, using the regression model fitted to the data $D$, of $E[Y|X=x]$. In the Bayesian context, we can define the posterior predictive variable $Y|X,D$ as the random representing the distribution of our response variable conditioned on the data. We can obtain this distribution by replacing the $\beta_i$s in 
+\begin{equation*}
+Y = \sum_{i=1}^{K}\beta_i\phi_i(X)
+\end{equation*}
+with samples from the posterior distribution. In the Bayesian framework we set
+\begin{equation*}
+\hat{y}(x,D) = E[Y|D,X] = \sum_{i=1}^{K}E[\beta_i|D]\phi_i(X) = \sum_{i=1}^{K}\bar{\beta}_i\phi_i(X) 
+\end{equation*}
+We can write this in matrix notation by defining the vector 
+\begin{equation*}
+a = \left[\begin{array}{c}
+\phi_1(X)\\
+\vdots\\
+\phi_K(X)
+\end{array}\right].
+\end{equation*}
+Then 
+\begin{equation}\label{eq:yhatmatrixform}
+\hat{y}(x,D) = a^T\bar{\beta} = a^TM^{-1}A^Ty
+\end{equation}
+
+
+\begin{example}[Posterior predictions for a regression model]\label{ex:fourier regularization}
+Take the Fourier model
+\begin{equation*}
+f(x) =\beta_0 +  \sum_{i=1}^K\beta_i \sin\left(\frac{2\pi i x}{L} \right) + \alpha_i \cos\left(\frac{2\pi i x}{L} \right).
+\end{equation*}
+Implement a function to compute posterior predictions with different priors $\tau$ on the coefficients. In this example, we will fit this model to data generated by adding noise to the function 
+\begin{equation*}
+f_{\rm true}(x) = \sin(2\pi 3x) + 5\sin(2\pi 6x^2) + 20x^2
+\end{equation*}
+with $x \in [0,1]$.
+Note that for $K<\infty$, we can not pick any values of the $\beta_i$s and $\alpha_i$s such that $f = f_{\rm true}$.  \\ 
+
+We will assume that $\beta_i$ and $\alpha_i$ have the same prior distribution: 
+\begin{align*}
+\beta_i \sim {\rm Normal}(0,\tau_i)\\
+\alpha_i \sim {\rm Normal}(0,\tau_i)\\
+\end{align*}
+
+\noindent 
+\underline{Question}: 
+Compute the posterior mean $\hat{y}(x,D)$ for the following choices of priors and $K=50$. 
+\begin{enumerate}[label=(\alph*)]
+\item All $\tau_i$ are the same, $\tau_i = \tau_0$. 
+\item The $\tau_i$ decay with $i$ as $\tau_i = \tau_0/i$
+\end{enumerate}
+In each case, experiment with different choices of $\tau_0$ and pay attention to whether the model is overfitting (high variance, low bias) or under fitting (low variance, high bias). \\
+
+
+\noindent 
+\underline{Solution}: See  \href{https://colab.research.google.com/drive/1sFlY0nvo7hrsNYGRdx8C4tKPihyOSmbx?usp=sharing}{colab notebook}. 
+
+
+ 
+\end{example}
+
+\end{itemize}
+
+
+%------------------------------------------------------------------------------------------------------------------------
+\section{Regularization view of priors}
+\begin{itemize}
+\item Recall that in standard least squares linear regression, the regression coefficients come from minimizing the sum of squared residuals. That is, they are the values that minimize the function 
+\begin{equation*}
+L(\beta) = \sum_{j=1}^N(\hat{y}(X_j,D)- Y_j)^2
+\end{equation*}
+This is an example of a \dfn{loss function}, which is simply something we want to minimize to solve our inference problem. 
+This means that the derivative of $L$ with respect to each $\beta_i$ is zero. 
+\begin{align*}
+\frac{\partial}{\partial \beta_i}L(\beta) &=  \sum_{z=1}^N2(\hat{y}(X_z,D)- Y_z)\frac{\partial}{\partial \beta_i}\hat{y}(X_j,D)\\
+&=  \sum_{z=1}^N2(\hat{y}(X_z,D)- Y_z)\phi_i(X_z)\\
+&= 2\sum_{z=1}^N\sum_{j=1}^{K} \beta_j\phi_i(X_z)\phi_j(X_z)- 2\sum_{z=1}^NY_z\phi_i(X_z)\\
+&= 2\sum_{z=1}^{K} \beta_j\sum_{z=1}^N \phi_i(X_z)\phi_j(X_z)- 2\sum_{z=1}^NY_z\phi_i(X_z)\\
+&=2\sum_{j=1}^{K}\beta_j \Omega_{i,j} - 2\sum_{z=1}^NY_z\phi_i(X_z)
+\end{align*}
+Setting 
+\begin{equation*}
+\frac{\partial}{\partial \beta_i}L(\beta) =0 
+\end{equation*}
+leads to Equation \ref{eq:barbeta} without the prior term. 
+\item The regularization view of Equation \ref{eq:barbeta} is that, instead of thinking of the additional term as coming from priors, we think about adding a term to our loss function which penalizes models with too much flexibility. A common choice is   
+\begin{equation*}
+L(\beta) = \sum_{j=1}^N(\hat{y}(X_j,D)- Y_j)^2 + \lambda \sum_{j=1}^K \beta_j^2
+\end{equation*}
+This is called \dfn{ridge regression} and $\lambda$ is a parameter controlling how large a penalty we place on large values of $\beta_j$. 
+If you compute the partial derivatives and equate it to zero, you will find that the equations $\beta_j$ satisfy are exactly Equation \ref{eq:barbeta} with $\sigma/\tau_i = \sqrt{\lambda}$. More generally, we could use the loss function 
+\begin{equation*}
+L(\beta) = \sum_{j=1}^N(\hat{y}(X_j,D)- Y_j)^2 +  \sum_{j=1}^K\left( \frac{\sigma}{\tau_i}\right)^2\beta_j^2
+\end{equation*}
+we would obtain exactly Equation \ref{eq:barbeta}.
+\end{itemize}
+
+\section{The kernel trick}
+\begin{itemize}
+\item The problem of computing $\hat{y}(x,D)$ is an example of smoothing, or interpolating. Smoothing refers to the situation where we are given noisy measurements of a function $f(x)$ and want to ``smooth out the noise''. One way to do this is take the weighted averaging of neighboring values of $y$. This following examples illustrates how regression modeling is related to smoothing. 
+
+
+\begin{example}[Orthogonal empirical covariance matrix]
+Consider the special case where the empirical covariance matrix is diagonal -- that is, $\Omega_{i,j} = 1$ if $i=j$ and $0$ if $i\ne j$. Recall that this is the case when we use the fourier model and the $X_i$ are equally spaced. 
+
+
+\noindent 
+\underline{Question}: 
+\begin{enumerate}[label=(\alph*)]
+\item Write down a formula for $\hat{y}(x,D)$ in this case. In particular, show how to express $\hat{y}(x,D)$ in the form 
+\begin{equation}\label{eq:hatykernel}
+\hat{y}(x,D) = \sum_{j=1}^NY_j\kappa(x,X_j)
+\end{equation}
+for some function $\kappa(x,x')$. 
+\item What does this function $\kappa(x,x')$ look like when $f(x)$ is a Fourier model?  \\
+\end{enumerate}
+
+
+\noindent 
+\underline{Solution}:
+
+\begin{enumerate}[label=(\alph*)]
+\item In this case, 
+\begin{equation*}
+\bar{\beta}_i = \frac{1}{1 + \left(\frac{\sigma}{\tau_i} \right)^2}\sum_{j=1}^N\phi_i(X_j)Y_j
+\end{equation*}
+and hence 
+\begin{align*}
+\hat{y}(x,D) &=  \sum_{i=1}^K\frac{\phi_i(x)}{1 + \left(\frac{\sigma}{\tau_i} \right)^2}\sum_{j=1}^N\phi_i(X_j)Y_j\\
+&= \sum_{j=1}^NY_j\left( \sum_{i=1}^K\frac{\phi_i(x)}{1 + \left(\frac{\sigma}{\tau_i} \right)^2}\phi_i(X_j)\right)
+\end{align*}
+so 
+\begin{equation*}
+\kappa(x,x') = \sum_{i=1}^K\frac{\phi_i(x)\phi_i(x')}{1 + \left(\frac{\sigma}{\tau_i} \right)^2}
+\end{equation*}
+
+\item For the Fourier model  with $L=1$, 
+\begin{equation*}
+\kappa(x,x') = \sum_{i=1}^K\frac{\sin(2\pi i x)\sin(2\pi i x')+ \cos(2\pi i x)\cos(2\pi i x')}{1 + \left(\frac{\sigma}{\tau_i} \right)^2}
+\end{equation*}
+Using the identity 
+\begin{align*}
+\cos(x)\cos(y) + \sin(x)\sin(y) = \cos(x-y)
+\end{align*}
+and the fact that $\cos(x-y) = \cos(y-x)$, we get can rewrite this as
+\begin{equation*}
+\kappa(x,x') = \eta(|x-x'|) =  \sum_{i=1}^K\frac{\cos(2\pi i |x-x'|)}{1 + \left(\frac{\sigma}{\tau_i} \right)^2}
+\end{equation*}
+\end{enumerate}
+\end{example}
+
+\item We actually don't need the empirical covariance matrix to be diagonal to ``kernalize'' our predictions (meaning express $\hat{y}(x,D)$ in the form of Equation \ref{eq:hatykernel}. Equation \ref{eq:yhatmatrixform} also has this form, although we can not determine the kernel without inverting a very large matrix. 
+%\item In light of this example, it seems that in some contexts we can achieve the same goal of regression by bypassing the entirely regression formulation and simply picking a suitable function $\kappa(x,x')$ as our Kernel. We can then make predictions by writing
+%\begin{equation*}
+%\hat{y}(x,D) = \sum_{i=1}^N\kappa(x,X_i)Y_i 
+%\end{equation*} 
+%This is called a Kernal smoother. 
+
+\end{itemize}
+
+
+
+
+\end{document}
+
+
+
+
+
+
+
+%----------------------------------------------------------------------------------------------------------------
+%\section{Regularization view of priors}
+%\begin{itemize}
+%\item There is 
+%\end{itemize}
+
+
+%----------------------------------------------------------------------------------------------------------------
+%\section{Kernel based view}
+%\begin{itemize}
+%\item Suppose we have a 
+%\end{itemize}
+
+
+%----------------------------------------------------------------------------------------------------------------
+%\section{Regularization}
+%\begin{itemize}
+%\item We've seen that adding flexibility to our models comes at the expense of precision, or variance in our predictions. Is there some way to build models that are very flexible, but somehow still constrained so as not to be to be very variable? One approach is known as \dfn{regularization}. This is especially important if we want to add more parameters than data points. 
+%\item To understand regularization, recall that our current fitting procedure for a regression model computes $\hat{\beta}_i$ from 
+%\begin{equation*}
+%{\rm min}_{\beta} \sum_{i=1}^N(\hat{y}(X_i,D) - Y_i)^2
+%\end{equation*}
+%The idea of regularization is to 
+%\end{itemize}
+
+
+
+
+
+ \bibliographystyle{unsrt}
+\bibliography{./../refs.bib}
+
+
+
+
+
+
+
+

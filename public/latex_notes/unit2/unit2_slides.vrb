@@ -1,0 +1,9 @@
+\frametitle{Generating random variables with Python}
+\begin{lstlisting}[language=Python]
+import numpy as np
+
+# Bernoulli with probability p = 0.5
+p = 0.5
+samples = np.random.binomial(1, p, 100)
+print(samples)
+\end{lstlisting}

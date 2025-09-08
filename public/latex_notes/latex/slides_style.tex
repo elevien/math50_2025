@@ -1,0 +1,74 @@
+\documentclass[10pt]{beamer}
+
+% -------- Core packages (consistent with article preamble) ----------
+\usepackage[utf8]{inputenc}
+%\usepackage[OT1]{fontenc}
+\usepackage{helvet}
+\renewcommand{\familydefault}{\sfdefault}
+\usepackage{listings}
+
+
+
+% -------- Beamer base theme (minimal chrome) ----------
+\mode<presentation>{
+  \usetheme{default}
+  \useinnertheme{rounded}
+  \useoutertheme{infolines} % slim footer line
+  \setbeamertemplate{navigation symbols}{} % no nav icons
+}
+
+
+% -------- Color palette (copied from article) ----------
+\definecolor{C1}{RGB}{141,125,158} % purple
+\definecolor{C2}{RGB}{163,156,147} % yellowish
+\definecolor{C3}{RGB}{99,151,153}  % green
+\definecolor{C4}{RGB}{195,106,99}  % red
+\definecolor{C5}{RGB}{124,132,128}
+\definecolor{C6}{RGB}{67,69,75}
+
+\definecolor{Gr}{HTML}{377D71}
+\definecolor{Pu}{HTML}{A459D1}
+\definecolor{Bl}{HTML}{4D455D}
+\definecolor{Te}{HTML}{C1ECE4}
+\definecolor{Or}{HTML}{EF6262}
+\definecolor{Am}{HTML}{F3AA60}
+\definecolor{Co}{HTML}{3C486B}
+\definecolor{Wh}{HTML}{FEFBF6}
+\definecolor{Ye}{HTML}{FFE196}
+\definecolor{Re}{HTML}{E96479}
+\definecolor{Pi}{HTML}{FFD0D0}
+\definecolor{Rp}{HTML}{FF9EAA}
+\definecolor{Wg}{HTML}{EEF3D2}
+
+% -------- Beamer color + font mapping (subtle, article-like) ----------
+\setbeamercolor{background canvas}{bg=Wh}
+\setbeamercolor{normal text}{fg=black}
+\setbeamercolor{structure}{fg=C5} % itemize bullets, section titles
+\setbeamercolor{frametitle}{fg=C6,bg=}
+\setbeamercolor{title}{fg=C6}
+\setbeamercolor{subtitle}{fg=C5}
+\setbeamercolor{section in toc}{fg=C6}
+\setbeamercolor{itemize item}{fg=black}
+\setbeamercolor{itemize subitem}{fg=C5}
+\setbeamercolor{block title}{fg=Wh,bg=C6}
+\setbeamercolor{block body}{bg=Wg!40,fg=Bl}
+\setbeamercolor{alerted text}{fg=C4}
+\setbeamercolor{example text}{fg=C3}
+
+\setbeamertemplate{itemize item}{\color{black}$\blacktriangleright$} % first-level
+\setbeamertemplate{itemize subitem}{\color{black}$\bullet$}           % second-level
+\setbeamertemplate{itemize subsubitem}{\tiny$\blacksquare$}    
+% Arabic with a closing parenthesis: 1) 2) 3)
+\setbeamertemplate{enumerate item}{\arabic{enumi})}
+\setbeamertemplate{enumerate subitem}{(\alph{enumii})}   % (a) (b) ...
+\setbeamertemplate{enumerate subsubitem}{\roman{enumiii}.} % i. ii. iii.
+
+
+% Change section numbering format
+\setbeamertemplate{section in toc}[sections numbered]
+\setbeamertemplate{subsection in toc}[subsections numbered]
+
+
+
+
+% ...

@@ -1,0 +1,13 @@
+\contentsline {section}{\numberline {2.1}Expectation, variance and standard deviation}{1}{section.1}%
+\contentsline {subsection}{\numberline {2.1.1}Sample averages and expectation}{1}{subsection.1.1}%
+\contentsline {subsection}{\numberline {2.1.2}Measuring variation}{2}{subsection.1.2}%
+\contentsline {subsection}{\numberline {2.1.3}Conditional expectation}{3}{subsection.1.3}%
+\contentsline {subsection}{\numberline {2.1.4}Properties of expectation}{4}{subsection.1.4}%
+\contentsline {section}{\numberline {2.2}Asymptotic probabilities: LLN and CLT}{8}{section.2}%
+\contentsline {subsection}{\numberline {2.2.1}LLN}{8}{subsection.2.1}%
+\contentsline {subsection}{\numberline {2.2.2}Continuous probability distributions}{8}{subsection.2.2}%
+\contentsline {subsection}{\numberline {2.2.3}The Gaussian curve}{10}{subsection.2.3}%
+\contentsline {subsection}{\numberline {2.2.4}The central limit theorem and sample distribution}{11}{subsection.2.4}%
+\contentsline {subsection}{\numberline {2.2.5}Properties of Normal random variables}{12}{subsection.2.5}%
+\contentsline {section}{\numberline {A}Additional discussion of continuous random variables}{15}{appendix.A}%
+\contentsline {subsection}{\numberline {A.1}Conditional probability and expectation with Continuous variables}{16}{subsection.A.1}%

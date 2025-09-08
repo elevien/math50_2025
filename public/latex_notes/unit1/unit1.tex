@@ -1,0 +1,716 @@
+\include{./../latex/notes_style.tex}
+%--------------------------------------------------------------------------------------------------------------------------------
+\setcounter{unit}{1}
+\setcounter{section}{0}
+
+
+\begin{document}
+\title{Unit 1: Discrete probability modeling and simulation}
+\author{Ethan Levien}
+\maketitle
+\tableofcontents
+
+\section*{Introduction}
+
+The first step in our journey into regression modeling is to establish a language and system of notation to communicate uncertainty. Before doing so, however, let us say a few words about modeling in general. Broadly speaking, \dfn{models} are simplified representations of the world. For example, astrology is a model of human behavior, and Newton's laws are models of how objects move in physical space. Neither model is perfectly correct, but Newton's laws provide a remarkably good approximation. In science (and in life), we often use \dfn{mathematical models}. 
+
+The subject of this course is \dfn{regression models}\index{regression models}. We will define these precisely later, but roughly speaking a regression model describes how the distribution of a variable $y$ (the response variable) is related to another variable $x$ (the predictor). Examples include predicting height based on age, predicting the probability of developing a disease given a genetic mutation, or even a large language model predicting the next word in a sentence.
+
+We will mostly focus on linear regression models, which in mathematical notation take the form 
+\begin{equation}
+y = \sum_{i} \beta_i x_i + \text{``noise''}.
+\end{equation}
+This equation says that $y$---the quantity we are interested in predicting---is expressed as a sum of observed variables plus some randomness. For instance, suppose we want to predict how long someone will live. Even if we know their entire medical history, their parents’ medical histories, and detailed demographic information, there is always some uncertainty. 
+
+
+
+%--------------------------------------------------------------------------------------------------------------------------------
+\section{Basic definitions}
+\sectionrefs{\cite[Ch. 1 Sec. 2 and Ch. 2.1]{evans}}
+\subsection{Sample spaces, random variables, outcomes and events}
+Returning to our immediate goal: we need to develop a language to talk about this uncertainty.
+For our purposes, we can pretty much think of a random variable as any variable which we cannot predict prior to an observation of it, regardless of how much information we have, such as the outcome of a coin flip.  We will use capital letters, often $X,Y,Z$, to denote random variables. A random variable or set of random variables has a \dfn {sample space}, denoted $S$, which is the set of all possible values it can take. We sometimes write $S_X$ to indicate that $S$ is the sample space of $X$, but omit the subscript when it is clear from the context.  For the coin flip, $S = \{\text{heads},\text{tails}\}$.  Usually we will simply specify the sample space with numerical quantities, e.g. letting heads and tails be represented by $1$ and $0$.   For a dice roll dice $S = \{1,2,3,4,5,6\}$. For the height of a tree, $S = \reals_{\ge 0}$ (the positive real numbers), although it must become very unlikely to have very high tree so we could replace this with the interval $[0,1000\,{\rm ft}]  $ (more on that in the next unit). For now, we will be considering only denumerable (i.e. discrete) sets, so not $\reals$. 
+ 
+
+We draw a distinction  between outcomes (elements of $S$) and \dfn{events} -- the latter are subsets of outcomes. For example, we might refer to the event that the roll of a die is greater than $2$. We can connect the two by defining a random variable $1_E$ which is $1$ if an event happens and $0$ otherwise. Hence, the probability of an events can also be expressed as a the probability of a random variable (try writing it out to convince yourself). 
+
+ 
+  
+ We can characterize a random variable, say $X$, using  a \dfn{probability model} or \dfn{probability distribution}which maps events to real numbers between 0 and 1 \cite[Definition 1.2.1]{evans}. I will use the notation 
+\begin{equation*}
+P_X(x) = \text{chance that $x$ happens for $x \in S$} 
+\end{equation*}
+or just $P(x)$ if it is clear from the context we are talking about probabilities of $X$. For an even $U \subset S$, we will write
+\begin{equation}
+P(U) = \sum_{x \in U}P(x).
+\end{equation}
+This leverages the additivity of probabilities for mutually exclusive events (see below).
+
+
+\begin{example}  The \dfn{Bernoulli distribution} \cite[Example 2.3.2]{evans} is probably the simplest random variable It models a variable with binary outcome, for example the result of a YES/NO survey or a diagnostic test. 
+If $Y$ follows a Bernoulli distribution, then 
+\begin{equation}\label{eq:pmbern}
+P_Y(y) = \left\{\begin{array}{lr} q & y=0\\ (1-q) & y= 1 \end{array}\right.
+\end{equation}
+Remember that $P_Y(y) = P(Y=y) = P(\{Y = y\})$. It's important to be flexible with notation. 
+ These formulas make sense for any $0\le q\le1$. We say that $q$ is a \dfn {parameter}\index{parameter} of the distribution. 
+Instead of writing out \eqref{eq:pmbern} every time we want to indicate that a variable $Y$ follows a Bernoulli distribution, we will write 
+\begin{equation*}
+Y \sim {\rm Bernoulli}(p). 
+\end{equation*}
+\end{example}
+
+  In general, for a random variable with a particular name and set of parameters we will write 
+\begin{equation*}
+{\rm Variable} \sim {\rm Distribution}({\rm parameters}).
+\end{equation*}
+Not all random variables have specific names, but when they do this notation will allow us to avoid writing down a probability distribution explicitly. Moreover, for more complicated random variables which, we can often express them in terms of random variables with known names. 
+
+
+\begin{example}\label{ex:joint}
+Suppose a political scientist is studying whether individuals support a new policy reform. 
+Imagine that each person in the study is asked the same yes/no question twice, perhaps one week apart, to measure the consistency of their views. 
+Each response can be modeled as a Bernoulli random variable with $(0,1) = ({\rm NO},{\rm YES})$. 
+When we put the two answers together, we obtain a pair $(X_1, X_2)$. The sample space is 
+\begin{equation}
+S = \{(0,0),(0,1),(1,0),(1,1)\}
+\end{equation}
+and there is some distribution $P_{X_1,X_2}(x_1,x_2)$. We call this the \dfn{joint distribution} of $X_1$ and $X_2$ (see below).  We can think of this pair as a new random variable (random variables can be vectors or lists of numbers). 
+\end{example}
+
+
+
+
+
+\subsection{Properties of probability distributions}
+
+
+
+\sectionrefs{\cite[Ch 1. Sec. 1.3]{evans}}
+There are some rules for such functions. 
+\begin{itemize}
+\item $P(U) \le 1$  for $U \subset S$
+\item $P(U) \ge 0$ for $U \subset S$. Here $\subset$ means a subset of $S$, for example $\{1,2,3\} \subset \{1,2,3,4,5,6\}$. 
+\item For a disjoint family of sets $U_i$
+\begin{equation*}
+ \sum_{i}P(U_i) = P\left(\cup_i U_i\right)
+\end{equation*}
+Here $\cup$ means ``or'', for example, 
+\begin{equation*}
+ P\left(\text{heads} \cup \text{tails} \right) 
+ \end{equation*}
+ is the probability that a coin is either heads or tails, which should be one (or very close to it). 
+\end{itemize}
+In words these basically say: The chance something happens cannot be more than 0 and less than zero, and the chance that something happens in our space of outcomes must be $1$.  
+If you want more detail look in  \cite[Ch. 1 Sec. 1.2.1]{evans}. 
+
+
+
+%\item It is very important that the sum of $P(Y)$ over all possible outcomes is $1$ -- this is simply saying that we are certain one of the outcomes will happen. We might use $P(1)$ or $P(\{1\})$ to mean ``the probability that $Y=1$", or, in there is some ambiguity in which variable we are referring to, we might write $P(Y=1)$. 
+\begin{example}\label{ex:twocoins} Suppose we flip two fair coins and let $X_1$ and $X_2$ denote the outcomes. The sample space is the same as Example \ref{ex:joint}; that is, 
+\begin{equation*}
+S = \{(0,0),(0,1),(1,0),(1,1)\}
+\end{equation*}
+where $0= {\rm T}$ and $1={\rm H}$. 
+Since the coins are fair, each of the outcomes above should have the same probability. Thus each should have probability $p$ and $p=1/4$ since they all need to add to $1$:
+\begin{equation*}
+P_{A,B}(0,0) + P_{A,B}(0,1)+ P_{A,B}(1,0) + P_{A,B}(1,1) = 4p = 1 \implies p = \frac{1}{4}. 
+\end{equation*}
+Notice that 
+\begin{equation*}
+P_{A,B}(1,1) = P_A(1)P_B(1)  = \frac{1}{2} \times \frac{1}{2}
+\end{equation*}
+This makes sense intuitively: We will get a heads half the time on the first flip, and then half of those times we will get one on the second flip. 
+We will soon see that this is related to the fact that the two variables are independent -- in other words, knowing one does not influence the other. 
+\end{example}
+
+
+
+
+\begin{example}(\cite[Example 2.3.4]{evans})
+Suppose we flip a fair coin until we see a heads. Let $Y$ be the number of flips until we see a heads. This is example of a  \dfn{geometric distribution}, which is the number of trials of independent, identically distributed (iid) Bernoulli random variables until we see $k$ successes. In more mathematical notation, if
+\begin{equation*}
+X_i \sim {\rm Bernoulli}(q), \quad i = 1,2,3,\dots
+\end{equation*}
+then 
+\begin{equation*}
+Y = \min_{i\ge0}\left\{i:X_i=1 \right\}
+\end{equation*} 
+and we would say 
+\begin{equation*}
+Y \sim {\rm Geometric}(p).
+\end{equation*}
+The sample space of $Y$ is $\{1,2,\dots,\infty\}$. What is the probability distribution? 
+\begin{align*}
+P(Y=k) &= P(X_1=0,X_2=0,\dots,X_{k-1}=0,X_k=1) \\
+&= P(X_1 = 0) \cdots  P(X_{k-1}=0)P(X_k=1) \\
+&= (1-q)^{k-1}q
+\end{align*}
+This has the expected properties of $Y$. In particular, it decays as $k$ increases and the decay is faster the larger $q$ is. 
+
+%\href{https://colab.research.google.com/drive/1Gs-gSsUP1hHVwhrbwvWzLVm1ulcLJKRI#scrollTo=36vlB9r1Wts5}{Verifying an analytical formula with simulations}
+\end{example}
+
+
+
+
+
+
+%--------------------------------------------------------------------------------------------------------------------------------
+\section{Independence, conditioning and marginal distributions }
+\sectionrefs{\cite[Sec. 2.8.1]{evans}}
+
+\subsection{Independence and marginal distributions}
+Two random variables $X,Y$ are \dfn{independent} if 
+\begin{equation}
+P(X=x,Y=y) = P(X=x)P(X=y)
+\end{equation}
+for all $(x,y) \in S$. This might make more sense after we introduce the idea of conditional probability. 
+
+\begin{example}[Gene model]\label{ex:mut} Let's consider once again the case of two random variables taking values in $S = \{0,1\}$. For example, this could be the model of whether someone has a mutation at two sites the genome, or it could be the outcome of a survey. Let us be given the probability distribution 
+\begin{equation*}\label{eq:gene}
+P(Y_A = y_A,Y_B=y_B)  = P(\{Y_A = y_A \}\cap \{Y_B=y_B\}) = \left\{ \begin{array}{cc}
+1/2 & \text{ if }y_A=0 \text{ and } y_B = 0\\
+1/8 & \text{ if }y_A=0 \text{ and } y_B = 1\\
+1/8 & \text{ if }y_A=1 \text{ and } y_B = 0\\
+1/4 & \text{ if }y_A=1 \text{ and } y_B = 1\\
+\end{array}
+ \right.
+\end{equation*}
+The sample space is the same as Example \ref{ex:twocoins}, but we can check that $Y_A$ and $Y_B$ are no longer independent:
+\begin{equation*}
+P(Y_A=0,Y_B=0) =  \frac{1}{2}
+\end{equation*}
+on the other hand 
+\begin{align*}
+P(Y_A=0) &= P((0,1) \text{ or }(0,0)) = P(0,1) + P(0,0) = \frac{1}{8} + \frac{1}{2} =\frac{5}{8} \\
+P(Y_B=0) &= P((0,0) \text{ or }(1,0)) = P(0,0) + P(1,0) = \frac{1}{2} + \frac{1}{8}= \frac{5}{8}
+\end{align*}
+and $25/64  \approx  0.39 \ne 1/2$. 
+
+\end{example}
+
+ The joint distribution does not directly tell us the probabilities of observing a value of only one of the random variables, e.g. the probability that $Y_A = 1$. The procedure used above to obtain these probabilities, by summing over the other variable, is called \dfn{marginalization}. In general, for a joint distribution $P(x,y)$ the marginal distribution of $x$ is 
+ \begin{equation}
+ P(x) = P_X(x) = \sum_{y \in S_Y}P(x,y). 
+ \end{equation}
+ Notice that in the case of independent variables, 
+  \begin{equation}
+ \sum_{y \in S_Y}P(x,y) = P(x) \sum_{y \in S_Y}P(y) = P(x)
+ \end{equation}
+%\begin{equation}
+%P(Y_A=1)  = \sum_{y}P(Y_A=1,y) = P(Y_A,Y_B = 0)  +P(Y_A,Y_B= 1)
+%\end{equation}
+%where in the general the sum is taken over all possible outcomes for the second variable. $\Prob(Y_1)$ is defined similarly. 
+% In the example above 
+%\begin{equation}
+%Y_A \sim {\rm Bernoulli}\left(\frac{5}{8}\right).
+%\end{equation}
+
+
+
+
+
+%--------------------------------------------------------------------------------------------------------------------------------
+\subsection{Conditioning}
+ What if we are interested in the chance that someone has a mutation in gene $A$ and we know they do not have a mutation in gene $B$?  In this case, we introduce the \dfn{conditional probability} $P(Y_A=1|Y_B=0)$. This is defined as the chance that gene A has a mutation in a person if we know there is no mutation at gene B. If we want to think about this in terms of population averages, it is the fraction of mutations in gene $A$ among only those people without mutations in gene gene $B$. 
+ More generally, $P(X|Y=y)$ is the distribution of $X$ if we know the value of $Y=y$. 
+ I'll use $N$ to denote the number of individuals in a population with a given gene configuration and $n$ the total population size. Interpreting probabilities as fraction, 
+\begin{align*}
+P(Y_A=1|Y_B=0) &= \frac{N(Y_A = 1,Y_B= 0)}{N(Y_B=0)} = \frac{N(Y_A = 1,Y_B = 0)/n}{N(Y_B=0)/n} \\
+&= \frac{P(Y_A = 1,Y_B = 0)}{P(Y_B = 0)}
+\end{align*}
+
+
+\begin{example}[Example \ref{ex:mut} cont.]
+Consider Example \ref{ex:mut}. In this case the conditional probability of $Y_A = 1$ given $Y_B=0$ is 
+\begin{equation*}
+P(Y_A = 1|Y_B = 0) = \frac{P(1,0)}{P(Y_B = 0)} = \frac{1/8}{5/8} = \frac{1}{5} 
+\end{equation*}
+
+\end{example}
+
+
+%
+%\begin{example}[Example \ref{ex:probfromcode} cont.]
+%In the code from Example \ref{ex:probfromcode} cont. we have the internal variables flip1 and flip2. If $Y$ is the output, what is the conditional distribution 
+%\begin{equation*}
+%Y|({\rm flip1}=1)
+%\end{equation*}
+%\end{example}
+
+
+ In general, we have 
+\begin{equation}
+P(x|y) = \frac{P(y,x)}{P(x)}.
+\end{equation}
+Notice that we can replace $P(y,x) = P(y|x)P(x)$, to obtain Baye's formula 
+\begin{equation}\label{eq:bayes}
+P(y|x) = \frac{P(y,x)}{P(x)}.
+\end{equation}
+An equivalent definition of independence is $P(Y|X)  = P(Y)$ and $P(X|Y) = P(Y)$.  
+Can you see why $X$ being independent of $Y$ implies $Y$ is independent of $X$?
+Equation \eqref{eq:bayes} is also true for events, for example, we will encounter things like 
+\begin{equation}\label{eq:bayes}
+P(\{Y>y\}|X) = \frac{P(\{Y>y\},X)}{P(X)}
+\end{equation}
+
+
+
+ 
+\section{Sampling and simulation}
+
+\subsection{IID samples and simulations}
+A measurement of a random variable is a \dfn{sample} and  \dfn {statistical inference}\index{statistical inference} is the process of estimating the parameters $\theta$ from a sample of a random variable. In statistics, we seek to answer key questions about what we can learn from a sample:
+\begin{itemize}
+\item Consider the example of a survey: let's suppose we don't have information about every student in the college. Rather, a survey of five students from this class is conducted, finding $4$ yeses and $1$ no. What is our best prediction of the total fraction of students in the college who answered YES? What assumption do we make when we answer this question? 
+\item How many experiments do we need to do know if a drug is effective? 
+\end{itemize}
+We will talk about statistical inference in more detail when we get to Unit 3. 
+We usually assume (although it is not strictly true), that we are given independent samples of the same random variable. We call this \dfn{iid} samples (for independent and identically distributed). 
+
+
+\subsection{From probabilities to samples}
+For now, we note the basic relationship between a probability and a sample: If we have $n$ samples of a random variable and the outcome $x \in S_X$ occurred $N(x)$ times, then 
+\begin{equation}
+P(X=x) \approx \frac{N(x)}{N}.
+\end{equation}
+In the colab notebook for this unit, you will see how to implement a statement like this from a numpy array or dataframe.  
+
+
+Going forward, I will use the notation $N$ instead of a $P$ to denote the number of times an event or outcome occurs, so 
+\begin{equation}
+N(\{X= x\}) =N(X=x) = N_X(x) = N(x) 
+\end{equation}
+all mean the same thing. I will use $N(x)$ when there is no ambiguity.  
+
+
+
+\begin{example}
+Suppose we flip a (possibly biased) coin $1000$ times and record the outcomes. 
+Each flip is a Bernoulli random variable $X \sim \text{Bernoulli}(p)$, where $p$ is the probability of heads. 
+We do not know $p$ in advance, but we can estimate it from the observed data. 
+
+In social science research, this same logic applies: for example, if a survey asks each respondent whether they support a new policy (YES/NO), then the proportion of YES answers in the sample is our best estimate of the true support rate in the whole population. 
+
+Below is Python code that simulates coin flips and uses sample frequencies to estimate $p$.
+\begin{lstlisting}[language=Python]
+import numpy as np
+
+# True probability of YES (e.g. support for a policy)
+p_true = 0.6
+
+# Collect 1000 samples (YES=1, NO=0)
+n = 1000
+samples = np.random.binomial(n=1, p=p_true, size=n)
+
+# Estimate probability from sample frequency
+p_hat = np.mean(samples)
+
+print("Estimated probability:", p_hat)
+\end{lstlisting}
+
+On running this code, the output will be close to $0.6$, but not exactly, 
+since the data are random. 
+The difference between the estimate $\hat{p}$ and the true parameter $p$ 
+is the central problem of statistical inference.
+\end{example}
+
+
+\subsubsection*{Note on probabilities as fraction vs. belief}
+There are two different ways we can interpret a statement like: The probability someone in this room is over $6$ feet is $95\%$. Either it can be interpreted as a measure how likely it is to find someone in the room over $6$ feet, or if we were to hypothetically generate random samples over and over what fraction of them would contain someone over $6$ feet. 
+
+
+
+
+  \section{Binomial Distribution}
+ Suppose 
+  \begin{equation*}
+  Y_i \sim {\rm Bernoulli}(q),\quad i =1,\dots, N
+  \end{equation*} 
+  are independent. We will use the convention that $Y_i=1$ with probability $q$. Let
+\begin{equation*}
+Y = \sum_{i=1}^N y_i
+\end{equation*}
+ Then we say $Y$ follows \dfn {binomial distribution} and write
+\begin{equation*}
+Y \sim {\rm Binomial}(N,q)
+\end{equation*}
+
+ 
+ 
+ \begin{example}[Calculating probabilities]
+Let $N=3$ and $k=2$. \\
+
+\noindent
+\underline{Question}: Calculate $P(Y=2)$?\\
+
+\noindent
+\underline{Solution}: There are 3 possible sequences that give $Y=2$. 
+\begin{equation*}
+(1,0,1),(1,1,0),(0,1,1)
+\end{equation*}
+The probability that we see any particular one of these is $(1-q)q^2$. For example, 
+\begin{align*}
+P(y_1 = 1,y_2 = 0,y_3 = 1) &= P(y_1 = 1)P(y_2=0)P(y_3 =1) \\
+&= q(1-q)q = q^2(1-q).
+\end{align*}
+Therefore the chance to observe $Y=2$ with $N=3$ is
+\begin{equation*}
+P(Y=2) = P((1,0,1)) +P((1,1,0))  + P((0,1,1))  =  3q^2(1-q). 
+\end{equation*}
+
+
+ \end{example}
+ 
+ Note that the binomial distribution has two parameters, $N$ and $q$, representing the number of flips and probability of success respectively. 
+ Now let's think about what the probability distribution will look like. The chance to find any {\bf particular} configuration of $k$ ones is 
+\begin{equation*}
+q^k(1-q)^{N-k}
+\end{equation*}
+ because they are independent. \\
+ 
+ \noindent
+However, we need to account for the fact that there are many configurations with $k$ ones. In general, there are 
+\begin{equation*}
+{N \choose k} = \frac{N!}{k!(N-k)!} = \frac{N \times (N-1) \times (N-2) \times \cdots \times (N-k+1)}{k \times (k-1) \times (k-2) \times \cdots \times 1}
+\end{equation*}
+way to have $k$ ones among $N$ samples. 
+\footnote{To better understand the formula above, let $C_{N,k}$ denote the number of sequences with $k$ ones. We can break $C_{N,k}$ up into the number of terms for which $1$ appears as the first element of the sequence and those for which zero is the first. If one comes first, we have $N-1$ remaining slots to place $k-1$ ones, thus there are $C_{N-1,k-1}$ of these sequences. Similarly, if zero comes first, we have $N-1$ slots but now all $k$ ones to place, thus there are $C_{N-1,k}$ of these. It follows that 
+\begin{equation*}
+C_{N,k} = C_{N-1,k-1} + C_{N-1,k}. 
+\end{equation*}
+Notice that the quantity $C_{N,k}$ will be smallest when $k=1$ or $k=N$, since in these cases there is only one way to configure the sequence: $C_{N,1} = C_{N,N} = 1$.  You can solve the recursion to obtain the formula. }
+%
+%Similarly, $C_{N,N-1}= N$
+%\begin{equation*}
+%C_{N,N-1} = C_{N-1,N-2} + C_{N-1,N-1} \implies N = N-1 + 1
+%\end{equation*}
+
+This implies 
+\begin{equation*}
+P(Y=k)=  {N \choose k}q^{k}(1-q)^{N-k}. 
+\end{equation*}
+A graph of this function looks like a bell curve when $N$ is large -- we will see this in Python. Let's explore binomial random variables in python.  
+
+
+\newpage 
+
+\section*{Exercises}
+
+
+%--------------------------------------------------------------------------------------------------------------------------------
+
+
+
+%--------------------------------------------------------------------------------------------------------------------------------
+\begin{exercise}[Working with probability distributions and modeling \ding{111}]
+The first two problems are inspired by those in section 2 of \cite{evans}.   You should look there for more practice. 
+\begin{enumerate}[label=(\alph*)]
+\item Suppose that 
+\begin{equation*}
+Y \sim {\rm Bernoulli}(q)
+\end{equation*}
+and let $Z = 1/(1+Y) + Y$. What is the sample space of $Z$ and what is the probability function of $Z$? %You can express the probability distribution either as a piecewise function or by specifying each probability, i.e., $P(Z=z) = \cdots$.
+\item Suppose a coin is flipped. If the coin is heads, we write down $0$. If the coin is tails, we roll a dice and write down the number. Let $Y$ be the number we write down.  What is the sample space and the probability distribution for $Y$? 
+\item For the previous problem, conditioned on the dice rolling a $4$, what is the probability we write down $0$? Conditioned on the coin being tails, what is the probability the dice rolls a $3$?
+\item Consider the geometric distribution discussed in lecture. Provide three real-world examples of variables where the geometric distribution is a good model. Explain your reasoning. 
+\end{enumerate}
+\end{exercise}
+
+
+
+
+%--------------------------------------------------------------------------------------------------------------------------------
+ \begin{exercise}[Working with nested for loops  \ding{111}]
+ 
+ 
+
+Consider the following code:
+
+\begin{Verbatim}
+for i in range(5):
+  for j in range(i+1):
+    print(i,end='')
+  print("")
+\end{Verbatim}
+prints out
+\begin{Verbatim}
+0
+11
+222
+3333
+44444
+\end{Verbatim}
+Modify this code to print
+\begin{Verbatim}
+0
+01
+012
+0123
+01234
+012345
+\end{Verbatim}
+\end{exercise}
+
+
+%--------------------------------------------------------------------------------------------------------------------------------
+ \begin{exercise}[Working with more complex data -- {\bf ChatGPT}]
+ Using ChatGPT, write python code to plot a map of the world with Hanover indicated by a red star. 
+ Then examine this code and answer the following questions: 
+ \begin{itemize}
+ \item How was the data loaded and what variable was it stored in?  Where is the information about the geometric shape of each country stored? Can you print out some of this information? Is there other information that is not used in the plot? 
+ \item Where is the information about the location of Hanover, NH stored? 
+ \item {\bf Without using ChatGPT}, plot another point at Salt Lake City, UT with a green dot? (you can look up the coordinates). 
+ \end{itemize}
+ 
+ \end{exercise}
+
+ 
+
+ 
+%--------------------------------------------------------------------------------------------------------------------------------
+\begin{exercise}[Washington post data]\label{ex:washpost}
+Below I load some data on homocide victims in US from the washington post. Don't worry about how I process it, all you need to work with is the DataFrame ``data`` on the very last line.
+
+\begin{Verbatim}
+data = pd.read_csv("https://raw.githubusercontent.com/washingtonpost
+/data-homicides/master/homicide-data.csv",encoding = "ISO-8859-1")
+data["victim_age"] = pd.to_numeric(data["victim_age"],errors="coerce")
+\end{Verbatim}
+%
+%the next hing I noticed is that the ages are not number, but strings
+%I once again did a quick google search for "converting numpy columns to numbers" and learned I had to do the following
+%\begin{Verbatim}
+%\end{Verbatim}
+
+\begin{enumerate}[label=(\alph*)]
+\item  For each age $a = 1,\cdots,100$ determine the number of victims $n(a)$ with an age $<a$ and put these values in a list. You can ignore the effects of those entries with missing ages. 
+\item Now think for a moment about what you expect a plot of $n(a) vs. a$ to look like, then make a plot of $n(a)$ vs. $a$. Does it look like as expected?
+\item Divide the data into groups of white and non-white victims and repeat part (a) for each group. Then, for each group, make the plot from part (a). Comment on what you find. 
+\end{enumerate}
+\end{exercise}
+
+
+
+%--------------------------------------------------------------------------------------------------------------------------------
+\begin{exercise}[Getting a sequence of wins]
+Let $J$ denote a random variable representing the number of times a fair coin is flipped before two heads appear in a row. As we saw in class, the following code generates simulations of $J$:
+\begin{Verbatim}
+def flip_until_two():
+  num_heads = 0
+  total_flips = 0
+  while num_heads <2:
+    y = np.random.choice([0,1])
+    if y == 0:
+      num_heads = 0
+    else:
+      num_heads = num_heads + 1
+    total_flips = total_flips + 1
+  return total_flips
+\end{Verbatim}
+
+\begin{enumerate}[label=(\alph*)]
+\item  By modifying the above code, write a function rolluntil(n) that rolls a dice until we
+get $n$ ones in a row. You should change the variable names accordingly. We will call this random variable $R_n$.
+%\item Derive a formula for $P(J=k)$. Hint: it is similar to the geometric distribution. 
+\item  Make a DataFrame where each column represents a value of $n$ from $1$ to $6$ and each row is a simulation from the model $R_n$. There should be $100$ rows.
+\item Create a plot comparing the maximum and minimum values of $R_n$ as a function of $n$. You might notice one of these increases much faster than the other -- why?  
+\end{enumerate}
+\end{exercise}
+
+
+%--------------------------------------------------------------------------------------------------------------------------------
+%\begin{exercise}[The binomial distribution]
+%Let $X_1,\dots,X_N$ be independent and identically distribution (abbreviated as iid) samples from a Bernoulli distribution with probability of success $q=1$. Consider the sum 
+%\begin{equation}
+%S_N = \sum_{i=1}^N X_i
+%\end{equation}
+%The variable $S_N$ is called a binomial random variable -- we can think of it as counting the number of ``successes'' in a sequence of $N$ trials which have a probability of success $p$. 
+%The binomial distribution has the PMF
+%\begin{equation}\label{eq:pdf-binomial}
+%P(S_N = k) = {N \choose k}p^{k}(1-p)^{k-1}
+%\end{equation}
+%\begin{enumerate}[label=(\alph*)]
+%\item What is the chance that $S_N = N$, what about $S_3 = 2$? (Hint: Write out all the outcomes) \label{ex:1a}
+%\item Write a python function which generates samples of a Binomial distribution by filling in the code
+%\begin{Verbatim}
+%def my_binomial(N,q,n_samples):
+%  y = np.zeros(n_samples)
+%  for i in range(n_samples):
+%    # fill in code here
+%  return y
+%\end{Verbatim}
+%\item Using Monte Carlo simulations, test if your answers to \ref{ex:1a} are correct. 
+%\item  Using Monte Carlo simulations, make a plot of $P(S_N= k)$ as a function of $k$ for $N=100$ and $N=1000$. Compare you simulations to Equation \ref{eq:pdf-binomial} by plotting both on the same plot. 
+%\end{enumerate}
+%Useful code can be found \href{https://colab.research.google.com/drive/1Gs-gSsUP1hHVwhrbwvWzLVm1ulcLJKRI#scrollTo=_c4br6SCUtUy}{here}
+%%
+%\end{exercise}
+
+
+
+%
+%\begin{exercise}
+%\href{https://colab.research.google.com/drive/1Gs-gSsUP1hHVwhrbwvWzLVm1ulcLJKRI#scrollTo=69BY8z2IRXnU&line=6&uniqifier=1}{Verifying an analytical formula with simulations}
+%\end{exercise}
+
+
+%---------------------------------------------------------------------------------------------------------------------------------------
+\begin{exercise}[Joint distribution  \ding{111}]
+Consider the probability model defined by
+\begin{equation*}\label{eq:gene}
+\Prob(Y_A,Y_B) = \left\{ \begin{array}{cc}
+1/3 & \text{ if }Y_A=0 \text{ and } Y_B = 0\\
+1/3 & \text{ if }Y_A=0 \text{ and } Y_B = 1\\
+1/6 & \text{ if }Y_A=1 \text{ and } Y_B = 0\\
+1/6 & \text{ if }Y_A=1 \text{ and } Y_B = 1\\
+\end{array}
+ \right.
+\end{equation*}
+\begin{enumerate}[label=(\alph*)]
+\item What are the marginal distributions of $Y_A$ and $Y_B$?
+\item Are $Y_A$ and $Y_B$ independent? 
+\item Confirm your answer with simulations (ChatGPT allowed).
+\end{enumerate}
+%Below I've generated monte carlo simulations from the gene model
+%%. Let's pretend you don't know the parameter values (you could figure them out from my code). Supposing you didn't know whether $Y_A$ and $Y_B$ are independent, how would you determine this based on the data?
+%\begin{Verbatim}
+%yB = np.random.choice([0,1],10000)
+%qs =  [yBi*0.3 + (1-yBi)*0.1 for yBi in yB]
+%yA = [np.random.choice([0,1],p = [q,1-q]) for q in qs]
+%data = np.transpose([yA,yB])
+%df = pd.DataFrame(data,columns = ["yA","yB"])
+%df
+%\end{Verbatim}
+%
+%\begin{enumerate}[label=(\alph*)]
+%\item Based on this code, can you write down a probability model for the variables $Y_A$ and $Y_B$? Are they independent? 
+%\item Confirm you answer to the first part of this question using Monte Carlo simulations
+%\end{enumerate}
+
+%\href{https://colab.research.google.com/drive/1Gs-gSsUP1hHVwhrbwvWzLVm1ulcLJKRI#scrollTo=HT5mXESCXWYx}{Estimating conditional probability of dice}
+\end{exercise}
+
+
+%---------------------------------------------------------------------------------------------------------------------------------------
+\begin{exercise}[Verifying variance formula for Bernoulli variable]
+Using Python, verify the formula for the variance
+\begin{equation*}
+{\rm Var}(Y) = q(1-q)
+\end{equation*}
+
+Remember, you can use pointwise arithmetic on numpy arrays e.g.
+\begin{Verbatim}
+q_range*q_range
+\end{Verbatim}
+makes a list where every element is the corresponding element of qrange squared. You should experiment to ensure you are using enough samples.
+\end{exercise}
+
+%---------------------------------------------------------------------------------------------------------------------------------------
+\begin{exercise}[Working with Washington Post Data]
+
+This a continuation of Exercise \ref{ex:washpost}
+Consider the quantities
+\begin{align*}
+&P(age <z)\\
+&P(age <z|\text{white})\\
+&P(age <z|\text{not white}).
+\end{align*}
+\begin{enumerate}[label=(\alph*)]
+\item Explain who each of these are related to the plot you made in Exercise \ref{ex:washpost}. 
+\item Make plots of them and comment of the difference between the plot in Exercise \ref{ex:washpost}. Do you think age and race are independent based on these plots. 
+\item Using the data, approximate (for this dataset) 
+\begin{equation*}
+P(\text{white}| 10<age<60)
+\end{equation*}
+Hint: One way to do this is to use Bayes' rule 
+\end{enumerate}
+
+%\href{https://colab.research.google.com/drive/1Gs-gSsUP1hHVwhrbwvWzLVm1ulcLJKRI#scrollTo=vogWBcGHaZDM&line=3&uniqifier=1}{Working with homocide data}
+\end{exercise}
+
+
+%--------------------------------------------------------------------------------------------------------------------------------
+\begin{exercise}[Covid modeling]
+Suppose we are interested in modeling how likely we are to contract SARS CoV-3, a new more dangerous version of Covid, after a night out. To do this, we make the following assumptions:
+\begin{itemize}
+\item You interact with at most exactly $N$ people in sequence, meaning no repeated interactions with the same person.  
+\item Each person either has covid or does not (we do not distinguish between their viral load or how long they have had the disease). \item $10\%$ of people in the student population have Covid. 
+\item Given that someone has the Covid AND we interact with them, there is a $50\%$ chance you contract the virus. 
+\end{itemize}
+
+
+%Our model is as follows:
+%\begin{align*}
+%Y_i &\sim {\rm Bernoulli}(1/10)\\
+%T_i |(Y_i=1) &\sim {\rm Bernoulli}(1/2)\\
+%T_i|(Y_i=0) &\sim {\rm Bernoulli}(0)
+%\end{align*}
+
+
+\begin{enumerate}[label=(\alph*)]
+\item Fill in the question marks in the following function so that it simulates whether or not you got covid from the night out; that is, so it returns $1$ if you got covid and $0$ if you didn't.
+\begin{Verbatim}
+def sim_covid(N):
+  got_covid = 0
+  for k in range(N):
+      got_covid_interaction = ????
+      if got_covid_interaction ==1:
+        got_covid =1
+  return got_covid
+\end{Verbatim}
+\item  The probability of getting covid form the entire night has the form 
+\begin{equation}\label{eq:probcovid}
+P(\text{get covid}) = 1-\left(1-x\right)^N
+\end{equation}
+where $x \in [0,1]$. Provide some justification of this formula and determine the value of $x$. 
+\item Confirm Equation \ref{eq:probcovid} using Monte Carlo simulations simulations. You should make a plot of this probability vs. $N$, similar to what we did for the Bernoulli distribution in the class notebook.
+\end{enumerate}
+%\href{https://colab.research.google.com/drive/1Gs-gSsUP1hHVwhrbwvWzLVm1ulcLJKRI#scrollTo=TnLORrmyBn6q&line=22&uniqifier=1}{Simulating covid}
+\end{exercise}
+
+\bibliographystyle{unsrt}
+\bibliography{./../refs.bib}
+
+\end{document}
+
+
+\begin{exercise}{Simulating Binomial Random variables}
+\begin{enumerate}[label=(\alph*)]
+\item  Write a function that generates samples from a Binomial distribution by filling in the code below. 
+\begin{Verbatim}
+def my_binomial(N,q,n_samples):
+  y = np.zeros(n_samples)
+  for i in range(n_samples):
+    # fill in code here
+  return y
+\end{Verbatim}
+\item By running Monte carlo simulations and plotting histograms, compare the samples generated by this code to the sampled generated by the numpy function ``np.random.binomial`` (they should be the same). Along with the histograms, plot the probability distribution. You can use the following function 
+\begin{Verbatim}
+import scipy.special
+def binomial_prob(y,N,q):
+  return scipy.special.binom(N, y)*q**y*(1-q)**(N-y)
+\end{Verbatim}
+You should play around with $N$ and $q$, but only need to make one plot. 
+The following code provides an example of how to compare two histograms:
+
+\begin{Verbatim}
+fig,ax = plt.subplots(figsize=(4,2))
+# y1 and y2 are the two data sets you want to compare
+ax.hist([y1,y2],label=["my function","numpy"],density=True)
+ax.legend()
+\end{Verbatim}
+\end{enumerate}
+
+
+
+
+ \bibliographystyle{cell}
+\bibliography{./../refs.bib}
+
+
+ 
+\end{document}
+
+

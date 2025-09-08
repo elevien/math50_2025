@@ -1,0 +1,171 @@
+\include{./../latex/slides_style.tex}
+
+ \title{Unit 1}
+ \subtitle{Basic Probability and simulation}
+ \author{Ethan Levien}
+ \institute{Math 50}
+ \date{\today}
+
+
+
+\begin{document}
+
+% Title slide
+\begin{frame}
+  \titlepage
+\end{frame}
+
+% Outline
+\begin{frame}{Outline}
+  \tableofcontents
+\end{frame}
+
+% Section: Introduction
+\section{Introduction}
+\begin{frame}{What is a Model?}
+  \begin{itemize}
+    \item Models are simplified representations of the world.
+    \item Examples of models include
+      \begin{itemize}
+        \item Astrology. this is a model of human behavior
+        \item Newton’s laws
+      \end{itemize}
+    \item We focus on \textbf{statistical models} (also known as \textbf{probability models}): These are models where the variables can not be predicted exactly. 
+    \item {\bf Goal of unit 1}: develop the language and notation for describing randomness mathematically. 
+  \end{itemize}
+\end{frame}
+
+\section{Random variables and probability distributions}
+\begin{frame}{Example: The Bernoulli random variable}
+
+How do we model a binary event such as: The flip of a coin, whether it rains etc. 
+
+We introduce a random variable called a Bernoulli random variable 
+\begin{equation*}
+X \sim {\rm Bernoulli}(q)
+\end{equation*}
+This reads as ``X is a Bernoulli random variable'', which means
+\begin{enumerate}
+\item  {\bf Sample space:} $X$ is either one or zero 
+\item {\bf Probability distribution} $X=1$ is $q$, which we write as
+\begin{equation*}
+P(X = 1) = q \text{  or  } P_X(1) = q
+\end{equation*}
+Note that $P_X(1) + P_X(0) = 1$, hence $P_X(0) = 1-q$. We could also write
+\begin{equation*}
+P(X = x)  = \left\{\begin{array}{lr}
+q & x =1\\
+1-q & x =0
+ \end{array} \right.
+\end{equation*}
+\end{enumerate}
+
+
+\end{frame}
+
+
+\begin{frame}[fragile]{Generating random variables with Python}
+\begin{lstlisting}[language=Python]
+import numpy as np
+
+# Bernoulli with probability p = 0.5
+p = 0.5
+samples = np.random.binomial(1, p, 100)
+print(samples)
+\end{lstlisting}
+\end{frame}
+
+
+\begin{frame}
+\frametitle{Tips for using ChatGPT to help with coding} 
+\begin{itemize}
+\item Include ``In Python using numpy'' in the prompt
+\item Ask it to break down the syntax if you don't understand what it returns (for simple things)
+\item If you know another language, try writing the code in that language and ask it to convert it to Python. This is a code way to see how syntax you know maps to python. 
+\end{itemize}
+
+\end{frame}
+
+
+\begin{frame}
+\frametitle{General definitions} 
+
+\begin{itemize}
+\item The {\bf Sample space}  $S$ is the set of all outcomes of an experiment, {\bf events} are subsets of the sample space. 
+\item We write the probabilities as 
+\begin{equation}
+P(X = x) = P_X(x),\quad x \in S
+\end{equation} 
+Sometimes we use ${\mathbb P}$ instead of $P$. 
+\item If the distribution has a name, then we write 
+\begin{equation}
+X \sim {\rm NameOfDistribution}(\text{parameters})
+\end{equation}
+ where {\bf parameters} are numbers that effect the probabilities. E.g. $q$ for the Bernoulli distribution. 
+ \item If we have multiple random variables, $X,Y,Z,...$ we write 
+ \begin{equation}
+ P(X=x,Y=y) = P_{X,Y}(x,y)
+ \end{equation}
+  to represent the probability that $X=x$ and $Y=y$ at the same time. 
+\end{itemize}
+
+\end{frame}
+
+
+
+
+
+\begin{frame}
+\frametitle{Examples}
+\begin{itemize}
+\item Let $X_1,X_2$ bet the outcome of two independent coin flips. What is the sample space? 
+\item A coin is flipped and then a dice is rolled. What is the sample space? If they are fair, what is the probability distribution? 
+\item A survey is given to 3 students with two yes know questions. What is the sample space? 
+\end{itemize}
+\end{frame}
+
+
+\begin{frame}
+\frametitle{Properties of probability distributions}
+\begin{enumerate}
+\item Probabilities of disjoint events add together. For example, the probability of rolling $1$ of $2$ is $2/6$. 
+\item Probability
+\item Probabilities multiple. 
+\end{enumerate}
+\end{frame}
+
+\begin{frame}
+\frametitle{How likely are there aliens?}
+
+\end{frame}
+
+\begin{frame}
+\frametitle{Probability distributions from data}
+
+
+\end{frame}
+
+
+\section{Independence, conditioning and marginalization}
+\begin{frame}{Conditional probability}
+Conditional probabilities are probabilities we obtain when we restrict ourselves to certain events in the sample space.
+
+
+
+\end{frame}
+
+\begin{frame}{Conditional probability examples}
+
+
+
+\end{frame}
+
+
+\begin{frame}{Marginal probabilities}
+
+\end{frame}
+
+
+
+
+\end{document}
