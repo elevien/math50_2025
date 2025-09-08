@@ -10,19 +10,24 @@ bibliography:
 
 These are things I will **not** cover in class which you should know: 
 
+- **Calculus**: 
 - **Plotting**: Know how to interpret plots on a log scale, contour plots, histograms, and boxplots. You do not need to know how to create these plots in Python, but you will be asked to **interpret them**.  
-- **Basic linear algebra**: Some familiarity will be helpful to understand concepts starting in Unit 4. However, I will not ask any exam questions that require you to do linear algebra calculations.  
-- **Coding fundamentals**:  
-  - `for` loops, `while` loops, `if` statements  
-  - Indexing arrays (in this course, exam questions will only involve indexing **1-D NumPy arrays**)  
+- **Basic linear algebra**: Some familiarity will be helpful to understand concepts starting in Unit 4. However, I will not ask any exam questions that require you to do linear algebra calculations. In order to understand some of the calculations I perform in lecture, you should know: 
+  - Basic operations: Matix vector, matrix-matrix multiplication and addition
+  - Matrix inversion: I won't calculate any matrix inverses by hand, but you will need to know what it means
+  You do not need to know about eigenvalues and eigenvectors, but I will mention how they appear when working with linear regression models 
+- **Coding fundamentals**:  `for` loops, `while` loops, `if` statements (not in Python specifically), the meaning of equals sign in coding vs. math. If you come from R equals you may have used ``<-'', but in Python we use ``='' to assign variables. 
 
-I will cover in class:  
+I will breifly cover in class:  
+- Indexing arrays (in this course, exam questions will only involve indexing **1-D NumPy arrays**)  
 - Working with **pandas DataFrames** (loading CSVs, selecting columns, summarizing data).  
 - How to use `numpy.random`. That said, it’s helpful to review it beforehand.  
 
----
+It is however expected that you will pick a lot of this up on your own by doing exercises and working on your project.
 
 ## Resources for coding
+
+
 
 If you are new to Python or rusty, I recommend spending an hour or two going through a short tutorial.  
 
