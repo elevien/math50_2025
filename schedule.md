@@ -20,7 +20,7 @@ Before going through Unit 1, please review [Unit 0](../unit0/index.html). This m
 | Fri Sept 26 | [Unit 3](../unit2/index.html) | Unit 3.1 (Estimators, confidence intervals, bias, consistency) |  |
 | Mon Sept 29 | [Unit 3](../unit3/index.html) | Unit 3.1 cont., Unit 3.1 (Linear regression examples)   |  |
 | Wed Oct 1   | [Unit 3](../unit3/index.html) | Unit 3.1 cont., Unit 3.2 (Least squares, Correlation, coefficient of determination) |  |
-| Fri Oct 3   | [Unit 3](../unit3/index.html)| Unit 3 leftover + **Exploratory data analays** | End of midterm material |
+| Fri Oct 3   | [Unit 3](../unit3/index.html)| Unit 3 leftover + **Exploratory data analysis** | End of midterm material |
 | Mon Oct 6   | Review | | Come with questions! |
 | Wed Oct 8   | MIDTERM IN CLASS |  |  |
 | Fri Oct 10  | Project |  |  |
@@ -29,7 +29,7 @@ Before going through Unit 1, please review [Unit 0](../unit0/index.html). This m
 | Fri Oct 17  | [Unit 4](../unit4/index.html) | Unit 4.3 cont. begin Unit 5 |  |
 | Mon Oct 20  | [Unit 5](../unit5/index.html) | Unit 5.1 (interactions, residual plots) |  |
 | Wed Oct 22  | [Unit 5](../unit5/index.html) | Unit 5.2 (polynomial regession, overfitting) |  |
-| Fri Oct 24  | [Unit 5](../unit5/index.html) | Unit 5 (cross validation)  + **Exploratory data analays**  |  |
+| Fri Oct 24  | [Unit 5](../unit5/index.html) | Unit 5 (cross validation)  + **Exploratory data analysis**  |  |
 | Mon Oct 27  | [Unit 6](../unit6/index.html) | Unit 6.1 (regularization) |  |
 | Wed Oct 29  | [Unit 6](../unit6/index.html) | Unit 6.2 (priors, laplace rule of succesion) |  |
 | Fri Oct 31  | [Unit 6](../unit6/index.html) | Unit 6.3 (Bayesian modeling) |  |

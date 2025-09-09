@@ -557,12 +557,26 @@ a.pagination-item:hover {
 /* Make all markdown tables span full width */
 table {
   width: 100%;
-  table-layout: fixed; /* columns share available space */
+  table-layout: auto;
   border-collapse: collapse;
+  font-size: 0.8em;
+  background: #E3F2FD;
+  box-shadow: 0 2px 8px rgba(255, 187, 187, 0.04);
+  margin-bottom: 1em;
 }
 
-/* Make cells wrap instead of overflowing */
 th, td {
   word-wrap: break-word;
-  padding: 6px 5px;
+  padding: 5px 10px;
+  border: 0.5px solid #626262;
+  text-align: left;
+}
+
+th {
+  background: #f5f7fa;
+  font-weight: 600;
+}
+
+tr:nth-child(even) {
+  background: #f9fbfd;
 }

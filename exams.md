@@ -26,7 +26,7 @@ The midterm will cover Units 1, 2 and 3. Here are some things you absoutely need
 
 ## Final 
 
-The final is cummulative and includes everyhing on the midterm. 
+The final is cummulative and includes everyhing on the midterm, plus Units 4-6.  
 
 You will need to: 
 
@@ -37,6 +37,7 @@ You will need to:
 - Understand what happens when we flip the axes in a regression model
 - Interpret the output of a fitted model: Which effects are significant, what does $R^2$ mean. 
 - Know how to include catagorical variables in a linear regression model and their inerpretation
+- Calculate regularized estimators (for example for the sample mean where this can be done by hand)
 
 ### Practice exam
 - [Final from 2024](/public/old_exams/final_2024C.pdf)

@@ -3,11 +3,12 @@ layout: page
 title: Contributing to course material
 ---
 
-Extra credit will be given to students who make contributions to the course material. My philosophy is that the course material is not a static entity to be absorbed, but a dynamic resource you engage with and help improve. Participating in the improvement of the course material is a great way to practice the skills you have learned. Because this is done through GitHub pull requests, it is also a way to practice (in a low-stakes setting) contributing to a public code repository. This is a very desirable skill in the job market, and it will look good to employers that you have a GitHub account and have made contributions. 
+
+Extra credit will be given to students who make contributions to the course material. My philosophy is that the course material is not a static entity to be absorbed, but a dynamic resource you engage with and help improve. Participating in the improvement of the course material is a great way to practice the skills you have learned. Because this is done through GitHub pull requests, it is also a way to practice (in a low-stakes setting) contributing to a public code repository. This is a very desirable skill in the job market. Employers often ask to see your github account, even for non-engineering jobs. 
 
 You can find more detailed information about [pull requests](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/about-pull-requests) on GitHub. Here is a quick guide.
 
-# How to Make a Pull Request on GitHub (without creating a local fork)
+## How to Make a Pull Request on GitHub (without creating a local fork)
 
 1. Go to [https://github.com](https://github.com). Click **Sign up** in the top-right corner and create an account. 
 2. Once logged in, go to the course repository. 

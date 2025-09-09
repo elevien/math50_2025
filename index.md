@@ -39,14 +39,24 @@ Your grade will be based on the following. You should see Canvas for the specifi
 
 **Exams:** There will be two [exams]({{ '/exams/' | relative_url }}):  
 - <u>Midterm Quiz</u>: In class on October 8th, covering Units 1–3.  
-- <u>Final</u>: During finals week, November 25th at 3pm (room TBD), covering Units 1–5.  
+- <u>Final</u>: During finals week, November 25th at 3pm (room TBD) covering Units 1–6. 
 
 
-**Project:** You will complete a project on a topic of your choosing. You may work in groups of up to 3, and all students in a group will receive the same grade. The project should adhere to the guidelines on the Canvas assignment. 
+**Project:** You will complete a project as described in the [project]({{ '/project/' | relative_url }}) page. You may work in groups of up to 3, and all students in a group will receive the same grade. The project should adhere to the guidelines on the Canvas assignment. 
 
 **Contributing to course material:** You can earn extra credit by contributing to course material. Contributions can cinclude imroving the class notes, adding exercises and suggesting exam problems. All contributions <u>must be made in the form of pull requests on github</u>, as described an the [contribution]({{ '/contributing-material/' | relative_url }}) page. Ideally, your contributions will be synergistic with your project, 
 
 **Exercises:** At the end of each section there are a number of exercies. You should complete of all them and ask questions if you have any. <u>Exercises marked with a ❐ are specifically recommended for the exams.</u> 
+
+
+## How to be succesfull in this course: 
+
+- Come to class and ask questions. 
+- Do every exercise in the notes and do every question on the practice exams.
+- Use the project as an opportunity to connect the course material to things that are meaningful to you.  
+- Spend time reviewing the material and working through problems without LLM/AI. These tools often create the illusion of productivity because of the rapid feedback, but it's sometimes better to do things ``by hand''. 
+- On the other hand, you should absolutely embrace AI as a tool to help you learn, so long as it's done in a mindful way and not to avoid doing the work yourself. I recommend making a GitHub account and interacting with the course material through Copilot on GitHub. [Here](https://github.com/copilot/share/007652a8-48c4-8874-b902-100a20c608ca) is an example of what this looks like. 
+- Connect with other students in the class and work with them. 
 
 ## Accessibility Needs
 
