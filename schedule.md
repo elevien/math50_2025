@@ -14,8 +14,8 @@ Before going through Unit 1, please review [Unit 0](../unit0/index.html). This m
 |------------|------------|--------|-------------|
 | Mon Sept 15 | [Unit 1](../unit1/index.html) | Intro, Unit 1.1 (Probability models) |  |
 | Wed Sept 17 | [Unit 1](../unit1/index.html) | Unit 1.2 (Conditional probability, marginalization) |  |
-| Fri Sept 19 | [Unit 1](../unit1/index.html) | Python, exploratory data analysis  | Course survey |
-| Mon Sept 22 | [Unit 2](../unit2/index.html) | Unit 2.1 (Expectation and sample averages)  Unit 2.2 (LLN) |  |
+| Fri Sept 19 | [Unit 1](../unit1/index.html) | Python + **Exploratory data analysis** | Course survey |
+| Mon Sept 22 | [Unit 2](../unit2/index.html) | Unit 2.1 (Expectation, conditional expectation, variance)  Unit 2.2 (LLN) |  |
 | Wed Sept 24 | [Unit 2](../unit2/index.html)  | Unit 2.2 (Continuous distributions, Normal distribution and CLT) |  |
 | Fri Sept 26 | [Unit 3](../unit2/index.html) | Unit 3.1 (Estimators, confidence intervals, bias, consistency) |  |
 | Mon Sept 29 | [Unit 3](../unit3/index.html) | Unit 3.1 cont., Unit 3.1 (Linear regression examples)   |  |

@@ -7,7 +7,7 @@ bibliography:
 
 # Summary
 
-I will cover additional topics depending on time and iterestes. Potential topics include: 
+I will cover additional topics depending on time and iterests. Potential topics include: 
 - Gaussian processes
 - Dimensionality reduction and PCA
 - Multi-level models, mixed and fixed effects model 

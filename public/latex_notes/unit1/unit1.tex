@@ -56,7 +56,7 @@ Remember that $P_Y(y) = P(Y=y) = P(\{Y = y\})$. It's important to be flexible wi
  These formulas make sense for any $0\le q\le1$. We say that $q$ is a \dfn {parameter}\index{parameter} of the distribution. 
 Instead of writing out \eqref{eq:pmbern} every time we want to indicate that a variable $Y$ follows a Bernoulli distribution, we will write 
 \begin{equation*}
-Y \sim {\rm Bernoulli}(p). 
+Y \sim {\rm Bernoulli}(q). 
 \end{equation*}
 \end{example}
 
@@ -112,9 +112,9 @@ If you want more detail look in  \cite[Ch. 1 Sec. 1.2.1]{evans}.
 S = \{(0,0),(0,1),(1,0),(1,1)\}
 \end{equation*}
 where $0= {\rm T}$ and $1={\rm H}$. 
-Since the coins are fair, each of the outcomes above should have the same probability. Thus each should have probability $p$ and $p=1/4$ since they all need to add to $1$:
+Since the coins are fair, each of the outcomes above should have the same probability. Thus each should have probability $q$ and $q=1/4$ since they all need to add to $1$:
 \begin{equation*}
-P_{A,B}(0,0) + P_{A,B}(0,1)+ P_{A,B}(1,0) + P_{A,B}(1,1) = 4p = 1 \implies p = \frac{1}{4}. 
+P_{A,B}(0,0) + P_{A,B}(0,1)+ P_{A,B}(1,0) + P_{A,B}(1,1) = 4q = 1 \implies q = \frac{1}{4}. 
 \end{equation*}
 Notice that 
 \begin{equation*}
@@ -127,133 +127,8 @@ We will soon see that this is related to the fact that the two variables are ind
 
 
 
-\begin{example}(\cite[Example 2.3.4]{evans})
-Suppose we flip a fair coin until we see a heads. Let $Y$ be the number of flips until we see a heads. This is example of a  \dfn{geometric distribution}, which is the number of trials of independent, identically distributed (iid) Bernoulli random variables until we see $k$ successes. In more mathematical notation, if
-\begin{equation*}
-X_i \sim {\rm Bernoulli}(q), \quad i = 1,2,3,\dots
-\end{equation*}
-then 
-\begin{equation*}
-Y = \min_{i\ge0}\left\{i:X_i=1 \right\}
-\end{equation*} 
-and we would say 
-\begin{equation*}
-Y \sim {\rm Geometric}(p).
-\end{equation*}
-The sample space of $Y$ is $\{1,2,\dots,\infty\}$. What is the probability distribution? 
-\begin{align*}
-P(Y=k) &= P(X_1=0,X_2=0,\dots,X_{k-1}=0,X_k=1) \\
-&= P(X_1 = 0) \cdots  P(X_{k-1}=0)P(X_k=1) \\
-&= (1-q)^{k-1}q
-\end{align*}
-This has the expected properties of $Y$. In particular, it decays as $k$ increases and the decay is faster the larger $q$ is. 
-
-%\href{https://colab.research.google.com/drive/1Gs-gSsUP1hHVwhrbwvWzLVm1ulcLJKRI#scrollTo=36vlB9r1Wts5}{Verifying an analytical formula with simulations}
-\end{example}
 
 
-
-
-
-
-%--------------------------------------------------------------------------------------------------------------------------------
-\section{Independence, conditioning and marginal distributions }
-\sectionrefs{\cite[Sec. 2.8.1]{evans}}
-
-\subsection{Independence and marginal distributions}
-Two random variables $X,Y$ are \dfn{independent} if 
-\begin{equation}
-P(X=x,Y=y) = P(X=x)P(X=y)
-\end{equation}
-for all $(x,y) \in S$. This might make more sense after we introduce the idea of conditional probability. 
-
-\begin{example}[Gene model]\label{ex:mut} Let's consider once again the case of two random variables taking values in $S = \{0,1\}$. For example, this could be the model of whether someone has a mutation at two sites the genome, or it could be the outcome of a survey. Let us be given the probability distribution 
-\begin{equation*}\label{eq:gene}
-P(Y_A = y_A,Y_B=y_B)  = P(\{Y_A = y_A \}\cap \{Y_B=y_B\}) = \left\{ \begin{array}{cc}
-1/2 & \text{ if }y_A=0 \text{ and } y_B = 0\\
-1/8 & \text{ if }y_A=0 \text{ and } y_B = 1\\
-1/8 & \text{ if }y_A=1 \text{ and } y_B = 0\\
-1/4 & \text{ if }y_A=1 \text{ and } y_B = 1\\
-\end{array}
- \right.
-\end{equation*}
-The sample space is the same as Example \ref{ex:twocoins}, but we can check that $Y_A$ and $Y_B$ are no longer independent:
-\begin{equation*}
-P(Y_A=0,Y_B=0) =  \frac{1}{2}
-\end{equation*}
-on the other hand 
-\begin{align*}
-P(Y_A=0) &= P((0,1) \text{ or }(0,0)) = P(0,1) + P(0,0) = \frac{1}{8} + \frac{1}{2} =\frac{5}{8} \\
-P(Y_B=0) &= P((0,0) \text{ or }(1,0)) = P(0,0) + P(1,0) = \frac{1}{2} + \frac{1}{8}= \frac{5}{8}
-\end{align*}
-and $25/64  \approx  0.39 \ne 1/2$. 
-
-\end{example}
-
- The joint distribution does not directly tell us the probabilities of observing a value of only one of the random variables, e.g. the probability that $Y_A = 1$. The procedure used above to obtain these probabilities, by summing over the other variable, is called \dfn{marginalization}. In general, for a joint distribution $P(x,y)$ the marginal distribution of $x$ is 
- \begin{equation}
- P(x) = P_X(x) = \sum_{y \in S_Y}P(x,y). 
- \end{equation}
- Notice that in the case of independent variables, 
-  \begin{equation}
- \sum_{y \in S_Y}P(x,y) = P(x) \sum_{y \in S_Y}P(y) = P(x)
- \end{equation}
-%\begin{equation}
-%P(Y_A=1)  = \sum_{y}P(Y_A=1,y) = P(Y_A,Y_B = 0)  +P(Y_A,Y_B= 1)
-%\end{equation}
-%where in the general the sum is taken over all possible outcomes for the second variable. $\Prob(Y_1)$ is defined similarly. 
-% In the example above 
-%\begin{equation}
-%Y_A \sim {\rm Bernoulli}\left(\frac{5}{8}\right).
-%\end{equation}
-
-
-
-
-
-%--------------------------------------------------------------------------------------------------------------------------------
-\subsection{Conditioning}
- What if we are interested in the chance that someone has a mutation in gene $A$ and we know they do not have a mutation in gene $B$?  In this case, we introduce the \dfn{conditional probability} $P(Y_A=1|Y_B=0)$. This is defined as the chance that gene A has a mutation in a person if we know there is no mutation at gene B. If we want to think about this in terms of population averages, it is the fraction of mutations in gene $A$ among only those people without mutations in gene gene $B$. 
- More generally, $P(X|Y=y)$ is the distribution of $X$ if we know the value of $Y=y$. 
- I'll use $N$ to denote the number of individuals in a population with a given gene configuration and $n$ the total population size. Interpreting probabilities as fraction, 
-\begin{align*}
-P(Y_A=1|Y_B=0) &= \frac{N(Y_A = 1,Y_B= 0)}{N(Y_B=0)} = \frac{N(Y_A = 1,Y_B = 0)/n}{N(Y_B=0)/n} \\
-&= \frac{P(Y_A = 1,Y_B = 0)}{P(Y_B = 0)}
-\end{align*}
-
-
-\begin{example}[Example \ref{ex:mut} cont.]
-Consider Example \ref{ex:mut}. In this case the conditional probability of $Y_A = 1$ given $Y_B=0$ is 
-\begin{equation*}
-P(Y_A = 1|Y_B = 0) = \frac{P(1,0)}{P(Y_B = 0)} = \frac{1/8}{5/8} = \frac{1}{5} 
-\end{equation*}
-
-\end{example}
-
-
-%
-%\begin{example}[Example \ref{ex:probfromcode} cont.]
-%In the code from Example \ref{ex:probfromcode} cont. we have the internal variables flip1 and flip2. If $Y$ is the output, what is the conditional distribution 
-%\begin{equation*}
-%Y|({\rm flip1}=1)
-%\end{equation*}
-%\end{example}
-
-
- In general, we have 
-\begin{equation}
-P(x|y) = \frac{P(y,x)}{P(x)}.
-\end{equation}
-Notice that we can replace $P(y,x) = P(y|x)P(x)$, to obtain Baye's formula 
-\begin{equation}\label{eq:bayes}
-P(y|x) = \frac{P(y,x)}{P(x)}.
-\end{equation}
-An equivalent definition of independence is $P(Y|X)  = P(Y)$ and $P(X|Y) = P(Y)$.  
-Can you see why $X$ being independent of $Y$ implies $Y$ is independent of $X$?
-Equation \eqref{eq:bayes} is also true for events, for example, we will encounter things like 
-\begin{equation}\label{eq:bayes}
-P(\{Y>y\}|X) = \frac{P(\{Y>y\},X)}{P(X)}
-\end{equation}
 
 
 
@@ -267,7 +142,7 @@ A measurement of a random variable is a \dfn{sample} and  \dfn {statistical infe
 \item How many experiments do we need to do know if a drug is effective? 
 \end{itemize}
 We will talk about statistical inference in more detail when we get to Unit 3. 
-We usually assume (although it is not strictly true), that we are given independent samples of the same random variable. We call this \dfn{iid} samples (for independent and identically distributed). 
+We usually assume (although it is not strictly true), that we are given independent samples of the same random variable. We call this \dfn{iid} samples (for independent and identically distributed).  We have not defined independence mathematically, but we can understanding it intuitively as meaning: The value of any particular sample has not influence on the others. This is the situation we are in when flipping a coin for example. 
 
 
 \subsection{From probabilities to samples}
@@ -278,11 +153,11 @@ P(X=x) \approx \frac{N(x)}{N}.
 In the colab notebook for this unit, you will see how to implement a statement like this from a numpy array or dataframe.  
 
 
-Going forward, I will use the notation $N$ instead of a $P$ to denote the number of times an event or outcome occurs, so 
+Going forward, I will use the notation $N$ instead of a $P$ to denote the number of times an event or outcome occurs. As with probability, there are a few different notation we will use depending on the context: Just as with probabilities, we have the following equivalent ways of denoting the number of samples where a random variable $X$ is equal to $x \in S$. 
 \begin{equation}
 N(\{X= x\}) =N(X=x) = N_X(x) = N(x) 
 \end{equation}
-all mean the same thing. I will use $N(x)$ when there is no ambiguity.  
+I will use $N(x)$ when there is no ambiguity.  
 
 
 
@@ -320,6 +195,188 @@ is the central problem of statistical inference.
 \subsubsection*{Note on probabilities as fraction vs. belief}
 There are two different ways we can interpret a statement like: The probability someone in this room is over $6$ feet is $95\%$. Either it can be interpreted as a measure how likely it is to find someone in the room over $6$ feet, or if we were to hypothetically generate random samples over and over what fraction of them would contain someone over $6$ feet. 
 
+
+
+
+%--------------------------------------------------------------------------------------------------------------------------------
+\section{Independence, conditioning and marginal distributions }
+\sectionrefs{\cite[Sec. 2.8.1]{evans}}
+
+\subsection{Independence and marginal distributions}
+Two random variables $X,Y$ are \dfn{independent} if 
+\begin{equation}
+P(X=x,Y=y) = P(X=x)P(X=y)
+\end{equation}
+for all $(x,y) \in S$. This might make more sense after we introduce the idea of conditional probability. 
+
+\begin{example}[Gene model]\label{ex:mut} Let's consider once again the case of two random variables taking values in $\{0,1\}$, so the sample space is again the same as \ref{ex:twocoins}.  To be concrete, we introduce another application: $Y_A$ and $Y_B$ represent the probabilities that an individual has a mutation on genes $A$ and $B$. Let us be given the probability distribution 
+\begin{equation*}\label{eq:gene}
+P(Y_A = y_A,Y_B=y_B)  = P(\{Y_A = y_A \}\cap \{Y_B=y_B\}) = \left\{ \begin{array}{cc}
+1/2 & \text{ if }y_A=0 \text{ and } y_B = 0\\
+1/8 & \text{ if }y_A=0 \text{ and } y_B = 1\\
+1/8 & \text{ if }y_A=1 \text{ and } y_B = 0\\
+1/4 & \text{ if }y_A=1 \text{ and } y_B = 1\\
+\end{array}
+ \right.
+\end{equation*}
+The sample space is the same as Example \ref{ex:twocoins}, but we can check that $Y_A$ and $Y_B$ are no longer independent:
+\begin{equation*}
+P(Y_A=0,Y_B=0) =  \frac{1}{2}
+\end{equation*}
+on the other hand 
+\begin{align*}
+P(Y_A=0) &= P((0,1) \text{ or }(0,0)) = P(0,1) + P(0,0) = \frac{1}{8} + \frac{1}{2} =\frac{5}{8} \\
+P(Y_B=0) &= P((0,0) \text{ or }(1,0)) = P(0,0) + P(1,0) = \frac{1}{2} + \frac{1}{8}= \frac{5}{8}
+\end{align*}
+and $25/64  \approx  0.39 \ne 1/2$. 
+
+\end{example}
+
+
+
+\begin{example}(\cite[Example 2.3.4]{evans})
+Suppose we flip a fair coin until we see a heads. Let $Y$ be the number of flips until we see a heads. This is example of a  \dfn{geometric distribution}, which is the number of trials of independent, identically distributed (iid) Bernoulli random variables until we see $k$ successes. In more mathematical notation, if
+\begin{equation*}
+X_i \sim {\rm Bernoulli}(q), \quad i = 1,2,3,\dots
+\end{equation*}
+then 
+\begin{equation*}
+Y = \min_{i\ge0}\left\{i:X_i=1 \right\}
+\end{equation*} 
+and we would say 
+\begin{equation*}
+Y \sim {\rm Geometric}(p).
+\end{equation*}
+The sample space of $Y$ is $\{1,2,\dots,\infty\}$. What is the probability distribution? 
+\begin{align*}
+P(Y=k) &= P(X_1=0,X_2=0,\dots,X_{k-1}=0,X_k=1) \\
+&= P(X_1 = 0) \cdots  P(X_{k-1}=0)P(X_k=1) \\
+&= (1-q)^{k-1}q
+\end{align*}
+This has the expected properties of $Y$. In particular, it decays as $k$ increases and the decay is faster the larger $q$ is. 
+
+%\href{https://colab.research.google.com/drive/1Gs-gSsUP1hHVwhrbwvWzLVm1ulcLJKRI#scrollTo=36vlB9r1Wts5}{Verifying an analytical formula with simulations}
+\end{example}
+
+
+ The joint distribution does not directly tell us the probabilities of observing a value of only one of the random variables, e.g. the probability that $Y_A = 1$. The procedure used above to obtain these probabilities, by summing over the other variable, is called \dfn{marginalization}. In general, for a joint distribution $P(x,y)$ the marginal distribution of $x$ is 
+ \begin{equation}
+ P(x) = P_X(x) = \sum_{y \in S_Y}P(x,y). 
+ \end{equation}
+ Notice that in the case of independent variables, 
+  \begin{equation}
+ \sum_{y \in S_Y}P(x,y) = P(x) \sum_{y \in S_Y}P(y) = P(x)
+ \end{equation}
+%\begin{equation}
+%P(Y_A=1)  = \sum_{y}P(Y_A=1,y) = P(Y_A,Y_B = 0)  +P(Y_A,Y_B= 1)
+%\end{equation}
+%where in the general the sum is taken over all possible outcomes for the second variable. $\Prob(Y_1)$ is defined similarly. 
+% In the example above 
+%\begin{equation}
+%Y_A \sim {\rm Bernoulli}\left(\frac{5}{8}\right).
+%\end{equation}
+
+
+
+
+
+%--------------------------------------------------------------------------------------------------------------------------------
+\subsection{Conditioning}
+ What if we are interested in the chance that someone has a mutation in gene $A$ and we know they do not have a mutation in gene $B$?  In this case, we introduce the \dfn{conditional probability} $P(Y_A=1|Y_B=0)$. This is defined as the chance that gene A has a mutation in a person if we know there is no mutation at gene B. If we want to think about this in terms of population averages, it is the fraction of mutations in gene $A$ among only those people without mutations in gene gene $B$. 
+ More generally, $P(X|Y=y)$ is the distribution of $X$ if we know the value of $Y=y$. 
+ 
+ 
+ It will be extremely useful to write this in terms of the joint and marginal probabilities. To do so, we can interpret the probabilities as fractions and use the definition above:  
+\begin{align*}
+P(Y_A=1|Y_B=0) &= \frac{N(Y_A = 1,Y_B= 0)}{N(Y_B=0)} = \frac{N(Y_A = 1,Y_B = 0)/n}{N(Y_B=0)/n} \\
+&= \frac{P(Y_A = 1,Y_B = 0)}{P(Y_B = 0)}
+\end{align*}
+
+
+\begin{example}[Example \ref{ex:mut} cont.]
+Consider Example \ref{ex:mut}. In this case the conditional probability of $Y_A = 1$ given $Y_B=0$ is 
+\begin{equation*}
+P(Y_A = 1|Y_B = 0) = \frac{P(1,0)}{P(Y_B = 0)} = \frac{1/8}{5/8} = \frac{1}{5} 
+\end{equation*}
+
+\end{example}
+
+
+\begin{example}[Python: Sampling and conditional expectation from the gene model]
+Here is Python code to generate samples from the gene model in Example \ref{ex:mut} and compute the conditional probability $P(Y_A = 1 \mid Y_B = 0)$.
+
+\begin{lstlisting}[language=Python]
+import numpy as np
+
+# Define probabilities for each (Y_A, Y_B) pair
+probs = [1/2, 1/8, 1/8, 1/4]  # (0,0), (0,1), (1,0), (1,1)
+pairs = [(0,0), (0,1), (1,0), (1,1)]
+
+# Generate samples
+N = 10000
+samples = np.random.choice(len(pairs), size=N, p=probs)
+Y_A = np.array([pairs[i][0] for i in samples])
+Y_B = np.array([pairs[i][1] for i in samples])
+
+# Compute conditional probability P(Y_A = 1 | Y_B = 0)
+mask = (Y_B == 0)
+cond_prob = np.mean(Y_A[mask] == 1)
+print("P(Y_A = 1 | Y_B = 0) =", cond_prob)
+\end{lstlisting}
+
+This code simulates the joint distribution, selects samples where $Y_B = 0$, and computes the fraction of those samples where $Y_A = 1$, which estimates $P(Y_A = 1 \mid Y_B = 0)$.
+\end{example}
+
+
+
+
+We use the notation $Y|(X=x)$ for the random variable $Y$ conditioned on another random variable, $Y$, taking the value $x$. This variable has a probability distribution which is a function of $x$. As shorthand, we might write $Y|X$ and then write the probability distribution as a function of $X$ (even though we like to reserve capital letters for random quantities and $X$ is treated as a independent variable in this case). 
+
+\begin{example}[Conditional Bernoulli Model]
+Suppose $Y \sim \text{Bernoulli}(1/2)$, and $X|Y \sim \text{Bernoulli}(1/4Y + 1/4)$. This means:
+\begin{itemize}
+  \item First, sample $Y$ from $\text{Bernoulli}(1/2)$ (so $Y=1$ with probability $1/2$, $Y=0$ with probability $1/2$).
+  \item Then, given $Y$, sample $X$ from $\text{Bernoulli}(1/4Y + 1/4)$.
+\end{itemize}
+To connect this to a probability distribution function, we can write:
+\begin{align*}
+P(Y=y) &= \frac{1}{2} \text{ for } y=0,1 \\
+P(X=x|Y=y) &= \begin{cases}
+  1/4 & \text{if } x=1, y=0 \\
+  3/4 & \text{if } x=0, y=0 \\
+  1/2 & \text{if } x=1, y=1 \\
+  1/2 & \text{if } x=0, y=1
+\end{cases}
+\end{align*}
+The joint probability is then $P(X=x, Y=y) = P(X=x|Y=y)P(Y=y)$.
+\end{example}
+
+%
+%\begin{example}[Example \ref{ex:probfromcode} cont.]
+%In the code from Example \ref{ex:probfromcode} cont. we have the internal variables flip1 and flip2. If $Y$ is the output, what is the conditional distribution 
+%\begin{equation*}
+%Y|({\rm flip1}=1)
+%\end{equation*}
+%\end{example}
+
+
+ In general, we have 
+\begin{equation}
+P(x|y) = \frac{P(y,x)}{P(x)}.
+\end{equation}
+Notice that we can replace $P(y,x) = P(y|x)P(x)$, to obtain \dfn{Bayes' formula}
+\begin{equation}\label{eq:bayes}
+P(y|x) = \frac{P(y,x)}{P(x)}.
+\end{equation}
+An equivalent definition of independence is $P(y|x)  = P(y)$ and $P(x|y) = P(y)$.  In summary: 
+\begin{equation*}
+\text{$X$ and $Y$ are independent} \iff P(x,y) = P(x)P(y) \iff P(y|x) = P(y) \iff P(x|y) = P(x)
+\end{equation*}
+Equation \eqref{eq:bayes} is also true for events, for example, we can write things like: 
+\begin{equation}\label{eq:bayes}
+P(\{Y>y\}|X) = \frac{P(\{Y>y\},X)}{P(X)}.
+\end{equation}
+This is because, as mentioned earlier, we can always associated the even $\{Y>y\}$ with a Bernoulli random variable which is $0$ when $Y \le y$ and $1$ otherwise. 
 
 
 
@@ -414,7 +471,7 @@ Y \sim {\rm Bernoulli}(q)
 and let $Z = 1/(1+Y) + Y$. What is the sample space of $Z$ and what is the probability function of $Z$? %You can express the probability distribution either as a piecewise function or by specifying each probability, i.e., $P(Z=z) = \cdots$.
 \item Suppose a coin is flipped. If the coin is heads, we write down $0$. If the coin is tails, we roll a dice and write down the number. Let $Y$ be the number we write down.  What is the sample space and the probability distribution for $Y$? 
 \item For the previous problem, conditioned on the dice rolling a $4$, what is the probability we write down $0$? Conditioned on the coin being tails, what is the probability the dice rolls a $3$?
-\item Consider the geometric distribution discussed in lecture. Provide three real-world examples of variables where the geometric distribution is a good model. Explain your reasoning. 
+\item Consider the geometric distribution. Provide three real-world examples of variables where the geometric distribution is a good model. Explain your reasoning. 
 \end{enumerate}
 \end{exercise}
 
@@ -559,19 +616,16 @@ get $n$ ones in a row. You should change the variable names accordingly. We will
 %---------------------------------------------------------------------------------------------------------------------------------------
 \begin{exercise}[Joint distribution  \ding{111}]
 Consider the probability model defined by
-\begin{equation*}\label{eq:gene}
-\Prob(Y_A,Y_B) = \left\{ \begin{array}{cc}
-1/3 & \text{ if }Y_A=0 \text{ and } Y_B = 0\\
-1/3 & \text{ if }Y_A=0 \text{ and } Y_B = 1\\
-1/6 & \text{ if }Y_A=1 \text{ and } Y_B = 0\\
-1/6 & \text{ if }Y_A=1 \text{ and } Y_B = 1\\
-\end{array}
- \right.
-\end{equation*}
+\begin{align*}
+Y_B &\sim \text{Bernoulli}(2/3) \\
+Y_A|Y_B=0 &\sim \text{Bernoulli}(1/3) \\
+Y_A|Y_B=1 &\sim \text{Bernoulli}(1/2)
+\end{align*}
+
 \begin{enumerate}[label=(\alph*)]
+\item Write done the joint probability distribution pf $Y_A$ and $Y_B$. 
 \item What are the marginal distributions of $Y_A$ and $Y_B$?
-\item Are $Y_A$ and $Y_B$ independent? 
-\item Confirm your answer with simulations (ChatGPT allowed).
+\item Are $Y_A$ and $Y_B$ independent? Confirm your answer with simulations (ChatGPT allowed).
 \end{enumerate}
 %Below I've generated monte carlo simulations from the gene model
 %%. Let's pretend you don't know the parameter values (you could figure them out from my code). Supposing you didn't know whether $Y_A$ and $Y_B$ are independent, how would you determine this based on the data?
@@ -674,6 +728,43 @@ where $x \in [0,1]$. Provide some justification of this formula and determine th
 \bibliography{./../refs.bib}
 
 \end{document}
+
+%--------------------------------------------------------------------------------------------------------------------------------
+\begin{exercise}[Conditional probability from a table]
+Suppose you have the following joint probability table for random variables $A$ and $B$:
+\begin{center}
+\begin{tabular}{c|cc}
+ & $B=0$ & $B=1$ \\
+\hline
+$A=0$ & $0.2$ & $0.3$ \\
+$A=1$ & $0.1$ & $0.4$ \\
+\end{tabular}
+\end{center}
+\begin{enumerate}[label=(\alph*)]
+\item What is $P(A=1)$?
+\item What is $P(B=0)$?
+\item What is $P(A=1|B=1)$?
+\item What is $P(B=1|A=0)$?
+\end{enumerate}
+\end{exercise}
+
+%--------------------------------------------------------------------------------------------------------------------------------
+\begin{exercise}[Conditional probability from a piecewise function]
+Let $X$ be a random variable with probability function
+\begin{equation*}
+P_X(x) = \begin{cases}
+  1/4 & x=0 \\
+  1/2 & x=1 \\
+  1/4 & x=2
+\end{cases}
+\end{equation*}
+Let $Y|X$ be defined as $Y|X=x \sim \text{Bernoulli}(x/4 + 1/4)$.
+\begin{enumerate}[label=(\alph*)]
+\item What is $P(Y=1|X=2)$?
+\item What is $P(Y=1)$?
+\item What is $P(X=1|Y=1)$?
+\end{enumerate}
+\end{exercise}
 
 
 \begin{exercise}{Simulating Binomial Random variables}
