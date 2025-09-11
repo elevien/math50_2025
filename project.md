@@ -22,3 +22,51 @@ It will include (at least one) Python notebook and a **2–3 page** report. You 
 - You should write some Python code to accompany your report and link to your Colab notebook. **Remember to give me permission to view it!** For example, you might simulate a model discussed in the article (15%).
 - You should pose at least one question or future direction which is not raised or answered in the article (15%).
 
+
+
+# How to Select a Good Term Project
+
+## Step 1: Identify a Specific Question  
+Choose a concrete topic or question that genuinely interests you. The more specific your question, the easier the next steps will be.  
+
+Your project should fall within the **regression framework**: there should be **predictors (X)** and a **response variable (Y)**. Within this framework, there are two broad types of goals:  
+- **Prediction:** Can we accurately predict \( Y \) from \( X \)?  
+- **Causal inference:** How does changing \( X \) affect \( Y \)? (Even causal questions ultimately reduce to prediction)  
+
+Examples of possible questions include:  
+- How does infant diet influence longevity?  
+- Can statistical indicators predict when a government is about to collapse?  
+- How does Spotify use machine learning to generate playlists?  
+
+
+
+---
+
+## Step 2: Find Relevant Literature  
+Search for academic papers related to your topic. Aim to identify one or two papers that closely align with your interests. At this stage, don’t worry too much about technical details or whether the methods directly connect to our course. Focus on the *scientific question* first.  
+
+**Note:** Many students want to start with a dataset. I strongly encourage you to begin with literature instead. One major goal of the project is to practice reading and engaging with published research. Doing so will push you beyond the specific examples we cover in class. In contrast, students who begin with only a dataset often end up producing something that looks more like a homework exercise than a research project.  
+
+---
+
+## Step 3: Engage with the Paper  
+When you read the paper, one of two outcomes is likely:
+
+1. **Direct Connection to the Course**  
+   - If the methods overlap with what we study, try to reproduce the results.  
+   - As you do this, you will encounter challenges, ambiguities, or choices the authors made. Documenting and reflecting on these issues, alongside reproducing results, makes for a strong project.  
+
+2. **Use of More Complex Methods**  
+   - Often, papers use advanced techniques (e.g., support vector machines, multilevel models).  
+   - Before diving into the paper itself, find accessible resources that explain the method.  
+   - Once you understand the method, connect it to concepts from class. Ideally, you also relate it back to the original paper, but a project focused on a method not covered in class is also acceptable.
+
+---
+
+## Iterating on Your Idea  
+It’s normal to go through the cycle (Step 1 → Step 2 → Step 3) and decide you’re not satisfied with your direction. If this happens, repeat the cycle once more. By the second round, I recommend committing to what you’ve found.
+
+---
+
+## Evolving with the Course  
+When you start your project, we won’t yet have covered all the core ideas I expect you to connect with. Ideally, your understanding of the paper should develop alongside the course. As we study topics like the bias–variance tradeoff, think about how they appear in the context of your chosen application.
