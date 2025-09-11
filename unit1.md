@@ -10,7 +10,8 @@ bibliography:
 
 # Basic concepts in probability and simulation
 
-This unit introduces **probability models** as a framework for reasoning about uncertainty in data.  The primary goals are to (1) learn the mathematical language and notation needed to talk about statistical models (probability theory) (2) Learn how to translate mathematical notation into Python code and vice versa. To this end, we will begin with some definitions and notation, and then get some practice computing things like **marginal** and **conditional probabilities.** This will be done both by hand (when possible) and from data. It will be important to go back and forth between mathematical notation and code.  
+This unit introduces **probability models** as a framework for reasoning about uncertainty in data.  The primary goals are to (1) learn the mathematical language and notation needed to talk about statistical models (probability theory) (2) Learn how to translate mathematical models into Python code and vice versa. It will be important to go back and forth between mathematical notation and code, as this is something we do throughout the course! To this end, we will begin with some definitions and notation, and then get some practice computing things like **marginal** and **conditional probabilities.** This will be done both by hand (when possible) and from data. 
+
 
 ## Concepts
 

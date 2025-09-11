@@ -15,7 +15,7 @@
 
 \section*{Introduction}
 
-In this section we introduce expectation. This will help us summarize important properties of the data, such as variance. Then, we will introduce continuous probability distribution (modeling real valued random variables).  The most important is the Normal distribution and discuss its properties. It will be important to understand where the Normal distribution comes from, so we will discuss (in non-rigorous terms) the central limit theorem (CLT).  Time permitted we may also discuss the random walk. 
+In this section we, begin by introducing the idea of expectation. This will help us summarize important properties of the data, such as variance. Then, we will introduce continuous probability distribution (modeling real valued random variables).  The most important is the Normal distribution and discuss its properties. It will be important to understand where the Normal distribution comes from, so we will discuss (in non-rigorous terms) the central limit theorem (CLT).  Time permitted we may also discuss the random walk. 
 
 
 
@@ -48,15 +48,39 @@ f(y) =1_A(y) =  \left\{\begin{array}{lr}
 \end{equation}
 Then $\overline{f(Y)} \approx P(\{Y \in A\})$, so we can connect the idea of a sample average to estimates of probabilities. Any quantity we compute from data is in some way a sample average, so a great deal of statistics is about understanding the behavior of sample averages. 
 
-A sample average can be computed from the probability distribution.  Suppose each $Y_i$ are random $1,2,3,\dots,m$. If $n$ is large, then the fraction of samples for which $Y_i= y$ will be $P(\{Y_1=y\})$, thus the sample mean converges to the true mean: 
+A sample average can be computed from the probability distribution.  Suppose each $Y_i$ are iid random variables with sample space $S$.  If $n$ is large, then the fraction of samples for which $Y_i= y$ will be $P(\{Y_1=y\})$, thus the sample mean converges to the true mean: 
  \begin{equation*}
-\overline{Y} =  \frac{1}{n}\sum_{i}Y_i = \frac{1}{n} \sum_{y=1}^m y n_i=\sum_{y=1}^m y \frac{n_i }{n}\approx  \sum_{y=1}^m y P(Y=y)
+\overline{Y} =  \frac{1}{n}\sum_{i}Y_i = \frac{1}{n} \sum_{y=1}^m y N(Y=y) =\sum_{y \in S} y \frac{N(Y=y) }{n}\approx  \sum_{y\in S}^m y P(Y=y)
 \end{equation*}
-The expression on the right is the definition of the mean, or \dfn{expectation} denoted 
- The expectation is an operation which takes a random variable to a deterministic number and the sample average is the approximate version of this: To summarize
+The expression on the right is the definition of the mean, or \dfn{expectation}, and is denoted
+\begin{equation}
+\E[Y] = \sum_{y=1}^m y P(Y=y)
+\end{equation}
+  To summarize what we saw above (and should be intuitively clear) 
  \begin{equation}\label{eq:EappoverY}
  E[Y] \approx \overline{Y}
  \end{equation}
+If we have a function $f:S \to S'$ from the sample space to some other space $S'$, then $f(Y)$ is simply a new random variable with sample space $S'$, but we don't usually need to find the distribution of $X = f(Y)$ to compute expectations, since this can be written  
+\begin{equation}
+\E[X] = \E[f(Y)] = \sum_{y\in S} f(y) P(Y=y). 
+\end{equation}
+This will be important for the definition of variance below. 
+
+ It is important to understand that, just like probabilities, the expectation is an operation which takes a random variable to a deterministic number. The sample average is the approximate version of this. I like to think of expectations and sample averages as living in ``math world'' and ''data world'' respectively. After discussion variance, standard deviation and CV, Section \ref{sec:llnclt} will take you on a deeper dive into this connection, which is made precise by the LLN and CLT. 
+
+
+
+
+
+\subsection{Measuring variation}
+ In many cases we would like to measure deviations from the mean. For this we define \dfn{variance},
+\begin{equation*}
+{\rm var}(Y) = E[(Y-E[Y])^2]
+\end{equation*}
+Another way to write this is 
+\begin{equation*}
+ {\rm var}(Y) = E[Y^2] - 2E[Y]^2 + E[Y]^2 = E[Y^2]-E[Y]^2
+\end{equation*}
 
 \begin{example}[Mean and variance of Bernoulli random variable]
 Let $Y$ be a Bernoulli random variable with parameter $q$. We will use the convention that $Y=1$ with probability $q$.\\
@@ -74,20 +98,10 @@ similarly you should be able to see that ${\rm var}(Y) = q(1-q)$.
 In the python notebook we test the formula $E[Y]=q$. 
 \end{example}
 
-
 Based on this example, we can see that to estimate $q$ we can use $\hat{q} = \bar{Y}$ (as expected). Here I'm defining $\hat{q}$ as shorthand for an estimator of $q$. 
 
 
-\subsection{Measuring variation}
- In many cases we would like to measure deviations from the mean. For this we define \dfn{variance},
-\begin{equation*}
-{\rm var}(Y) = E[(Y-E[Y])^2]
-\end{equation*}
-Another way to write this is 
-\begin{equation*}
- {\rm var}(Y) = E[Y^2] - 2E[Y]^2 + E[Y]^2 = E[Y^2]-E[Y]^2
-\end{equation*}
-We can of course estimate this from a large number of samples, although as we will later see the obvious way of doing this by replacing the expectations with sample averages is, perhaps surprisingly, not the best approach (it is biased estimator). To measure ``how much variation'' there is in a random variable, we need to compare the variance to the mean. However, these is a problem with doing this directly: the variance has different units than the mean. For example, say we are looking at human height. If the mean height is about $170 \,\text{cm}$, then the variance might be something like $100 \,\text{cm}^2$. This is hard to interpret because the mean is measured in centimeters, while the variance is in squared centimeters. To make the comparison meaningful, we first take the square root of the variance to obtain the \dfn{standard deviation}, which brings the measure of spread back into the same units as the mean (in this case, centimeters). Now we can meaningfully say that the spread around the mean height is about $10 \,\text{cm}$.  
+To measure ``how much variation'' there is in a random variable, we need to compare the variance to the mean. However, these is a problem with doing this directly: the variance has different units than the mean. For example, say we are looking at human height. If the mean height is about $170 \,\text{cm}$, then the variance might be something like $100 \,\text{cm}^2$. This is hard to interpret because the mean is measured in centimeters, while the variance is in squared centimeters. To make the comparison meaningful, we first take the square root of the variance to obtain the \dfn{standard deviation}, which brings the measure of spread back into the same units as the mean (in this case, centimeters). Now we can meaningfully say that the spread around the mean height is about $10 \,\text{cm}$.  
 
 But even the standard deviation is not enough by itself when we want to compare variability across different contexts. Suppose we measure the weights of the same individuals, where the mean is around $70 \,\text{kg}$ and the standard deviation is $10 \,\text{kg}$. The ``10'' here is not directly comparable to the ``10'' cm in height, because the scales of measurement are different. What matters is not the absolute size of the variation, but its size \emph{relative to the mean}.  
 
@@ -98,6 +112,7 @@ This leads us to the \dfn{coefficient of variation (CV)}, defined as
 where $\sigma$ is the standard deviation and $\mu$ is the mean. The CV is unitless and therefore allows for comparisons across variables measured in different units or across distributions with very different scales. For example, a CV of $0.06$ in human height ($10/170$) indicates less relative variability than a CV of $0.14$ in weight ($10/70$).  
 
 Thus, the CV is the correct measure of variation when our goal is to compare variability across different contexts, because it removes dependence on units and scale while still preserving the intuitive meaning of variation as ``spread relative to the average.''  
+
 
 
 
@@ -113,13 +128,9 @@ With samples
 \begin{equation*}
 \{(x_1,y_1),\dots,(x_n,y_n)\}
 \end{equation*}
- we could obtain this from a sample by taking the sample mean of $X$ among just the samples where $y_i = y$; that is, let 
+we have 
  \begin{equation*}
- n_1 = \text{number of samples where $y_i = y$}
- \end{equation*}
- then 
- \begin{equation*}
- \E[X|Y=y] \approx  \frac{1}{n_1}\sum_{i=1}^n1_{\{y_i = y\}}x_i
+ \E[X|Y=y] \approx  \frac{1}{N(Y=y)}\sum_{i=1}^n1_{\{y_i = y\}}x_i
  \end{equation*}
  where $1_{\{y_i = y\}}$ is the \dfn{indicator function}
  \begin{equation*}
@@ -128,6 +139,8 @@ With samples
   1 & \text{ if } y_i=y
   \end{array}\right.
  \end{equation*}
+Don't get too hung up on the notation, put simply: we compute the conditional expectation from a sample average by taking the sample average among samples satisfying a condition. 
+
  As we already noted, the conditional probabilities can tell us whether two variables are independent. That is, $P(X|Y) = P(X)$ if and only if $X$ and $Y$ are independent. If $X$ and $Y$ are independent, then $E[X|Y=y]= E[X]$ for all $y$ but the converse is false: {\bf it is possible that this is true but $X$ and $Y$ are not independent!} We will say about this later.  
 
 
@@ -247,7 +260,7 @@ Let $Y$ be the test score and $X$ be a binary variable representing whether the 
 
   
   
-   \begin{example}[Calculating probabilities]
+   \begin{example}[Calculating conditional expectations]
 Consider the model probability model for a variable $X$ (similar to Equation \ref{eq:gene}) 
 \begin{equation*}\label{eq:gene}
 P(X) = \left\{ \begin{array}{cc}
@@ -374,7 +387,7 @@ You should be able to see that $E[\phi] = q$. What about the variance?
 
 
 
- \section{Asymptotic probabilities: LLN and CLT}
+ \section{Connecting ``math world'' and ``data world'': LLN and CLT}\label{sec:llnclt}
  The goal of this section is to understand the distribution of a sum of iid random variables when $N$ is large. This is obviously relevant if we want to be more precise about how accurate our estimates are. We begin with the law of large numbers, which simply makes Eq. \ref{eq:EappoverY} -- the statement that the sample average approximates the expectation -- precise. 
  
  \subsection{LLN}
@@ -667,6 +680,105 @@ aX_1+bX_2 + d \sim {\rm Normal}\left(a\mu_1+b\mu_2+d,a^2\sigma_1^2 + b^2\sigma_2
 
 
 
+\appendix
+
+ \section{Additional discussion of continuous random variables}
+
+
+
+ Suppose we want to model that time before a component of a machine fails. We will assume that the rate of failure -- that is, the chance that it fails per unit time -- is a constant $\lambda$. In other words, for a small time interval $dt$, the probability for the component to fail in a small time interval $[t,t+dt)$ given that it has not yet failed is $\lambda dt$. Or, in mathematical notation 
+ If $T$ is the time of failure, then the density of $f_T(t)$ is 
+\begin{equation*}
+f_T(t) = \lambda e^{-\lambda t}.
+\end{equation*}
+$T$ is an \dfn{exponentially distributed} random variable, and we write
+\begin{equation*}
+T \sim {\rm Exponential}(\lambda).
+\end{equation*}
+An exponential variable has mean $E[T] = 1/\lambda$ and variance ${\rm var}(T) = 1/\lambda^2$. 
+
+
+
+\begin{example}[Heterogeneous failure rate]
+
+Suppose that the machine is defective with probability $0.1$. We can introduce a variable $X$ which indicates whether the machine is defective and will fail with a rate $10$. In other words, our model is 
+\begin{align*}
+X &\sim {\rm Bernoulli}(0.1)\\
+T|(X=x) &\sim {\rm Exponential}(x10 + (1-x))
+\end{align*}
+
+
+\noindent
+\underline{Question:} What is $E[T]$? What about ${\rm var}(T)$? Does $T$ follow an exponential distribution?\\ 
+
+
+\noindent
+\underline{Solution:} Using the tower property of expectation
+\begin{align*}
+E[T] &= E[E[T|X]] \\
+&= E[T|X=0]P(X=0) + E[T|X=1]P(X=1) \\
+&= 1 \cdot (1-0.1) + \frac{0.1}{10} = 0.9+0.01 = 0.91
+\end{align*}
+The variance 
+\begin{equation*}
+{\rm var}(T) = E[T^2]-E[T]^2
+\end{equation*}
+and 
+\begin{align*}
+E[T^2] = E[E[T^2|X]]  = (1-0.1)\times E[T^2|X=0] + 0.1 \times E[T^2|X=1] 
+%&= 1^2 \cdot (1-0.1) +\frac{0.1}{10^2}\\
+%&= 0.9 + 0.001  = 0.901
+\end{align*}
+Note that, from the variance formula and the fact that $T$ is exponential,
+\begin{equation*}
+E[T^2|X=1]  = {\rm var}(T|X=1) + E[T|X=1]^2 = \frac{1}{10^2}  + \frac{1}{10^2} = \frac{2}{10^2}
+\end{equation*}
+Hence 
+\begin{align*}
+E[T^2] = E[E[T^2|X]]  = 0.9 \cdot 2 + 0.1 \cdot \frac{2}{10^2} = 1.802
+\end{align*}
+
+
+\begin{equation*}
+{\rm var}(T) =  1.802 -  0.91^2 = 0.9739
+\end{equation*}
+If $T$ is exponential, then 
+\begin{equation*}
+\lambda = \frac{1}{E[T]}=\frac{1}{0.91}.
+\end{equation*}
+We know that ${\rm var}(T) = E[T]^2$ for an exponential distribution, but 
+\begin{equation*}
+ \frac{1}{\lambda^2} = 0.91^2 = 0.8281 \ne  0.9739= {\rm var}(T). 
+\end{equation*}
+
+
+\end{example}
+
+
+
+
+  
+
+ \subsection{Conditional probability and expectation with Continuous variables}
+
+The definition of expected value can be generalized to continuous variables by replacing the sums with integrals. That is, for a variable $X$ with density $f_X$, we have 
+ \begin{equation*}
+ E[X] = \int x f_X(x)dx 
+ \end{equation*}
+Suppose $X$ and $Y$ are two variables on the sample spaces $S_X = S_Y = \reals$. Then we can define a joint density $f_{X,Y}(x,y)$. From this, we can compute things like 
+ \begin{equation*}
+P(X>x,Y>y) = \int_{x}^{\infty}\int_y^{\infty}f_{X,Y}(x,y)dxdy
+ \end{equation*}
+ If $X$ and $Y$ are independent, then $f_{X,Y}(x,y) = f_X(x)f_Y(y)$ and 
+ \begin{align*}
+P(X>x,Y>y) &= \int_{x}^{\infty}\int_y^{\infty}f_{X,Y}(x,y) dx dy\\
+&=  \int_{x}^{\infty}f_X(x)dx\int_y^{\infty}f_Y(y)dy
+ =P(X>x)P(Y>y)
+ \end{align*}
+
+  
+  
+
 \newpage
 
 \section*{Exercises}
@@ -779,103 +891,6 @@ Verify your approximation by plotting ${\rm MSD}(X_k)$ as a function of $N$.
 \end{exercise}
 
 
-\appendix
-
- \section{Additional discussion of continuous random variables}
-
-
-
- Suppose we want to model that time before a component of a machine fails. We will assume that the rate of failure -- that is, the chance that it fails per unit time -- is a constant $\lambda$. In other words, for a small time interval $dt$, the probability for the component to fail in a small time interval $[t,t+dt)$ given that it has not yet failed is $\lambda dt$. Or, in mathematical notation 
- If $T$ is the time of failure, then the density of $f_T(t)$ is 
-\begin{equation*}
-f_T(t) = \lambda e^{-\lambda t}.
-\end{equation*}
-$T$ is an \dfn{exponentially distributed} random variable, and we write
-\begin{equation*}
-T \sim {\rm Exponential}(\lambda).
-\end{equation*}
-An exponential variable has mean $E[T] = 1/\lambda$ and variance ${\rm var}(T) = 1/\lambda^2$. 
-
-
-
-\begin{example}[Heterogeneous failure rate]
-
-Suppose that the machine is defective with probability $0.1$. We can introduce a variable $X$ which indicates whether the machine is defective and will fail with a rate $10$. In other words, our model is 
-\begin{align*}
-X &\sim {\rm Bernoulli}(0.1)\\
-T|(X=x) &\sim {\rm Exponential}(x10 + (1-x))
-\end{align*}
-
-
-\noindent
-\underline{Question:} What is $E[T]$? What about ${\rm var}(T)$? Does $T$ follow an exponential distribution?\\ 
-
-
-\noindent
-\underline{Solution:} Using the tower property of expectation
-\begin{align*}
-E[T] &= E[E[T|X]] \\
-&= E[T|X=0]P(X=0) + E[T|X=1]P(X=1) \\
-&= 1 \cdot (1-0.1) + \frac{0.1}{10} = 0.9+0.01 = 0.91
-\end{align*}
-The variance 
-\begin{equation*}
-{\rm var}(T) = E[T^2]-E[T]^2
-\end{equation*}
-and 
-\begin{align*}
-E[T^2] = E[E[T^2|X]]  = (1-0.1)\times E[T^2|X=0] + 0.1 \times E[T^2|X=1] 
-%&= 1^2 \cdot (1-0.1) +\frac{0.1}{10^2}\\
-%&= 0.9 + 0.001  = 0.901
-\end{align*}
-Note that, from the variance formula and the fact that $T$ is exponential,
-\begin{equation*}
-E[T^2|X=1]  = {\rm var}(T|X=1) + E[T|X=1]^2 = \frac{1}{10^2}  + \frac{1}{10^2} = \frac{2}{10^2}
-\end{equation*}
-Hence 
-\begin{align*}
-E[T^2] = E[E[T^2|X]]  = 0.9 \cdot 2 + 0.1 \cdot \frac{2}{10^2} = 1.802
-\end{align*}
-
-
-\begin{equation*}
-{\rm var}(T) =  1.802 -  0.91^2 = 0.9739
-\end{equation*}
-If $T$ is exponential, then 
-\begin{equation*}
-\lambda = \frac{1}{E[T]}=\frac{1}{0.91}.
-\end{equation*}
-We know that ${\rm var}(T) = E[T]^2$ for an exponential distribution, but 
-\begin{equation*}
- \frac{1}{\lambda^2} = 0.91^2 = 0.8281 \ne  0.9739= {\rm var}(T). 
-\end{equation*}
-
-
-\end{example}
-
-
-
-
-  
-
- \subsection{Conditional probability and expectation with Continuous variables}
-
-The definition of expected value can be generalized to continuous variables by replacing the sums with integrals. That is, for a variable $X$ with density $f_X$, we have 
- \begin{equation*}
- E[X] = \int x f_X(x)dx 
- \end{equation*}
-Suppose $X$ and $Y$ are two variables on the sample spaces $S_X = S_Y = \reals$. Then we can define a joint density $f_{X,Y}(x,y)$. From this, we can compute things like 
- \begin{equation*}
-P(X>x,Y>y) = \int_{x}^{\infty}\int_y^{\infty}f_{X,Y}(x,y)dxdy
- \end{equation*}
- If $X$ and $Y$ are independent, then $f_{X,Y}(x,y) = f_X(x)f_Y(y)$ and 
- \begin{align*}
-P(X>x,Y>y) &= \int_{x}^{\infty}\int_y^{\infty}f_{X,Y}(x,y) dx dy\\
-&=  \int_{x}^{\infty}f_X(x)dx\int_y^{\infty}f_Y(y)dy
- =P(X>x)P(Y>y)
- \end{align*}
-
-  
 
 
 

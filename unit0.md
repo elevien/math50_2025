@@ -12,11 +12,11 @@ These are things I will **not** cover in class, but you should know:
 
 - **Calculus**: You should know how to take derivatives and integrals of polynomial and exponential functions. I won't ask you to calculate an integral on the exam, but it will be important for understanding a few derivations I perform in class.
 - **Plotting**: Know how to interpret plots on a log scale, contour plots, histograms, and boxplots. You do not need to know how to create these plots in Python, but you will be asked to interpret them.  
-- **Basic linear algebra**: Some familiarity will be helpful to understand concepts starting in Unit 4: 
+- **Basic linear algebra**: Some familiarity will be helpful to understand concepts starting in Unit 3: 
   - Basic operations: Matrix-vector, matrix-matrix multiplication and addition
   - Matrix inversion: I won't ask you to calculate any matrix inverses by hand, but you will need to know what it means
-  You do not need to know about eigenvalues and eigenvectors, but I will mention how they appear when working with linear regression models. I will not ask any exam questions that require you to do linear algebra calculations.
-- **Coding fundamentals**: You should be comfortable with `for` loops, `while` loops, `if` statements (not necessarily in Python), and the meaning of the equals sign in coding vs. math. If you come from R, you may have used `<-`, but in Python we use `=` to assign variables.
+  You do not need to know about eigenvalues and eigenvectors. I will introduce these concepts as needed how.  I will not ask any exam questions that require you to do linear algebra calculations.
+- **Coding fundamentals**: You should be comfortable with `for` loops, `while` loops, `if` statements (not necessarily in Python), and the meaning of the equals sign in coding vs. math. If you come from R, you may have used `<-`, but in Python we use `=` to assign variables. 
 
 Some things I will cover in class are:
 - Working with `numpy` arrays.
