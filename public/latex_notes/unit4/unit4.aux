@@ -16,24 +16,27 @@
 \gdef\HyperFirstAtBeginDocument#1{#1}
 \providecommand\HyField@AuxAddToFields[1]{}
 \providecommand\HyField@AuxAddToCoFields[2]{}
-\@writefile{toc}{\contentsline {section}{\numberline {1.1}Introduction}{1}{section.1}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {1.2}Multiple predictor linear regression}{1}{section.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {4.1}Multiple predictor linear regression}{1}{section.1}\protected@file@percent }
+\citation{gelman2020regression}
 \@writefile{lof}{\contentsline {figure}{\numberline {1}{\ignorespaces The function $y(x_1,x_2)$}}{2}{figure.1}\protected@file@percent }
 \newlabel{fig:plane}{{1}{2}{The function $y(x_1,x_2)$}{figure.1}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {1.2.1}Basic interpretation and estimation of the parameters }{2}{subsection.2.1}\protected@file@percent }
-\newlabel{eq:2dsurface}{{6}{2}{Basic interpretation and estimation of the parameters}{equation.2.6}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {1.2.2}Interpretation of regression coefficient: a deeper look}{4}{subsection.2.2}\protected@file@percent }
-\newlabel{eq:beta1exp}{{8}{4}{Interpretation of regression coefficient: a deeper look}{equation.2.8}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.1.1}Basic interpretation and estimation of the parameters }{2}{subsection.1.1}\protected@file@percent }
+\newlabel{eq:2dsurface}{{6}{2}{Basic interpretation and estimation of the parameters}{equation.1.6}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.1.2}Interpretation of regression coefficient: a deeper look}{4}{subsection.1.2}\protected@file@percent }
+\newlabel{eq:beta1exp}{{8}{4}{Interpretation of regression coefficient: a deeper look}{equation.1.8}{}}
 \@writefile{lof}{\contentsline {figure}{\numberline {2}{\ignorespaces Here I'm illustrated the difference between the marginal regression slope (the slope of $E[Y|X_1]$ vs. $X_1$) and the regression coefficient $\beta _1$ in the two predictor model. I use the notation of Example \ref  {ex:normal_pred}, although the idea applies more generally. When we increase $x_1$ by $1$ without fixing $X_2$, then on average $X_2$ changes by $b$ (which is the slope between $x_1$ and $x_2$ here, not the intercept.) Therefore, in order to relate this marginal slope to the regression slooe $\beta _1$, subtract the increase in $Y$ that is caused by the increase in $X_2$ (corresponding to the vertical blue arrow). }}{6}{figure.2}\protected@file@percent }
 \newlabel{fig:plane}{{2}{6}{Here I'm illustrated the difference between the marginal regression slope (the slope of $E[Y|X_1]$ vs. $X_1$) and the regression coefficient $\beta _1$ in the two predictor model. I use the notation of Example \ref {ex:normal_pred}, although the idea applies more generally. When we increase $x_1$ by $1$ without fixing $X_2$, then on average $X_2$ changes by $b$ (which is the slope between $x_1$ and $x_2$ here, not the intercept.) Therefore, in order to relate this marginal slope to the regression slooe $\beta _1$, subtract the increase in $Y$ that is caused by the increase in $X_2$ (corresponding to the vertical blue arrow)}{figure.2}{}}
-\newlabel{eq:beta1cov}{{9}{6}{Interpretation of regression coefficient: a deeper look}{equation.2.9}{}}
+\newlabel{eq:beta1cov}{{9}{6}{Interpretation of regression coefficient: a deeper look}{equation.1.9}{}}
 \newlabel{ex:normal_pred}{{4}{7}{Correlated predictors}{example.4}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {1.3}Collinearity}{7}{section.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {4.2}Collinearity}{7}{section.2}\protected@file@percent }
 \@writefile{lof}{\contentsline {figure}{\numberline {3}{\ignorespaces (top) In the single-predictor case, the width of the sample distribution measures how confident we are of a particular slope. It will be narrow if a replicate of our data is likely to produce a very similar slope. These means we get a rough idea of the width of sample distribution by seeing much we can change our regression line and still obtain something that appears to pass through our data. (bottom) In the two predictor case, we have a regression plane and changing $\beta _1$ and $\beta _2$ will ``wiggle" the plane by tilting it in the $x_1$ and $x_2$ directions (there is also the intercept which can shift the plane up and down, but I'm not illustrating that). If $X_1$ and $X_2$ are uncorrelated, it doesn't matter which way we wiggle it, the fit will be similar, but if $X_1$ and $X_2$ are strongly correlated, wiggling the plane in the direction perpendicular to the points has a much smaller effect that parallel to them. }}{8}{figure.3}\protected@file@percent }
 \newlabel{fig:sample_dist}{{3}{8}{(top) In the single-predictor case, the width of the sample distribution measures how confident we are of a particular slope. It will be narrow if a replicate of our data is likely to produce a very similar slope. These means we get a rough idea of the width of sample distribution by seeing much we can change our regression line and still obtain something that appears to pass through our data. (bottom) In the two predictor case, we have a regression plane and changing $\beta _1$ and $\beta _2$ will ``wiggle" the plane by tilting it in the $x_1$ and $x_2$ directions (there is also the intercept which can shift the plane up and down, but I'm not illustrating that). If $X_1$ and $X_2$ are uncorrelated, it doesn't matter which way we wiggle it, the fit will be similar, but if $X_1$ and $X_2$ are strongly correlated, wiggling the plane in the direction perpendicular to the points has a much smaller effect that parallel to them}{figure.3}{}}
 \@writefile{lof}{\contentsline {figure}{\numberline {4}{\ignorespaces Different views of the data in the case when $X_1$ and $X_2$ are correlated. If we look at the data from the side, or along the $X_1=X_2$ direction, then all our regression planes appear similar; however, when looked at from the ``front" as shown in the right panel, we see that the places actually have very different slopes in the other direction. }}{9}{figure.4}\protected@file@percent }
 \newlabel{fig:sample_dist2}{{4}{9}{Different views of the data in the case when $X_1$ and $X_2$ are correlated. If we look at the data from the side, or along the $X_1=X_2$ direction, then all our regression planes appear similar; however, when looked at from the ``front" as shown in the right panel, we see that the places actually have very different slopes in the other direction}{figure.4}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {1.4}Dealing with categorical data}{9}{section.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {4.3}Dealing with categorical data}{9}{section.3}\protected@file@percent }
+\citation{demidenko2019advanced}
+\newlabel{ex:binnorm}{{1}{11}{A binary and normal predictor}{exercise.1}{}}
 \bibstyle{unsrt}
 \bibdata{./../refs.bib}
-\gdef \@abspage@last{10}
+\newlabel{ex:sampledist}{{3}{12}{Sample distribution}{exercise.3}{}}
+\gdef \@abspage@last{12}

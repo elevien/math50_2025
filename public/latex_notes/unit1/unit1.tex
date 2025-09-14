@@ -132,6 +132,9 @@ We will soon see that this is related to the fact that the two variables are ind
 
 
 
+
+
+
  
 \section{Sampling and simulation}
 
@@ -164,9 +167,9 @@ I will use $N(x)$ when there is no ambiguity.
 \begin{example}
 Suppose we flip a (possibly biased) coin $1000$ times and record the outcomes. 
 Each flip is a Bernoulli random variable $X \sim \text{Bernoulli}(p)$, where $p$ is the probability of heads. 
-We do not know $p$ in advance, but we can estimate it from the observed data. 
+We do not know $p$ in advance, but we can estimate it from the observed data. Another example:  if a survey asks each respondent whether they support a new policy (YES/NO), then the proportion of YES answers in the sample is our best estimate of the true support rate in the whole population. 
 
-In social science research, this same logic applies: for example, if a survey asks each respondent whether they support a new policy (YES/NO), then the proportion of YES answers in the sample is our best estimate of the true support rate in the whole population. 
+
 
 Below is Python code that simulates coin flips and uses sample frequencies to estimate $p$.
 \begin{lstlisting}[language=Python]
@@ -233,6 +236,85 @@ and $25/64  \approx  0.39 \ne 1/2$.
 \end{example}
 
 
+\begin{example}[Calculating probabilities from a specified joint distribution]
+
+Suppose random variables $A,B,C \in \{0,1\}$ have the joint PMF $P(a,b,c)=P(A=a,B=b,C=c)$ given on $S = \{0,1\}^3$ by
+\begin{equation}
+p(a,b,c)=
+\begin{cases}
+0.1, & (a,b,c)=(0,0,0),\\
+0.2, & (a,b,c)=(0,0,1),\\
+0.1, & (a,b,c)=(0,1,0),\\
+0.1, & (a,b,c)=(0,1,1),\\
+0.1, & (a,b,c)=(1,0,0),\\
+0.1, & (a,b,c)=(1,0,1),\\
+0.1, & (a,b,c)=(1,1,0),\\
+0.2, & (a,b,c)=(1,1,1)
+\end{cases}
+\label{eq:pmf}
+\end{equation}
+
+\noindent
+\underline{Question 1}: Compute the marginal probability $P(C=1)$.\\
+
+\noindent
+\underline{Solution}: By marginalization,
+\begin{align}
+P(C=1)
+&= \sum_{a\in\{0,1\}}\sum_{b\in\{0,1\}} p(a,b,1) \notag\\
+&= p(0,0,1)+p(0,1,1)+p(1,0,1)+p(1,1,1) \notag\\
+&= 0.2+0.1+0.1+0.2 \;=\; 0.6.
+\label{eq:margC1}
+\end{align}
+
+\medskip
+\noindent
+\underline{Question 2}: Make a Python data frame whose columns are \texttt{A}, \texttt{B}, \texttt{C} and whose rows are i.i.d.\ samples from \eqref{eq:pmf}. From this data frame, estimate the conditional probability $P(A=0 \mid B=1,C=1)$.\\
+
+\noindent
+\underline{Solution}: By definition,
+\begin{equation}
+P(A=0 \mid B=1,C=1)=\frac{P(A=0,B=1,C=1)}{P(B=1,C=1)}.
+\label{eq:cond_def}
+\end{equation}
+From \eqref{eq:pmf},
+\[
+P(A=0,B=1,C=1)=0.1,\qquad
+P(B=1,C=1)=p(0,1,1)+p(1,1,1)=0.1+0.2=0.3,
+\]
+so
+\begin{equation}
+P(A=0 \mid B=1,C=1)=\frac{0.1}{0.3}=\frac{1}{3}\approx 0.3333.
+\label{eq:cond_value}
+\end{equation}
+
+To estimate this empirically in Python, sample from the eight outcomes with their probabilities, place the samples into a \texttt{pandas} DataFrame, and compute the empirical conditional probability:
+\begin{lstlisting}[language=Python]
+import numpy as np
+import pandas as pd
+
+# Support and probabilities (match Eq. (1))
+outcomes = np.array([
+    (0,0,0), (0,0,1), (0,1,0), (0,1,1),
+    (1,0,0), (1,0,1), (1,1,0), (1,1,1)
+], dtype=int)
+probs = np.array([0.1, 0.2, 0.1, 0.1, 0.1, 0.1, 0.1, 0.2], dtype=float)
+
+# Draw N i.i.d. samples
+N = 200_000
+idx = np.random.choice(len(outcomes), size=N, p=probs)
+samples = outcomes[idx]
+
+# Build DataFrame with columns A, B, C
+df = pd.DataFrame(samples, columns=["A", "B", "C"])
+
+# Estimate P(A=0 | B=1, C=1)
+mask = (df["B"]==1) & (df["C"]==1)
+est = (df.loc[mask, "A"]==0).mean()
+print("Estimated P(A=0 | B=1, C=1):", est)
+\end{lstlisting}
+The printed estimate should be close to the exact value in \eqref{eq:cond_value}.
+\end{example}
 
 \begin{example}(\cite[Example 2.3.4]{evans})
 Suppose we flip a fair coin until we see a heads. Let $Y$ be the number of flips until we see a heads. This is example of a  \dfn{geometric distribution}, which is the number of trials of independent, identically distributed (iid) Bernoulli random variables until we see $k$ successes. In more mathematical notation, if
@@ -454,10 +536,126 @@ A graph of this function looks like a bell curve when $N$ is large -- we will se
 \newpage 
 
 \section*{Exercises}
+%--------------------------------------------------------------------------------------------------------------------------------
+\begin{exercise}[Conditional probability from a joint table \ding{111}]
+Suppose the joint probability table for $A$ and $B$ is:
+\begin{center}
+\begin{tabular}{c|cc}
+ & $B=0$ & $B=1$ \\
+\hline
+$A=0$ & $0.1$ & $0.3$ \\
+$A=1$ & $0.2$ & $0.4$ \\
+\end{tabular}
+\end{center}
+\begin{enumerate}[label=(\alph*)]
+\item What is $P(A=1)$?
+\item What is $P(B=1)$?
+\item What is $P(A=1|B=1)$?
+\item What is $P(B=0|A=0)$?
+\end{enumerate}
+\end{exercise}
+
+%--------------------------------------------------------------------------------------------------------------------------------
+\begin{exercise}[Marginalization from a joint distribution  \ding{111}]
+Let $X$ and $Y$ have joint probabilities:
+\begin{align*}
+P(X=0, Y=0) &= 0.2 \\
+P(X=0, Y=1) &= 0.3 \\
+P(X=1, Y=0) &= 0.1 \\
+P(X=1, Y=1) &= 0.4
+\end{align*}
+\begin{enumerate}[label=(\alph*)]
+\item Compute the marginal distribution $P_X(x)$ for $x=0,1$.
+\item Compute the marginal distribution $P_Y(y)$ for $y=0,1$.
+\item Compute $P(Y=1|X=0)$.
+\item Compute $P(X=1|Y=0)$.
+\end{enumerate}
+\end{exercise}
+
+%--------------------------------------------------------------------------------------------------------------------------------
+\begin{exercise}[Conditional probability from a piecewise function \ding{111}]
+Let $Z$ be a random variable with probability function
+\begin{equation*}
+P_Z(z) = \begin{cases}
+  0.2 & z=0 \\
+  0.5 & z=1 \\
+  0.3 & z=2
+\end{cases}
+\end{equation*}
+Let $W|Z=z \sim \text{Bernoulli}(z/4 + 1/4)$.
+\begin{enumerate}[label=(\alph*)]
+\item What is $P(W=1|Z=2)$?
+\item What is $P(W=1)$?
+\item What is $P(Z=1|W=1)$?
+\end{enumerate}
+\end{exercise}
+
+%--------------------------------------------------------------------------------------------------------------------------------
+\begin{exercise}[Marginalization and conditioning with three variables \ding{111}]
+Suppose 
+\begin{equation*}
+P(A=a,B=b,C=c) = \begin{cases}
+0.1, & (a,b,c)=(0,0,0),\\
+0.2, & (a,b,c)=(0,0,1),\\
+0.1, & (a,b,c)=(0,1,0),\\
+0.1, & (a,b,c)=(0,1,1),\\
+0.1, & (a,b,c)=(1,0,0),\\
+0.1, & (a,b,c)=(1,0,1),\\
+0.1, & (a,b,c)=(1,1,0),\\
+0.2, & (a,b,c)=(1,1,1)
+\end{cases}
+\end{equation*}
+\begin{enumerate}[label=(\alph*)]
+\item Compute $P(A=1)$.
+\item Compute $P(B=1|A=0)$.
+\item Compute $P(C=1|A=1, B=1)$.
+\item Compute $P(B=0)$.
+\end{enumerate}
+\end{exercise}
+
+
 
 
 %--------------------------------------------------------------------------------------------------------------------------------
+%--------------------------------------------------------------------------------------------------------------------------------
+\begin{exercise}[Conditional probability from a piecewise function  \ding{111}]
+Let $X$ be a random variable with probability function
+\begin{equation*}
+P_X(x) = \begin{cases}
+  1/4 & x=0 \\
+  1/2 & x=1 \\
+  1/4 & x=2
+\end{cases}
+\end{equation*}
+Let $Y|X$ be defined as $Y|X=x \sim \text{Bernoulli}(x/4 + 1/4)$.
+\begin{enumerate}[label=(\alph*)]
+\item What is $P(Y=1|X=2)$?
+\item What is $P(Y=1)$?
+\item What is $P(X=1|Y=1)$?
+\end{enumerate}
+\end{exercise}
 
+
+ 
+%--------------------------------------------------------------------------------------------------------------------------------
+\begin{exercise}[Conditional probability from a table  \ding{111}]
+Suppose you have the following joint probability table for random variables $A$ and $B$:
+\begin{center}
+\begin{tabular}{c|cc}
+ & $B=0$ & $B=1$ \\
+\hline
+$A=0$ & $0.2$ & $0.3$ \\
+$A=1$ & $0.1$ & $0.4$ \\
+\end{tabular}
+\end{center}
+\begin{enumerate}[label=(\alph*)]
+\item What is $P(A=1)$?
+\item What is $P(B=0)$?
+\item What is $P(A=1|B=1)$?
+\item What is $P(B=1|A=0)$?
+\end{enumerate}
+\end{exercise}
+ 
 
 
 %--------------------------------------------------------------------------------------------------------------------------------
@@ -512,8 +710,8 @@ Modify this code to print
 
 
 %--------------------------------------------------------------------------------------------------------------------------------
- \begin{exercise}[Working with more complex data -- {\bf ChatGPT}]
- Using ChatGPT, write python code to plot a map of the world with Hanover indicated by a red star. 
+ \begin{exercise}[Working with more complex data]
+Using an AI tool of your choosing, write python code to plot a map of the world with Hanover indicated by a red star. 
  Then examine this code and answer the following questions: 
  \begin{itemize}
  \item How was the data loaded and what variable was it stored in?  Where is the information about the geometric shape of each country stored? Can you print out some of this information? Is there other information that is not used in the plot? 
@@ -523,9 +721,10 @@ Modify this code to print
  
  \end{exercise}
 
- 
 
- 
+
+
+
 %--------------------------------------------------------------------------------------------------------------------------------
 \begin{exercise}[Washington post data]\label{ex:washpost}
 Below I load some data on homocide victims in US from the washington post. Don't worry about how I process it, all you need to work with is the DataFrame ``data`` on the very last line.
@@ -614,7 +813,7 @@ get $n$ ones in a row. You should change the variable names accordingly. We will
 
 
 %---------------------------------------------------------------------------------------------------------------------------------------
-\begin{exercise}[Joint distribution  \ding{111}]
+\begin{exercise}[Joint distribution]
 Consider the probability model defined by
 \begin{align*}
 Y_B &\sim \text{Bernoulli}(2/3) \\
@@ -625,7 +824,7 @@ Y_A|Y_B=1 &\sim \text{Bernoulli}(1/2)
 \begin{enumerate}[label=(\alph*)]
 \item Write done the joint probability distribution pf $Y_A$ and $Y_B$. 
 \item What are the marginal distributions of $Y_A$ and $Y_B$?
-\item Are $Y_A$ and $Y_B$ independent? Confirm your answer with simulations (ChatGPT allowed).
+\item Are $Y_A$ and $Y_B$ independent? Confirm your answer with simulations (AI allowed, but first try to describe the approach without using AI)
 \end{enumerate}
 %Below I've generated monte carlo simulations from the gene model
 %%. Let's pretend you don't know the parameter values (you could figure them out from my code). Supposing you didn't know whether $Y_A$ and $Y_B$ are independent, how would you determine this based on the data?
@@ -653,12 +852,7 @@ Using Python, verify the formula for the variance
 \begin{equation*}
 {\rm Var}(Y) = q(1-q)
 \end{equation*}
-
-Remember, you can use pointwise arithmetic on numpy arrays e.g.
-\begin{Verbatim}
-q_range*q_range
-\end{Verbatim}
-makes a list where every element is the corresponding element of qrange squared. You should experiment to ensure you are using enough samples.
+This is a bit vague, but part of the exercise is to think about how you might justify this formula. In particular, what type of plot should you make? Use AI to help with coding if needed, but think about what you are trying to achieve first. 
 \end{exercise}
 
 %---------------------------------------------------------------------------------------------------------------------------------------
@@ -729,42 +923,6 @@ where $x \in [0,1]$. Provide some justification of this formula and determine th
 
 \end{document}
 
-%--------------------------------------------------------------------------------------------------------------------------------
-\begin{exercise}[Conditional probability from a table]
-Suppose you have the following joint probability table for random variables $A$ and $B$:
-\begin{center}
-\begin{tabular}{c|cc}
- & $B=0$ & $B=1$ \\
-\hline
-$A=0$ & $0.2$ & $0.3$ \\
-$A=1$ & $0.1$ & $0.4$ \\
-\end{tabular}
-\end{center}
-\begin{enumerate}[label=(\alph*)]
-\item What is $P(A=1)$?
-\item What is $P(B=0)$?
-\item What is $P(A=1|B=1)$?
-\item What is $P(B=1|A=0)$?
-\end{enumerate}
-\end{exercise}
-
-%--------------------------------------------------------------------------------------------------------------------------------
-\begin{exercise}[Conditional probability from a piecewise function]
-Let $X$ be a random variable with probability function
-\begin{equation*}
-P_X(x) = \begin{cases}
-  1/4 & x=0 \\
-  1/2 & x=1 \\
-  1/4 & x=2
-\end{cases}
-\end{equation*}
-Let $Y|X$ be defined as $Y|X=x \sim \text{Bernoulli}(x/4 + 1/4)$.
-\begin{enumerate}[label=(\alph*)]
-\item What is $P(Y=1|X=2)$?
-\item What is $P(Y=1)$?
-\item What is $P(X=1|Y=1)$?
-\end{enumerate}
-\end{exercise}
 
 
 \begin{exercise}{Simulating Binomial Random variables}

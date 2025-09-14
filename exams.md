@@ -20,13 +20,13 @@ The midterm will cover Units 1, 2 and 3. Here are some things you absoutely need
   - Describe how to do something in Python but not write out the exact code. 
 
 ### Practice exam
-- [Practice midterm from 2024](/public/old_exams/midterm_practice_2024.pdf)
-- [Midterm from 2024](/public/old_exams/midterm_2024-10.pdf)
+- [Practice midterm from 2024]({{ '/public/exam_practice/midterm_practice_2024.pdf' | relative_url }})
+- [Midterm from 2024]({{ '/public/exam_practice/midterm_2024-10.pdf' | relative_url }})
 
 
 ## Final 
 
-The final is cummulative and includes everyhing on the midterm, plus Units 4-6.  
+The final is cummulative and includes everyhing on the midterm, plus Units 4-7 (ending with whatever material we cover on Friday Nov 7.)  
 
 You will need to: 
 
@@ -38,6 +38,8 @@ You will need to:
 - Interpret the output of a fitted model: Which effects are significant, what does $R^2$ mean. 
 - Know how to include catagorical variables in a linear regression model and their inerpretation
 - Calculate regularized estimators (for example for the sample mean where this can be done by hand)
+  
+There may be some extra credit questions from Unit 7, depending on how much time we have at the end of the term.
 
 ### Practice exam
-- [Final from 2024](/public/old_exams/final_2024C.pdf)
+- [Final from 2024]({{ '/public/exam_practice/final_2024C.pdf' | relative_url }})

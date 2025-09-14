@@ -8,14 +8,14 @@ bibliography:
 
 # Statistical inference and linear regression models
 
-This unit introduces statistical inference for **single‑predictor linear regression**.  In this context, we will learn all the basics of linear regression modeling and statistical inference, including: to fit an OLS line, quantify uncertainty in estimates via **standard errors**, **confidence intervals**, and **hypothesis tests**. We will also learn about **estimators** and **bias–variance tradeoffs**. This seems also like a lot, but all these ideas are closely related so there quite a bit of redundency. Also, While the mathematical details of these topics could take an entire course, we will focus on building intuition with numerical experiments in Python and rules of thumb. You will not need to learn the formula for t distributions of chi-squared, only where these things come from and when they matter.
+This unit introduces statistical inference for **single‑predictor linear regression**.  In this context, we will learn all the basics of linear regression modeling and statistical inference, including: to fit an OLS line, quantify uncertainty in estimates via **standard errors**, **confidence intervals**, and **hypothesis tests**. We will also learn about **estimators** and **bias–variance tradeoffs**. While the mathematical details of these topics could take an entire course, we will focus on building intuition with numerical experiments in Python and rules of thumb. You will not need to learn the formula for t distributions of chi-squared, only where these things come from and when/why they matter. 
 
 Material: 
 - [Notes and exercises](/public/latex_notes/unit3/unit3.pdf)
 - [Colab notebook](https://colab.research.google.com/drive/1_4zOruAWfJ3HQoIf9sjefk3z0APko94-?usp=sharing)
 
 # Concepts
-Estimators, bias and consistency, Linear regression (single predictor) model and assumptions, Covariance, correlation, and their relationship to regression slope. Least squares interpretation of covariance formula. Estimators, Confidence intervals and $p$-values, Maximum likelihood (optional), $p$-values/Hypothesis testing
+Estimators, bias and consistency, Linear regression (single predictor) model and assumptions, Covariance, correlation and their relationship to regression slope. Least squares interpretation of covariance formula. Estimators, Confidence intervals and $p$-values, Maximum likelihood (optional), Hypothesis testing for regression models. 
 
 
 # Things to practice

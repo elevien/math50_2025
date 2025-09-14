@@ -405,32 +405,70 @@ The binomial distribution actually tell us more, it tell us that the variation a
 The behavior of random sums is in-fact even more universal than this argument suggests. We can actually describe the distribution of any\footnote{With the caveat that here we only deal with the case where ${\rm var}(X_i)<\infty$} random sum with a single distribution.  In order to describe this distribution, we need to introduce the notion of continuous random variables. 
 
  \subsection{Continuous probability distributions}
-To describe what happens to the distribution of the sum, we need to explain how to model continuous probability distributions. This is because when taking a sample average over a very large number of iid variables, $\overline{Y} = \sum_{i=1}^n Y_i/n$, even if $Y_i$ can only take a finite number of values (say it's Bernoulli), the sample average can take an increasing large number of values as $n$ becomes large. This was seen with the Binomial distribution, were we begin with Bernoulli random variables and obtain a random variable which can take values in the sample space $\{0,1/N,2/N,\dots,1\}$. As $N \to \infty$ the sample space becomes the interval $[0,1]$, but the theory of such probability distribution is not covered by our discussion so far. Fortunately, most of what we learned will carry over! Basically, you just need to replace sums with integrals, and I will never ask you to evaluate integrals in this course.  
+To understand what happens to the distribution of sums and averages of random variables, we need to extend our framework to \emph{continuous probability distributions}. The motivation comes from the sample average of many i.i.d.\ random variables,  
+\[
+\overline{Y} = \frac{1}{n}\sum_{i=1}^n Y_i.
+\]  
+Even if each \(Y_i\) only takes finitely many values (for instance, a Bernoulli random variable), the average can take increasingly many distinct values as \(n\) grows.  
 
-Let's start by introducing a new random variable,  
- \begin{equation*}
- Y \sim {\rm Uniform}(a,b).
- \end{equation*}
-This means an equal chance of taking any number in the interval $[a,b]$ (we assume $a<b$). Let $L=b-a$. This is distinct from other distributions we have encountered in that it is a \dfn{continuous distribution}.  For the uniform distribution, 
- \begin{equation*}
- P(y_1\le Y \le y_2) = \frac{y_2-y_1}{L}
- \end{equation*}
- for $a<y_1<y_2<b$. 
- That is, the chance for $Y$ to fall in any interval is simply the length of that interval. This insures that that the probability of $Y$ being somewhere in $[a,b]$ is one: $P(a\le Y\le b) = 1$. Note that as $y_2 \to y_1$, $P(y_1\le Y \le y_2) \to 0$. This tells us that the chance for $Y$ to take any specific value is $0$. Indeed, there are simply two many number (uncountably many) in any interval to assign positive probability to each.
- 
- For continuous variables, it is sometimes useful to work with the density, $f(y)$ (we will use lower case letters for density and uppercase for probability distributions).The density $f(y)$ of a continuous random variable is a positive function such that 
-\begin{equation*}
-P(a<X<b) = \text{area under $f(y)$ between $a$ and $b$} = \int_a^bf(y)dy
-\end{equation*}
-We can think of $f(y)$ as the the probability per unit $Y$, meaning that if we look in a small interval 
- \begin{equation*}
-f(y)dy = P(y \le Y \le y+dy) = \frac{dy}{L}.
- \end{equation*}
- Thus, for uniform distribution the density is $1/L$ if $y \in [a,b]$ and $0$ otherwise.  Note the following properties of $f(y)$
- \begin{enumerate}
- \item It is positive
- \item The area under $f(y)$ is one (this is the continuous version of the condition that discrete probability distributions must sum to one). 
- \end{enumerate}
+For example, starting with Bernoulli variables, the associated Binomial distribution lives on the sample space  
+\[
+\Bigl\{0,\tfrac{1}{N},\tfrac{2}{N},\dots,1\Bigr\}.
+\]  
+As \(N \to \infty\), this set of possible outcomes becomes dense in the interval \([0,1]\). In the limit we naturally want to talk about a probability distribution supported on a continuum of values---but our previous discrete framework does not cover this situation.  
+
+Fortunately, much of the discrete theory still applies once we replace sums with integrals. You will not be asked to evaluate integrals in this course, but we need to set up the basic definitions.  
+
+
+
+\subsubsection*{The Uniform Distribution}
+
+A simple starting point is the \emph{uniform distribution} on an interval:  
+\[
+Y \sim \text{Uniform}(a,b).
+\]  
+Here \(Y\) is equally likely to fall anywhere in the interval \([a,b]\) (with \(a<b\)). If we let \(L = b-a\), then for any subinterval \(y_1 < y_2\) inside \([a,b]\),  
+\[
+P(y_1 \le Y \le y_2) = \frac{y_2-y_1}{L}.
+\]  
+In words: the probability of landing in an interval is proportional to its length. This ensures normalization:  
+\[
+P(a \le Y \le b) = 1.
+\]  
+Notice that as \(y_2 \to y_1\), the probability goes to zero. Thus \(P(Y=y)=0\) for any specific \(y\). This reflects the fact that there are uncountably many possible outcomes in any interval, so no single point can carry positive probability.  
+
+
+
+\subsubsection*{Densities}
+
+This example motivates the general notion of a \emph{probability density function} (pdf). A continuous random variable \(Y\) is characterized by a nonnegative function \(f(y)\), called its density, such that for any \(a<b\),  
+\[
+P(a < Y < b) = \int_a^b f(y)\,dy.
+\]  
+Geometrically, the probability is given by the \emph{area under the curve} of \(f(y)\) between \(a\) and \(b\).  
+
+For small intervals,  
+\[
+P(y \le Y \le y+dy) \approx f(y)\,dy,
+\]  
+so \(f(y)\) plays the role of ``probability per unit length.''  
+
+In the uniform case,  
+\[
+f(y) = 
+\begin{cases}
+1/L, & y \in [a,b], \\
+0, & \text{otherwise}.
+\end{cases}
+\]  
+
+Every pdf \(f(y)\) must satisfy:  
+\begin{enumerate}
+\item \textbf{Nonnegativity:} \(f(y) \ge 0\) for all \(y\).  
+\item \textbf{Normalization:} \(\int_{-\infty}^{\infty} f(y)\,dy = 1\).  
+\end{enumerate}
+
+These are the continuous analogues of the conditions we imposed on discrete probability distributions.  
 
 
 \begin{figure}[h]

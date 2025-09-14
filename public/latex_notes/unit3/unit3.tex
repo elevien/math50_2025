@@ -30,7 +30,7 @@
 \section{Introduction}
 
 
-Now we are almost ready to begin working with regression models, but we first discuss some concepts from statistical inference. These include the idea of a sample distribution (already alluded to in our discussion of the central limit theorem), bias, consistency and confidence intervals. Then we work define lienar regression models, which have also already appeared in different forms.    The basic idea is that we have some predictors $X_1,X_2,\dots,X_k$ and conditional on these variables, the distribution of another variable -- the response variable $Y$ -- is Normal. Moreover, it's mean is a linear function of these variables. These two assumptions allow us to obtain relatively simple formula (at least for a computer) for the coefficients of the $X_i$ in the linear formula. We will start, in this section, with a single-predictor learn how to access a linear regression model in this context. In particular, we will learn about correlation coefficients, $R^2$ and $p$-values, standard errors, confidence intervals. You will need to understand what all these quantities tell us and how they are related. 
+Now we are almost ready to begin working with regression models, but we first discuss some concepts from statistical inference. These include the idea of a sample distribution (already alluded to in our discussion of the central limit theorem), bias, consistency and confidence intervals. Then we work define linear regression models, which have also already appeared in different forms.    The basic idea is that we have some predictors $X_1,X_2,\dots,X_k$ and conditional on these variables, the distribution of another variable -- the response variable $Y$ -- is Normal. Moreover, it's mean is a linear function of these variables. These two assumptions allow us to obtain relatively simple formula (at least for a computer) for the coefficients of the $X_i$ in the linear formula. We will start, in this section, with a single-predictor learn how to assess a linear regression model in this context. In particular, we will learn about correlation coefficients, $R^2$ and $p$-values, standard errors, confidence intervals. You will need to understand what all these quantities tell us and how they are related. 
 
 
 
@@ -48,7 +48,7 @@ The point that should be emphasized is that the estimator is a function of the d
 
 
 \subsection{Sample distribution and standard errors}
- We call the distribution of $\hat{\theta}$ over many replications of our data the \dfn{sample distribution}. I will use \dfn{replicate} to mean different realizations of our data (as opposed to the different samples within the data). The distinction is shown in Figure \ref{fig:reps_samp} (left panel). The terminology gets a bit confusing: The sample distribution is the distribution of $\hat{\theta}$ over many replicates, but each replicate involves many samples. 
+ We call the distribution of $\hat{\theta}$ over many replications of our data the \dfn{sample distribution}. I will use \dfn{replicate} to mean different realizations of our data (as opposed to the different samples within the data). The distinction is shown in Figure \ref{fig:rep_samp} (left panel). The terminology gets a bit confusing: The sample distribution is the distribution of $\hat{\theta}$ over many replicates, but each replicate involves many samples. 
 
 \begin{figure}[h]
 \centering
@@ -138,6 +138,7 @@ Note that $\hat{\mu}_2$ has the sample distribution
 \begin{equation*}
 \hat{\mu}_2  \sim {\rm Normal}(\mu,\sigma/\sqrt{2})
 \end{equation*}
+It is therefore unbiased but not consistent, since ${\rm se}(\hat{\mu}_2) = \sigma/\sqrt{2}$ does not depend on $n$. 
 \end{example}
 
 
@@ -175,7 +176,7 @@ The idea of the \dfn{confidence interval} is, roughly speaking, to describe the 
 [\hat{\theta} - 1.96{\rm se}(\hat{\theta}), \hat{\theta} + 1.96{\rm se}(\hat{\theta})]
 \end{equation}
 The factors $1.96$ in front of the standard errors ensure that $95\%$ of samples from the sample distribution will fall in this range, 
-
+This makes sense if the sample distribution is well approximated by a Normal distribution. 
 
 
 Note that these samples from the sample distribution do not have the same distribution as $\hat{\theta}$ over replicates of our data. Said another way, if we draw many samples from our estimate of the sample distribution, their distribution will not be the same as the distribution of $\hat{\theta}$ we would obtain if we ran an experiment many times and estimated $\hat{\theta}$ each time. The correct interpretation of the $95\%$-CI is as follows: {\bf If we generate many replicates of the data then $\theta$ (the true value) will fall in the CI, for $95\%$ of them.} 
@@ -317,8 +318,7 @@ Y|X &\sim {\rm Normal}(\beta_1X + \beta_0,\sigma^2)
 \begin{equation*}
 Y|X =\beta_1X+\beta_0 + Z,\quad Z \sim {\rm Normal}(0,\sigma^2)
 \end{equation*}
-Thus, the marginal distribution of $Y$ is the sum of two Normal random variables with mean and variance $(\beta_1\mu_x+\beta_0,a\sigma_x^2)$ and $(0,\sigma^2)$ respectively. 
-By Theorem \ref{thm:addingnormal}, 
+Thus, the marginal distribution of $Y$ is the sum of two Normal random variables with mean and variance $(\beta_1\mu_x+\beta_0,a\sigma_x^2)$ and $(0,\sigma^2)$ respectively. As we saw in the previous unit
 \begin{equation*}
 Y  \sim {\rm Normal}(\beta_1\mu_x+\beta_0,\beta_1^2\sigma_x^2 + \sigma^2)
 \end{equation*}
@@ -478,7 +478,7 @@ Here we consider the some on advertising budgets and sales for a company. We wil
 %\begin{equation*}
 %\mu_y = E[Y] = \beta_1 \mu_x + \beta_0 = \beta_0.
 %\end{equation*}
-%Estimate $\mu_y$ and simulate $10000$ ``fake'' data sets under the assumption that $\beta_0$. For each one, estimate the slope and save it in an array. Based on these estimates, what is the chance that we obtain a value of $\beta_1$ which is at least at large as the one we obtained from the real data? This will tell us if it is possible our estimated $\hat{\beta_1}$ is positive only by accident. 
+%Estimate $\mu_y$ and simulate $10000$ ``fake'' data sets under the assumption that $\beta_0$. For each one, estimate the slope and save it in an array. Based on these estimates, what is the chance that we obtain a value of $\beta_1$ which is at least as large as the one we obtained from the real data? This will tell us if it is possible our estimated $\hat{\beta_1}$ is positive only by accident. 
 \item {\bf Accessing model assumptions:} Using the fitted values of $\beta_1$ and $\beta_0$, simulate $10$ ``fake'' data sets which have the same number of points as the real data set and the same $x$ values.  Make plots of these and compare to the real data.  \\
 \end{enumerate}
 
@@ -543,20 +543,20 @@ Here we consider the some on advertising budgets and sales for a company. We wil
 %\begin{Verbatim}
 %X = sm.add_constant(x)
 %\end{Verbatim}
-%where $x$ is jus the array of our $X$ values (playing the role of $X_1$ in the equation above). 
+%where $x$ is just the array of our $X$ values (playing the role of $X_1$ in the equation above). 
 %Then 
 %\begin{Verbatim}
 %model = sm.OLS(y,X)
 %\end{Verbatim}
-%create a model ``object''. At this point we haven't actually performed any inference, rather we have created an data structure, called an object, which has all the information about our model and data. The next step is to tell python to fit this model -- that is, to infer the parameter values -- and store the results. This is done via
+%creates a model ``object''. At this point we haven't actually performed any inference, rather we have created a data structure, called an object, which has all the information about our model and data. The next step is to tell Python to fit this model -- that is, to infer the parameter values -- and store the results. This is done via
 %\begin{Verbatim}
-%results = model.fit(). 
+%results = model.fit()
 %\end{Verbatim}
-%Results contains all the information about the fitted model, including the inferred, or fitted, coefficients, standard errors, as well as many things I will soon discuss. We can print all this out with the line of code 
+%Results contain all the information about the fitted model, including the inferred (or fitted) coefficients, standard errors, as well as many things we will soon discuss. We can print all this out with the line of code 
 %\begin{Verbatim}
 %print(results.summary())
 %\end{Verbatim}
-%This will produce something like
+%This will produce output like
 %\begin{Verbatim}
 %                            OLS Regression Results                            
 %==============================================================================

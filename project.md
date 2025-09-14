@@ -15,6 +15,13 @@ The project will be due on **November 22nd before midnight**.
 The goal of the project is to apply what you've learned to a realy world setting; that is, to use statistics to say something new about the real world! 
 It will include (at least one) Python notebook and a **2–3 page** report. You can work in a group of up to 3, but you will all get the same grade on the project portion. Your report should be **single spaced, 12pt font with 1-inch margins**. Your report will be graded out of 100 points and your grade is **roughly** based on the following:
 
+## Midterm update (5% of total project grade)
+
+Your update, to be submitted after the first mideterm, should consist of 1 or 2 paragraphs describing your plan and what you have achieved so far. At this point you should have reached step 3 described below. I expect that everyone who submits an update will recieve full credit, and the point is more for me to intervene if I am worried about directin or rate of progress. 
+
+
+
+## Final report (90% of total project grade)
 - Your report should be clearly written and include citations (I don't care about the format) of any literature beyond the main paper which you referenced (10%).
 - Summarize the liture on the topic you are studying in 2–4 paragraphs, making an effort to connect it to what we've covered in class (15%).
 - You should apply at least 3 concepts we used in class in your analysis  (35%).

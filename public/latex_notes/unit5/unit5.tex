@@ -1,13 +1,13 @@
 \include{./../latex/notes_style.tex}
 
-\setcounter{unit}{1}
+\setcounter{unit}{5}
 \setcounter{section}{0}
 
 \begin{document}
 
 
 
-\title{Unit 5: Beyond strict linearity}
+\title{Unit 5: Interactions and other feature maps}
 \author{Ethan Levien}
 \maketitle
 \tableofcontents
@@ -27,8 +27,8 @@
 
 
 
-\section{Interactions}
-
+\section{Interactions terms in linear regression models}
+\subsection{Interactions as new predictors}
 
 The important assumption of the multiple predictor regression models we have seen so far is that the ``effect'' of one predictor does not depend on the value of the other. Here are some examples where this could be violated:
 \begin{itemize}
@@ -146,7 +146,7 @@ Now $\beta_1$ has the interpretation as the average difference in scores among s
 
 
 %----------------------------------------------------------------------------------------------------------------
-\subsection{Residual plots (Optional)}
+\subsection{Residual plots}
 
 
  We address the question of how we might identify when it is appropriate to add an interaction term to a model. In this case of two predictors we can easily visualize the data by making plots of the $Y$ vs. $X_1$ slopes for different $X_2$ values (especially  when one predictor is binary). With many predictors, it becomes less clear what plot might reveal some hidden interaction terms. We could of course go on adding every possible interaction term, but with many predictors this becomes in practical and leads to overfitting (as we will soon discuss). 
@@ -205,10 +205,10 @@ Now compare this to what would happen if we plotted $Y_j$ on the horizontal axis
 
 
 %----------------------------------------------------------------------------------------------------------------
-\section{Other nonlinear models}
+\section{Other feature maps}
 
- Here, we discuss how to build more complex models and directly access their predictive power on out-of-sample data.  %Previously, we saw that we can indirectly access it by looking at model assumptions and $R^2$
-In the context of interactions, we already saw saw how a model can be extended by defining a new predictor $X_3 = X_1X_2$. The more general idea that we can define a new predictor which is a function of the other predictors allows us to develop very complex and flexible models which nonetheless can be analyzed within linear regression framework. Here, we will formalize this, beginning with the case of a single predictor. 
+ Here, we discuss how to build more complex models and directly access their predictive power on out-of-sample data. 
+In the context of interactions, we already saw how a model can be extended by defining a new predictor $X_3 = X_1X_2$. The more general idea that we can define a new predictor which is a function of the other predictors allows us to develop very complex and flexible models which nonetheless can be analyzed within linear regression framework. Here, we will formalize this, beginning with the case of a single predictor. 
 
 In general, the linear regression framework allows us to fit models of the form consider the model
 \begin{equation}\label{eq:nlgauss}
@@ -271,7 +271,7 @@ Next we will  understand that within the linear regression framework we can fit 
 
 
 %----------------------------------------------------------------------------------------------------------------
-\section{Cross validation}
+\section{Overfitting}
 
 We saw from the previous example that $R^2$ is not very helpful if we want to decide how complex we'd like to make our model, since it is possible to explain all the variation in the $Y$ values with a model which is too complex. In order to address this, we take the approach of \dfn{cross validation}. The basic idea of cross validation is to break our data up into two subsets: \dfn{training set}, which we use to fit the model, and a \dfn{testing set}, which we compare to the predictions of the fitted model. 
  {\bf Some Notation}
@@ -320,37 +320,19 @@ Consider example 6 from the previous weeks notes. \\
 \end{example}
 
 %----------------------------------------------------------------------------------------------------------------
-\section{Bias, variance and overfitting}
+\section{Overfitting}
  In order to understand U-shaped curve seen in Example \ref{ex:polycrossval},  we first need to introduce some more general terminology and notation for talking about estimators (of which $\hat{y}$ is an example). 
-To this end, we introduce the \dfn{mean-squared error} of an estimator $\hat{\theta}$ of some quantity $\theta$. $\theta$ could be a parameter, or it could be a value of a function, such as $f(x)$, that we would like to predict. 
+Recall from Unit 3 that the \dfn{mean-squared error} of an estimator $\hat{\theta}$ of some quantity $\theta$ is 
 \begin{equation}\label{eq:mse}
 {\rm MSE}_{\hat{\theta}}= E\left[(\hat{\theta}- \theta)^2\right]
 \end{equation}
- For now, let's just think of $\hat{\theta}$ as any estimator. 
- The following theorem is the key result which will allow us to understand the U-shaped curve. 
-\begin{thm}[Bias variance decomposition]
+Remember, $\theta$ could be a parameter, or it could be a value of a function, such as $f(x)$, that we would like to predict. 
+For now, let's just think of $\hat{\theta}$ as any estimator. 
+
+Remember that we proved the bias variance tradeoff: 
 \begin{equation}\label{eq:biasvar}
 {\rm MSE}_{\hat{\theta}} = {\rm var}(\hat{\theta}) + E\left[\hat{\theta}-\theta\right]^2
 \end{equation}
-\end{thm}
-\begin{proof}
-Using the definition of variance 
-\begin{equation*}
-{\rm var}\left(\hat{\theta}-\theta\right) = E\left[(\hat{\theta}-\theta)^2\right] - E\left[\hat{\theta}-\theta\right]^2. 
-\end{equation*}
-Since $\theta$ is a constant, ${\rm var}\left(\hat{\theta}-\theta\right)= {\rm var}\left(\hat{\theta}\right)$, so 
-rearranging terms yields the result. 
-\end{proof}
-Now let's break this result down a bit. 
-
-
- The first term in Equation \ref{eq:biasvar} is simply the variance, which in the case of an estimator of a parameter we can recognize as the squared standard error. This is tell us how much variation there is in our estimate from replicate of replicate. You should recognize that a consistent estimator is exactly one for which this quantity vanishes when $N$ is very large. 
- The second term is what we will define as the squared of the bias: 
-\begin{equation*}
-{\rm Bias}_{\hat{\theta}} = E[\hat{\theta}-\theta].
-\end{equation*}
-This tell us whether our estimate will on average give us the correct value of $\theta$. You should recognize that an unbiased estimator is exactly one for which this quantity is zero!
-
  Now let's return to working in the context of a model of the form 
 \begin{equation*}
 Y|X \sim {\rm Normal}(f(X),\sigma^2)
@@ -411,7 +393,7 @@ Let's continue with Example \ref{ex:polycrossval} and try to illustrate the bias
 
 
 
-\section{Orthogonality and Fourier analysis (optional)}
+\section{Orthogonality and Fourier analysis}
  Sometimes we have a particularly hypothesis about what features my contribute to an signal we are analyzing -- for example, the CO2 data from last week we suspected there was a linear trend and yearly trend superimpose together. This was reasonable because we know that whether tends to follow a yearly cycle. But in general, if we don't have such knowledge how should we select the functions $\phi$?  It is often to our advantage to select basis function $\phi_i$ so that our predictors are not correlated. That is, if $\phi_i(X)$ and $\phi_j(X)$ are thought of as random variables (the randomness comes from $X$) then we want them to be uncorrelated. 
 
 

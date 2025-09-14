@@ -1,18 +1,18 @@
 \include{./../latex/notes_style.tex}
 %--------------------------------------------------------------------------------------------------------------------------------
-\setcounter{unit}{1}
+\setcounter{unit}{4}
 \setcounter{section}{0}
 \begin{document}
 
 
 
-\title{Regression with multiple predictors}
+\title{Unit 4: Regression with multiple predictors}
 \author{Ethan Levien}
 \maketitle
 
 
 %----------------------------------------------------------------------------------------------------------------
-\section{Introduction}
+\section*{Introduction}
 Now we are ready to study linear regression with multiple predictors. Much of the concepts carry over from the single predictor case and the Python code is nearly the same. There are some subtle aspects though when it comes to how we interpret the predictors. In particular, we have to remember that these represent average differences in the response variable when all other predictors are fixed. This is the idea of controlling for another variable. We will also understand what happens when we add regression coefficients to the model. 
 
 \section{Multiple predictor linear regression}
@@ -66,6 +66,7 @@ r_i = Y_i - \left(\hat{\beta}_0 + \sum_k^m \hat{\beta}_kX_{i,k}\right).
 \end{figure}
 
 \subsection{Basic interpretation and estimation of the parameters }
+\sectionrefs{ \cite[Ch. 10]{gelman2020regression}}
  In order to interpret the parameters, it's easiest to work with just two predictors like we have in the example above. The formula for the conditional expectation of $Y$ is 
 \begin{equation}\label{eq:2dsurface}
 E[Y|X] = \beta_0 + \beta_1X_1 + \beta_2X_2
@@ -455,6 +456,83 @@ Our goal however is to compute
 
 
 
+
+\newpage 
+
+\subsection*{Exercises}
+
+
+%---------------------------------------------------------------------------------
+\begin{exercise}[A binary and normal predictor]\label{ex:binnorm}
+Consider the a linear regression model 
+\begin{equation*}
+Y|(X_1,X_2) \sim {\rm Normal}(\beta_0 + \beta_1X_1 + \beta_2X_2,\sigma^2)
+\end{equation*}
+ where the two predictors obey
+\begin{align*}
+X_1 &\sim {\rm Bernoulli}(q)\\
+X_2|X_1 &\sim {\rm Normal}(bX_1,s^2)
+\end{align*}
+\begin{enumerate}[label=(\alph*)]
+\item Can you think are at least two examples where this would be a reasonable model of the relationship between $3$ variables $X_1,X_2$ and $Y$? 
+\item What are the formulas for ${\rm cov}(X_1,X_2)$ and ${\rm var}(X_2)$ in terms of the model parameters $q,b,s,\beta_0,\beta_1,\beta_2,\sigma^2$? You should be able to derive these formulas, but you may also reference formulas in previous exercises and class notes. You may assume $\beta_0 = 0$ for this part and the reminder of the exercise, as this simplifies some calculations and doesn't change the results. 
+%Then use this to derive a formula for the correlation coefficient between $X_1$ and $X_2$, which we will denote as $\rho_{1,2}$. 
+%\item Let 
+%\begin{equation*}
+%r^2 = 1- \frac{{\rm var}(Y|X)}{{\rm var}(Y)}.
+%\end{equation*}
+%Recall that this is the quantity which is being approximated by the $R^2$ reported in \verb!statsmodels!. 
+%Derive a formula for $r^2$ in terms of the model parameters. 
+\item Derive a formula for ${\rm cov}(Y,X_1)$ in terms of $\beta_1$, $q$, $\beta_2$ and $b$.  
+\item Explain how the formula you derived in part (b) is related to the equation for ${\rm cov}(Y,X_1)$ in the single predictor regression model (page 4 on week 3 notes). In particular, for what parameter values do the two formulas coincide? Your conclusion will be a particular case of what we saw to be true more generally in class concerning the relationship between $\beta_1$ and the covariances in a regression model with two predictions. 
+\item Now derive the formula
+\begin{equation*}
+{\rm var}(Y) = q(1-q)\left(\beta_1^2 + \beta_2^2b^2 + 2 b \right) + \beta_2^2s^2
++ \sigma^2
+\end{equation*}
+You will need to use the formula for the variance of the sum of two (not-necessarily independent) random variables, which is given on the midterm practice problems.  
+This is also in the ``addition and multiplication section'' on the \href{https://en.wikipedia.org/wiki/Variance#Properties}{wikipedia  page}.
+\item The calculations in part (c) allows us to solve an exercise in Chapter 8 in Demidenko's textbook \cite{demidenko2019advanced}, albeit in the more restrictive  context of a binary and normal predictor: 
+Is it possible that $\beta_1$ and $\beta_2$ are {\bf both negative}, yet the (marginal) slope of $Y$ vs. $X_1$ is {\bf positive}? If so, generate simulated data where this is the case. 
+\end{enumerate}
+\end{exercise}
+
+
+
+
+
+\begin{exercise}[Earnings data] Consider the earnings data. This can be loaded with 
+\begin{Verbatim}
+df = pd.read_csv("https://raw.githubusercontent.com/avehtari
+/ROS-Examples/master/Earnings/data/earnings.csv")
+\end{Verbatim}
+As in the previous exercise set, you will study the association between earnings and gender, but now using regression with multiple predictors. 
+
+\begin{enumerate}[label=(\alph*)]
+\item Perform a linear regression using \verb!statsmodels! with gender and height as predictors. 
+\item Provide interpretations for each regression coefficient (like we did in class for the test score example). 
+\item Which factor, height or gender is more important based on your analysis? 
+\item Based one the fitted model, predict the chance that someone who is not male and is 5.8ft earns more than a male who is the same height? To get a sense for the importance (or lack-thereof) of the height predictor, compare this to the chance that a male earns more than a non-male (regardless of height).
+\end{enumerate}
+\end{exercise}
+
+\begin{exercise}[Sample distribution]\label{ex:sampledist}
+In the \href{https://colab.research.google.com/drive/1oIRgP_7-c5DGV1D2iz5nj406mZfJxUIG?usp=sharing}{notebook from class}, we wrote code to generate samples from the sample distribution of $(\hat{\beta}_1,\hat{\beta}_2)$ in the model 
+\begin{align*}
+X_1 &\sim {\rm Normal}(0,1). \\
+X_2|X_1 &\sim {\rm Normal}(bX_1,1-b^2)\\
+Y|(X_1,X_2) &\sim {\rm Normal}( \beta_1X_1 + \beta_2X_2,\sigma^2) 
+\end{align*} 
+Specifically, we had a function which takes $\beta_1$, $\beta_2$ and $\beta_0$ as inputs and returns a dataframe where the columns are the samples of $\hat{\beta}_1$ and $\hat{\beta}_2$ respectively. When we plotted the correlation coefficient as a function of $b$ values and estimates the correlation coefficient between $\hat{\beta}_1$ and $\hat{\beta}_2$, it was a decreasing line. 
+%Consider the model from Exercise \ref{ex:binnorm}. We will study the sample distribution of the fitted regression coefficients $\hat{\beta}_1$ and $\hat{\beta}_2$. 
+%\begin{enumerate}[label=(\alph*)]
+%\item Let $q=0.3,b=2,\sigma_{2|1} = 0.3,\beta_1 = 10,\beta_2 = 2,\sigma=0.2$ and $n = 40$ (there are 40 data points). Generate $1000$ simulated data sets with these parameters values, and for each one save the fitted regression coefficients $\hat{\beta}_1$ and $\hat{\beta}_2$. Then make a scatter plot of $\hat{\beta}_2$ vs. $\hat{\beta}_1$. Before doing so, I recommend thinking for a moment about what you expect this to look like. What will the association between these two estimates be? Will it be negative or positive? 
+\begin{enumerate}[label=(\alph*)]
+\item What would happen if instead of plotting the correlation coefficient, we plotted ${\rm se}(\hat{\beta}_1)$ as a function of $b$? Would it increase? decrease? neither? Note that both $X_1$ and $X_2$ are standardized, so the distribution of $X_1$ values is not changed when we adjust $b$. In answering this question, you can either give a geometric intuition, or do a calculation. You should check your answer with simulations, but you still need to provide a detailed explanation. 
+\item Is it possible to have large standard errors on all the $\hat{\beta}_i$ values (measured relative to the true values of course), but still have a large (meaning close to one) value of $R^2$? If so, for what parameter values does this happen? Run simulation(s) to support your answer. 
+\end{enumerate}
+
+\end{exercise}
 
 
 

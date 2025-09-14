@@ -11,7 +11,7 @@ bibliography:
 These are things I will **not** cover in class, but you should know:
 
 - **Calculus**: You should know how to take derivatives and integrals of polynomial and exponential functions. I won't ask you to calculate an integral on the exam, but it will be important for understanding a few derivations I perform in class.
-- **Plotting**: Know how to interpret plots on a log scale, contour plots, histograms, and boxplots. You do not need to know how to create these plots in Python, but you will be asked to interpret them.  
+- **Plotting**: Know how to interpret plots on a log scale, contour plots, histograms, and boxplots. 
 - **Basic linear algebra**: Some familiarity will be helpful to understand concepts starting in Unit 3: 
   - Basic operations: Matrix-vector, matrix-matrix multiplication and addition
   - Matrix inversion: I won't ask you to calculate any matrix inverses by hand, but you will need to know what it means

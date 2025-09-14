@@ -16,14 +16,14 @@ Material:
 
 # Concepts
 
-Expectation, conditional expectation, emperical averages, CLT, Normal random variables and their properties, coefficient of variation
+Expectation, conditional expectation, emperical averages, CLT, Normal random variables and their properties, coefficient of variation, mean vs. median
 
 # Things to practice
 
 - Calculate expectations by hand and in Python. 
 - Manipulate normal random variables  (apply linearity of expectation and independence to simplify calculations.)
 - How to use CLT to estimate probabilities of sums (and know when the CLT gives an accurate approximation)
-- Determine if the Normal model is a good model from data. 
+- Determine if the Normal model is a good model from data based on quantiles. 
 
 # Wikipedia References
 

@@ -8,6 +8,6 @@
 \contentsline {subsection}{\numberline {2.2.2}Continuous probability distributions}{8}{subsection.2.2}%
 \contentsline {subsection}{\numberline {2.2.3}The Gaussian curve}{10}{subsection.2.3}%
 \contentsline {subsection}{\numberline {2.2.4}The central limit theorem and sample distribution}{11}{subsection.2.4}%
-\contentsline {subsection}{\numberline {2.2.5}Properties of Normal random variables}{12}{subsection.2.5}%
-\contentsline {section}{\numberline {A}Additional discussion of continuous random variables}{13}{appendix.A}%
-\contentsline {subsection}{\numberline {A.1}Conditional probability and expectation with Continuous variables}{14}{subsection.A.1}%
+\contentsline {subsection}{\numberline {2.2.5}Properties of Normal random variables}{13}{subsection.2.5}%
+\contentsline {section}{\numberline {A}Additional discussion of continuous random variables}{14}{appendix.A}%
+\contentsline {subsection}{\numberline {A.1}Conditional probability and expectation with Continuous variables}{15}{subsection.A.1}%
