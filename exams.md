@@ -42,4 +42,4 @@ You will need to:
 There may be some extra credit questions from Unit 7, depending on how much time we have at the end of the term.
 
 ### Practice exam
-- [Final from 2024]({{ '/public/exam_practice/final_2024C.pdf' | relative_url }})
+- [Final from 2024]({{ '/public/exam_practice/final_2024C.pdf' | relative_url }}) (ignore the red text in the instructions. Do all problems).
