@@ -7,7 +7,7 @@ title: Course overview
 
 **Prerequisites:** Some exposure to probability/statistics (e.g., Math 10, 20) and comfort with coding (e.g., CS 1, internships).  Also, see [Unit 0](../unit0/index.html).
 
-**Not registered?** Fill out [this form](https://docs.google.com/forms/d/e/1FAIpQLSeDYK6TFq0wW0drA5CSWYM1TmOGfsFa5cuiqg51vOd7HUzwJw/viewform?usp=sf_link).  
+**Not registered?** Fill out [this form](https://docs.google.com/forms/d/e/1FAIpQLSfbbAGQl4w7lDcdOoEI2b3adkOBjpEox5hQIUx_cT6bW7gwAw/viewform).  
 
 **Course objectives:**  
 
