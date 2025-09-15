@@ -5,7 +5,7 @@ title: Course overview
 
 **Instructor:** Ethan Levien  
 
-**Prerequisites:** Some exposure to probability/statistics (e.g., Math 10, 20) and comfort with coding (e.g., CS 1, internships).  Also, see [Unit 0](../unit0/index.html).
+**Prerequisites:** Some exposure to probability/statistics (e.g., Math 10, 20) and comfort with coding (e.g., CS 1, internships).  Also, see [Unit 0]({{ '/unit0/' | relative_url }}).
 
 **Not registered?** Fill out [this form](https://docs.google.com/forms/d/e/1FAIpQLSfbbAGQl4w7lDcdOoEI2b3adkOBjpEox5hQIUx_cT6bW7gwAw/viewform).  
 

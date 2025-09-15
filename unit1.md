@@ -27,7 +27,7 @@ Material:
 - Notation for probability distributions, joint probabilities and conditional probabilities. Be comfertable with different notations: 
 - Identify the sample space for an experiment or random variable. 
 - Translate basic Python code to math and vice versa. 
-- Calculating conditional, marginal probabilities and checking whether two variabels are independent: 
+- Calculating conditional, marginal probabilities and checking whether two variables are independent: 
   -  by hand (given a table for discrete distribution) 
   -  or in Python (given samples)
 
