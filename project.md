@@ -21,13 +21,14 @@ Your update, to be submitted after the first mideterm, should consist of 1 or 2 
 
 
 
-## Final report (90% of total project grade)
-- Your report should be clearly written and include citations (I don't care about the format) of any literature beyond the main paper which you referenced (10%).
-- Summarize the liture on the topic you are studying in 2–4 paragraphs, making an effort to connect it to what we've covered in class (15%).
-- You should apply at least 3 concepts we used in class in your analysis  (35%).
-- You should use a probability model beyond a single-predictor linear regression (10%). 
-- You should write some Python code to accompany your report and link to your Colab notebook. **Remember to give me permission to view it!** For example, you might simulate a model discussed in the article (15%).
-- You should pose at least one question or future direction which is not raised or answered in the article (15%).
+## Final report (95% of total project grade)
+
+This is only a rough rubric. Due to the variability in approaches taken and topics, it is difficult to adhere to a single rubric. 
+- **Overall writing quality:** Your report should be clearly written and include citations of any literature beyond the main paper which you referenced (10%). I don't care about the format of references, but I should be able to easily find them. 
+- **Introduction:** Summarize the literature on the topic you are studying in 2–4 paragraphs, making an effort to connect it to what we've covered in class (10%).
+- **Results:** This section will vary a lot depending on whether your project is more pedagogical or presents new research results, but either way it should contain some technical details. You should use a probability model beyond a single-predictor linear regression.  (50%)
+- **Code:** You should write some Python code to accompany your report and link to your Colab notebook. **Remember to give me permission to view it!** For example, you might simulate a model discussed in the article (20%).
+- **Discussion:** You should pose at least one question or future direction which is not raised or answered in the articles, or you should suggest an approach for a question which is raised. (10%)
 
 
 

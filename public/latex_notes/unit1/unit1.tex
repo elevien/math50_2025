@@ -86,24 +86,22 @@ and there is some distribution $P_{X_1,X_2}(x_1,x_2)$. We call this the \dfn{joi
 
 
 
-\sectionrefs{\cite[Ch 1. Sec. 1.3]{evans}}
-There are some rules for such functions. 
+\sectionrefs{\cite[Ch.~1, Sec.~1.3]{evans}}
+A probability measure $P$ on a sample space $S$ satisfies the following axioms:
 \begin{itemize}
-\item $P(U) \le 1$  for $U \subset S$
-\item $P(U) \ge 0$ for $U \subset S$. Here $\subset$ means a subset of $S$, for example $\{1,2,3\} \subset \{1,2,3,4,5,6\}$. 
-\item For a disjoint family of sets $U_i$
-\begin{equation*}
- \sum_{i}P(U_i) = P\left(\cup_i U_i\right)
-\end{equation*}
-Here $\cup$ means ``or'', for example, 
-\begin{equation*}
- P\left(\text{heads} \cup \text{tails} \right) 
- \end{equation*}
- is the probability that a coin is either heads or tails, which should be one (or very close to it). 
+\item \textbf{Nonnegativity:} For every event $U \subseteq S$, 
+\[ P(U) \ge 0. \]
+\item \textbf{Normalization:} 
+\[ P(S) = 1. \]
+\item \textbf{Countable additivity:} For any countable collection of pairwise disjoint sets $\{U_i\}_{i=1}^\infty \subseteq S$, 
+\[ P\!\left(\bigcup_{i=1}^\infty U_i\right) = \sum_{i=1}^\infty P(U_i). \]
 \end{itemize}
-If you want more detail look in  \cite[Ch. 1 Sec. 1.2.1]{evans}. 
 
+\emph{Example.} If $S=\{1,2,3,4,5,6\}$ is the outcome space of a die roll, then $\{1,2,3\}\subseteq S$.  
+If the coin-flip space is $S=\{\text{heads},\text{tails}\}$, then
+\[ P(\text{heads} \cup \text{tails}) = P(S) = 1. \]
 
+For more discussion and examples, see \cite[Ch.~1, Sec.~1.2.1]{evans}.
 
 %\item It is very important that the sum of $P(Y)$ over all possible outcomes is $1$ -- this is simply saying that we are certain one of the outcomes will happen. We might use $P(1)$ or $P(\{1\})$ to mean ``the probability that $Y=1$", or, in there is some ambiguity in which variable we are referring to, we might write $P(Y=1)$. 
 \begin{example}\label{ex:twocoins} Suppose we flip two fair coins and let $X_1$ and $X_2$ denote the outcomes. The sample space is the same as Example \ref{ex:joint}; that is, 
