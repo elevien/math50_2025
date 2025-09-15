@@ -7,7 +7,7 @@ bibliography:
 
 Before going through Unit 1, please review [Unit 0](../unit0/index.html). This material will not be covered in class and it is expected that if you are not already familiar with it, you will learn it by the end of the first week.
 
-**Note** This schedule is subject to changes throughout the term. Please check this schedule throughout the term for updates. Changes will only effect exams in rare circumstances. 
+**Note** This schedule is subject to changes throughout the term. Please check this schedule on a weekly basis. Changes will only effect exams in rare circumstances. 
 
 
 | Date       | Unit Material       | Topics | Notes |
@@ -33,20 +33,20 @@ Before going through Unit 1, please review [Unit 0](../unit0/index.html). This m
 | Wed Oct 15  | [Unit 4](../unit4/index.html)| Unit 4.2 (Simpsons paradox, effects of adding predictors)  |  |
 | Fri Oct 17  | [Unit 4](../unit4/index.html) | Unit 4 (colinearity, the joint sample distribution) |  |
 | Week 6 || | | 
-| Mon Oct 20  | [Unit 5](../unit4/index.html) | Unit 4 (models with catagorical predictors) |  |
-| Wed Oct 22  | [Unit 5](../unit5/index.html) | Unit 4 (analysis of variance)  |  |
+| Mon Oct 20  | [Unit 4](../unit4/index.html) | Unit 4 (models with catagorical predictors) |  |
+| Wed Oct 22  | [Unit 4](../unit4/index.html) | Unit 4 (analysis of variance)  |  |
 | Fri Oct 24  | [Unit 5](../unit5/index.html) | Unit 5 (interactions, residual plots)  |  |
 | Week 7 || | | 
-| Mon Oct 27  | [Unit 6](../unit6/index.html) | Unit 5  (other nonlinear models, overfitting, bias-variance trafeoff revisited )  |  |
-| Wed Oct 29  | [Unit 6](../unit6/index.html) | Unit 6.1 (overparamaterized regression,regularization)  |  |
-| Fri Oct 31  | [Unit 6](../unit6/index.html) | Unit 6.3  (laplace rule of succesion, priors) |  |
+| Mon Oct 27  | [Unit 5](../unit5/index.html) | Unit 5 (polynomial regression, linear regression view of fourier series )  |  |
+| Wed Oct 29  | [Unit 5](../unit5/index.html) | Unit 5(bias-variance trafeoff revisited and overfitting)  |  |
+| Fri Oct 31  | [Unit 6](../unit6/index.html) | Unit 6.3  (overparamaterized models, ridge and lasso regression) |  |
 | Week 8 || | | 
-| Mon Nov 3   | [Unit 6](../unit6/index.html) | Unit 6 (posterior distributions, Bayesian modeling) |  |
-| Wed Nov 5   | [Unit 6](../unit6/index.html) | Unit 6 (additional examples of Bayesian modeling) |   |
-| Fri Nov 7   | [Unit 7](../unit7/index.html) | Unit 7 The kernel trick, Gaussian processes | Last day of final material|
+| Mon Nov 3   | [Unit 6](../unit6/index.html) | Unit 6 (bayesian inference for bernoulli model, beta distribution laplace rule of succession) |  |
+| Wed Nov 5   | [Unit 6](../unit6/index.html) | Unit 6 (bayesian linear regression) |   |
+| Fri Nov 7   | [Unit 6](../unit6/index.html) | Unit 6 (connection between bayesian inference and regularization)| Last day of final material|
 | Week 9 || | | 
-| Mon Nov 10  | [Unit 7](../unit7/index.html) | Causal inference |  |
-| Wed Nov 12  | [Unit 7](../unit7/index.html) | Multi-level models Project|  |
-| Fri Nov 14  | [Unit 7](../unit7/index.html) | TBD, Project|  |
+| Mon Nov 10  | [Unit 7](../unit7/index.html) | statistics vs. machine learning,  the kernel trick|  |
+| Wed Nov 12  | [Unit 7](../unit7/index.html) | Gaussian processes as a Bayesian forier model |  |
+| Fri Nov 14  | [Unit 7](../unit7/index.html) | Logistic regression, project|  |
 | Week 1 || | | 
 | Mon Nov 17  | Review | |  |

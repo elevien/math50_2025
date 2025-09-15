@@ -6,7 +6,7 @@ bibliography:
 ---
 
 
-# Regularization, priors and Bayesian inference
+# Overparamaterized models: Regularization, priors and Bayesian inference
 
 At this point we have seen that models can be too complicated, but thus far **complexity** has roughly meant the number of paramaters (regression coefficients). Striking a balance between bias and variance means finding the right number of predictors too include, but there are ways to build highly flexibly models which do not overfit. This is achieved 
 
@@ -15,7 +15,7 @@ Material:
 - [Colab notebook]()
 
 # Concepts
-Regularization for regession models, Priors, Laplace rule of succesion, Bayes rule (review from week 1), posterior distributions, how priors influence the posterior for simple models, connection between regularization and priors. 
+Regularization for regession models, Priors, Laplace rule of succesion, Bayes rule, posterior distributions, how priors influence the posterior for simple models, connection between regularization and priors. 
 
 # What you need to know
 - How to select and justify priors (using Normal probabilities or lognormal)

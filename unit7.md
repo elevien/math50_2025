@@ -12,3 +12,4 @@ I will cover additional topics depending on time and iterests. Potential topics 
 - Dimensionality reduction and PCA
 - Multi-level models, mixed and fixed effects model 
 - Time series and stochastic processes (autoregressive models)
+- Logistic regression

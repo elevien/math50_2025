@@ -6,9 +6,9 @@ bibliography:
 ---
 
 
-# Nonlinear models with OLS and model building
+# Nonlinear models with OLS and model assessment
 
-As I say many times in class, the linear regression model is the basis for many other models in statistics and machine learning. In this unit we will begin to see how the basic linear regression model can take us beyond strict linear relationships, starting by adding **interactions** to regression models. These occur when the effect of one predictor depends on the values of the others (a key assumption of the linear regression models studied this for). We can include these by adding products of predictors to our model. Using a similar idea, we can model any nonlinear relationship in principle. This is the idea of **feature space** in machine learning.  This allows us to build much more complex models and with that comes concerns about **overfitting**. To this end, we will investigate the tradeoffs that arrise when building complex regression models. I will also use this unit as an oportunity to introduce **logistic regression.** 
+As I say many times in class, the linear regression model is the basis for many other models in statistics and machine learning. In this unit we will begin to see how the basic linear regression model can take us beyond strict linear relationships, starting by adding **interactions** to regression models. These occur when the effect of one predictor depends on the values of the others (a key assumption of the linear regression models studied this for). We can include these by adding products of predictors to our model. Using a similar idea, we can model any nonlinear relationship in principle. This is the idea of **feature space** in machine learning.  This allows us to build much more complex models and with that comes concerns about **overfitting**. To this end, we will investigate the tradeoffs that arrise when building complex regression models. 
 
 Material: 
 - [Notes and exercises](/public/latex_notes/unit5/unit5.pdf)
