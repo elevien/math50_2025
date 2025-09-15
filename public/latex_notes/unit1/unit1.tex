@@ -50,7 +50,7 @@ This leverages the additivity of probabilities for mutually exclusive events (se
 \begin{example}  The \dfn{Bernoulli distribution} \cite[Example 2.3.2]{evans} is probably the simplest random variable It models a variable with binary outcome, for example the result of a YES/NO survey or a diagnostic test. 
 If $Y$ follows a Bernoulli distribution, then 
 \begin{equation}\label{eq:pmbern}
-P_Y(y) = \left\{\begin{array}{lr} q & y=0\\ (1-q) & y= 1 \end{array}\right.
+P_Y(y) = \left\{\begin{array}{lr} 1-q & y=0\\ q & y= 1 \end{array}\right.
 \end{equation}
 Remember that $P_Y(y) = P(Y=y) = P(\{Y = y\})$. It's important to be flexible with notation. 
  These formulas make sense for any $0\le q\le1$. We say that $q$ is a \dfn {parameter}\index{parameter} of the distribution. 
@@ -101,7 +101,6 @@ Here $\cup$ means ``or'', for example,
  \end{equation*}
  is the probability that a coin is either heads or tails, which should be one (or very close to it). 
 \end{itemize}
-In words these basically say: The chance something happens cannot be more than 0 and less than zero, and the chance that something happens in our space of outcomes must be $1$.  
 If you want more detail look in  \cite[Ch. 1 Sec. 1.2.1]{evans}. 
 
 
@@ -236,6 +235,15 @@ and $25/64  \approx  0.39 \ne 1/2$.
 \end{example}
 
 
+ The joint distribution does not directly tell us the probabilities of observing a value of only one of the random variables, e.g. the probability that $Y_A = 1$. The procedure used above to obtain these probabilities, by summing over the other variable, is called \dfn{marginalization}. In general, for a joint distribution $P(x,y)$ the marginal distribution of $x$ is 
+ \begin{equation}
+ P(x) = P_X(x) = \sum_{y \in S_Y}P(x,y). 
+ \end{equation}
+ Notice that in the case of independent variables, 
+  \begin{equation}
+ \sum_{y \in S_Y}P(x,y) = P(x) \sum_{y \in S_Y}P(y) = P(x)
+ \end{equation}
+ 
 \begin{example}[Calculating probabilities from a specified joint distribution]
 
 Suppose random variables $A,B,C \in \{0,1\}$ have the joint PMF $P(a,b,c)=P(A=a,B=b,C=c)$ given on $S = \{0,1\}^3$ by
@@ -340,23 +348,6 @@ This has the expected properties of $Y$. In particular, it decays as $k$ increas
 %\href{https://colab.research.google.com/drive/1Gs-gSsUP1hHVwhrbwvWzLVm1ulcLJKRI#scrollTo=36vlB9r1Wts5}{Verifying an analytical formula with simulations}
 \end{example}
 
-
- The joint distribution does not directly tell us the probabilities of observing a value of only one of the random variables, e.g. the probability that $Y_A = 1$. The procedure used above to obtain these probabilities, by summing over the other variable, is called \dfn{marginalization}. In general, for a joint distribution $P(x,y)$ the marginal distribution of $x$ is 
- \begin{equation}
- P(x) = P_X(x) = \sum_{y \in S_Y}P(x,y). 
- \end{equation}
- Notice that in the case of independent variables, 
-  \begin{equation}
- \sum_{y \in S_Y}P(x,y) = P(x) \sum_{y \in S_Y}P(y) = P(x)
- \end{equation}
-%\begin{equation}
-%P(Y_A=1)  = \sum_{y}P(Y_A=1,y) = P(Y_A,Y_B = 0)  +P(Y_A,Y_B= 1)
-%\end{equation}
-%where in the general the sum is taken over all possible outcomes for the second variable. $\Prob(Y_1)$ is defined similarly. 
-% In the example above 
-%\begin{equation}
-%Y_A \sim {\rm Bernoulli}\left(\frac{5}{8}\right).
-%\end{equation}
 
 
 
