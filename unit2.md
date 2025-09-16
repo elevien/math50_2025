@@ -7,7 +7,7 @@ bibliography:
 
 # Expectation, Continuous probability, CLT and Normal models
 
-In this section we introduce **expectation**, an operation which takes a random variable and produces a deterministic quantity. The expectation of a random variable can be appoximated with **sample averages** and from them we can infer properties of the model (like paramaters). This will motivate us to study the probability distribution of sums of random variables, which leads to the **CLT** and the **Normal distribution.** 
+In this section we introduce **expectation**, an operation which takes a random variable and produces a deterministic quantity. The expectation of a random variable can be appoximated with **sample averages** and from them we can infer properties of the model (like paramaters). Much of statistics relies on the fact that sample averages approximate expectations, and understanding how well these approximations work is a central goal of statistics. This will motivate us to study the probability distribution of sums of random variables, which leads to the **CLT** and the **Normal distribution.** If there is time, we will also learn about **log normal distributions**, which are a better model for many real world random variables, but can easily by mapped to normal random variables. 
 
 
 Material: 
@@ -16,11 +16,11 @@ Material:
 
 # Concepts
 
-Expectation, conditional expectation, emperical averages, CLT, Normal random variables and their properties, coefficient of variation, mean vs. median
+Expectation, conditional expectation, emperical averages, CLT, Normal random variables and their properties, coefficient of variation, mean vs. median, log normal (if time permits).
 
 # Things to practice
 
-- Calculate expectations by hand and in Python. 
+- Calculate expectations by hand and in Python (including conditional expectations).
 - Manipulate normal random variables  (apply linearity of expectation and independence to simplify calculations.)
 - How to use CLT to estimate probabilities of sums (and know when the CLT gives an accurate approximation)
 - Determine if the Normal model is a good model from data based on quantiles. 

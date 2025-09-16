@@ -549,9 +549,9 @@ $A=1$ & $0.2$ & $0.4$ \\
 Let $X$ and $Y$ have joint probabilities:
 \begin{align*}
 P(X=0, Y=0) &= 0.2 \\
-P(X=0, Y=1) &= 0.3 \\
+P(X=0, Y=1) &= 0.2 \\
 P(X=1, Y=0) &= 0.1 \\
-P(X=1, Y=1) &= 0.4
+P(X=1, Y=1) &= 0.5
 \end{align*}
 \begin{enumerate}[label=(\alph*)]
 \item Compute the marginal distribution $P_X(x)$ for $x=0,1$.
@@ -571,7 +571,7 @@ P_Z(z) = \begin{cases}
   0.3 & z=2
 \end{cases}
 \end{equation*}
-Let $W|Z=z \sim \text{Bernoulli}(z/4 + 1/4)$.
+Let $W|Z \sim \text{Bernoulli}(Z/4 + 1/4)$.
 \begin{enumerate}[label=(\alph*)]
 \item What is $P(W=1|Z=2)$?
 \item What is $P(W=1)$?
@@ -616,7 +616,7 @@ P_X(x) = \begin{cases}
   1/4 & x=2
 \end{cases}
 \end{equation*}
-Let $Y|X$ be defined as $Y|X=x \sim \text{Bernoulli}(x/4 + 1/4)$.
+Let $Y|X$ be defined as $Y|X \sim \text{Bernoulli}(X/4 + 1/4)$.
 \begin{enumerate}[label=(\alph*)]
 \item What is $P(Y=1|X=2)$?
 \item What is $P(Y=1)$?
@@ -626,25 +626,7 @@ Let $Y|X$ be defined as $Y|X=x \sim \text{Bernoulli}(x/4 + 1/4)$.
 
 
  
-%--------------------------------------------------------------------------------------------------------------------------------
-\begin{exercise}[Conditional probability from a table  \ding{111}]
-Suppose you have the following joint probability table for random variables $A$ and $B$:
-\begin{center}
-\begin{tabular}{c|cc}
- & $B=0$ & $B=1$ \\
-\hline
-$A=0$ & $0.2$ & $0.3$ \\
-$A=1$ & $0.1$ & $0.4$ \\
-\end{tabular}
-\end{center}
-\begin{enumerate}[label=(\alph*)]
-\item What is $P(A=1)$?
-\item What is $P(B=0)$?
-\item What is $P(A=1|B=1)$?
-\item What is $P(B=1|A=0)$?
-\end{enumerate}
-\end{exercise}
- 
+
 
 
 %--------------------------------------------------------------------------------------------------------------------------------
@@ -655,7 +637,7 @@ The first two problems are inspired by those in section 2 of \cite{evans}.   You
 \begin{equation*}
 Y \sim {\rm Bernoulli}(q)
 \end{equation*}
-and let $Z = 1/(1+Y) + Y$. What is the sample space of $Z$ and what is the probability function of $Z$? %You can express the probability distribution either as a piecewise function or by specifying each probability, i.e., $P(Z=z) = \cdots$.
+and let $Z = 1/(1+Y) + Y$. What is the sample space of $Z$ and what is the probability distribution of $Z$? %You can express the probability distribution either as a piecewise function or by specifying each probability, i.e., $P(Z=z) = \cdots$.
 \item Suppose a coin is flipped. If the coin is heads, we write down $0$. If the coin is tails, we roll a dice and write down the number. Let $Y$ be the number we write down.  What is the sample space and the probability distribution for $Y$? 
 \item For the previous problem, conditioned on the dice rolling a $4$, what is the probability we write down $0$? Conditioned on the coin being tails, what is the probability the dice rolls a $3$?
 \item Consider the geometric distribution. Provide three real-world examples of variables where the geometric distribution is a good model. Explain your reasoning. 
@@ -806,8 +788,8 @@ get $n$ ones in a row. You should change the variable names accordingly. We will
 Consider the probability model defined by
 \begin{align*}
 Y_B &\sim \text{Bernoulli}(2/3) \\
-Y_A|Y_B=0 &\sim \text{Bernoulli}(1/3) \\
-Y_A|Y_B=1 &\sim \text{Bernoulli}(1/2)
+Y_A|(Y_B=0) &\sim \text{Bernoulli}(1/3) \\
+Y_A|(Y_B=1) &\sim \text{Bernoulli}(1/2)
 \end{align*}
 
 \begin{enumerate}[label=(\alph*)]

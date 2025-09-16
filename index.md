@@ -25,9 +25,12 @@ See [weekly schedule]({{ '/schedule/' | relative_url }}) for details.
 - Generally available to answer questions on Slack (please use Slack over email for course-related matters) throughout the week. I will occasionally answer questions on the weekend, but there is no guarantee.  
 
 **Textbooks:** My notes are mostly self contained, although I will reference material from a few textbooks: 
-- James, Gareth, Witten, Daniela, Hastie, Trevor, Tibshirani, Robert, et al. (2013). *An introduction to statistical learning (python version)*. Springer.  This book straddles the boundary between machine learning and statistics and I will reference it heavily in Units 5-7. I found the discussion of regularization very approachable. 
-- Gelman, Andrew, Hill, Jennifer, Vehtari, Aki. (2020). *Regression and other stories*. Cambridge University Press. This is a fantastic, non-technical, introduction to regression modeling through coding and examples. The code is in R, but there are versions of the examples in Python available. It has a nice introduction to causal inference and I really like how they talk about interpreting regression coefficients. I also like that they take a Bayesian view, but are not too strict about it. 
-- Evans, Michael J., Rosenthal, Jeffrey S. (2004). *Probability and statistics: The science of uncertainty*. Macmillan. This is a more mathematically technical book on statistical inference and probability theory. If you are interested in going deeper into the theory, I recommend taking a look. I will reference it heavily in Units 1-4. 
+- James, Gareth, Witten, Daniela, Hastie, Trevor, Tibshirani, Robert, et al. (2013). *An introduction to statistical learning (python version)*. Springer.  
+  - This book straddles the boundary between machine learning and statistics and I will reference it heavily in Units 5-7. I found the discussion of regularization very approachable. 
+- Gelman, Andrew, Hill, Jennifer, Vehtari, Aki. (2020). *Regression and other stories*. Cambridge University Press. 
+  - This is a fantastic, non-technical, introduction to regression modeling through coding and examples. Many aspects of the course are inspired by this book. The code is in R, but you can find versions in Python. It has a nice introduction to causal inference and I really like how they talk about interpreting regression coefficients. I also like that they take a Bayesian view, but are not too strict about it and focus on the practical goals of regression modeling, rather than the underlying philosophy. 
+- Evans, Michael J., Rosenthal, Jeffrey S. (2004). *Probability and statistics: The science of uncertainty*. Macmillan.
+  -  This is a more mathematically technical book on statistical inference and probability theory. If you are interested in going deeper into the theory, I recommend taking a look. I will reference it heavily in Units 1-4, but only for those who are interested in going deeper. 
 
 You should be able to find PDFs of all these books online. 
 
@@ -58,12 +61,12 @@ Your grade will be based on the following. You should see Canvas for the specifi
 
 ## How to be successful in this course
 
-- Come to class and ask questions. 
-- Do every exercise in the notes and do every question on the practice exams.
-- Use the project as an opportunity to connect the course material to things that are meaningful to you.  
-- Spend time reviewing the material and working through problems without LLM/AI. These tools often create the illusion of productivity because of the rapid feedback, but it's sometimes better to do things ``by hand''. 
-- On the other hand, you should absolutely embrace AI as a tool to help you learn, so long as it's done in a mindful way and not to avoid doing the work yourself. I recommend making a GitHub account and interacting with the course material through Copilot on GitHub. [Here](https://github.com/copilot/share/007652a8-48c4-8874-b902-100a20c608ca) is an example of what this looks like. 
-- Connect with other students in the class and work with them. 
+- Come to class and ask questions.
+- Do every exercise in the notes and every question on the practice exams.
+- Use the project as an opportunity to connect the course material to topics that are meaningful to you.
+- Spend time reviewing the material and working through problems without LLMs/AI. These tools can create the illusion of productivity because of the rapid feedback. Ask yourself: Are the interactions I'm having with AI really serving my learning goals?
+- That said, you should absolutely embrace AI as a tool to help you learn, as long as you use it mindfully and not to avoid doing the work yourself. I recommend making a GitHub account and interacting with the course material through Copilot on GitHub. [Here](https://github.com/copilot/share/007652a8-48c4-8874-b902-100a20c608ca) is an example of what this looks like. The problems it produced are not perfect (for example, I find the last one a bit trivial because the flips are independent), but they are a great starting point.
+- Connect with other students in the class and work with them. The class is typically very diverse: some students have taken other probability courses, like 20 and 40, while others have experience doing data analysis in a research or industry setting. It's great if you can connect with people whose skills complement yours.
 
 ## Accessibility Needs
 

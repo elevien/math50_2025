@@ -39,4 +39,5 @@ Material:
 - [Sample space](https://en.wikipedia.org/wiki/Sample_space)
 - [Bernoulli distribution](https://en.wikipedia.org/wiki/Bernoulli_distribution)
 - [Geometric distribution](https://en.wikipedia.org/wiki/Conditional_probability)
+- [Binomial distribution](https://en.wikipedia.org/wiki/Binomial_distribution)
 - [Statistical independence](https://en.wikipedia.org/wiki/Independence_(probability_theory))
