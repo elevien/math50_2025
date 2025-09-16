@@ -21,7 +21,7 @@ See [weekly schedule]({{ '/schedule/' | relative_url }}) for details.
 
 **My availability:**  
 
-- Office hours (in person): Tuesday 8:30–10:00am **and** 12:00–1:30pm  
+- Office hours (in person): Tuesday 8:00–10:00am **and** 1:30–2:30pm  
 - Generally available to answer questions on Slack (please use Slack over email for course-related matters) throughout the week. I will occasionally answer questions on the weekend, but there is no guarantee.  
 
 **Textbooks:** My notes are mostly self contained, although I will reference material from a few textbooks: 
