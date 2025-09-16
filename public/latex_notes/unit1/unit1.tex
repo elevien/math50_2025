@@ -101,7 +101,7 @@ A probability measure $P$ on a sample space $S$ satisfies the following axioms:
 If the coin-flip space is $S=\{\text{heads},\text{tails}\}$, then
 \[ P(\text{heads} \cup \text{tails}) = P(S) = 1. \]
 
-For more discussion and examples, see \cite[Ch.~1, Sec.~1.2.1]{evans}.
+
 
 %\item It is very important that the sum of $P(Y)$ over all possible outcomes is $1$ -- this is simply saying that we are certain one of the outcomes will happen. We might use $P(1)$ or $P(\{1\})$ to mean ``the probability that $Y=1$", or, in there is some ambiguity in which variable we are referring to, we might write $P(Y=1)$. 
 \begin{example}\label{ex:twocoins} Suppose we flip two fair coins and let $X_1$ and $X_2$ denote the outcomes. The sample space is the same as Example \ref{ex:joint}; that is, 
@@ -119,9 +119,49 @@ P_{A,B}(1,1) = P_A(1)P_B(1)  = \frac{1}{2} \times \frac{1}{2}
 \end{equation*}
 This makes sense intuitively: We will get a heads half the time on the first flip, and then half of those times we will get one on the second flip. 
 We will soon see that this is related to the fact that the two variables are independent -- in other words, knowing one does not influence the other. 
+
+
+% attempt at TIKZ figure illustrating tree generated with GPT5. Didn't work so well 
+%\begin{center}
+%\begin{tikzpicture}[
+%  grow=down,                             % vertical orientation
+%  level distance=12mm,                   % vertical gap between generations
+%  level 1/.style={sibling distance=36mm},
+%  level 2/.style={sibling distance=20mm},
+%  edge from parent/.style={draw,-{Latex[length=2mm]}},
+%  every node/.style={font=\small,align=center,inner sep=1pt},
+%  lab/.style={fill=white,inner sep=1pt}  % background for edge labels
+%]
+%% Root (no text)
+%\node (R) {}
+%% ----- First flip (X1) -----
+%  child { node (H) {H}
+%    edge from parent node[lab,left,pos=0.5,xshift=-1mm] {$\tfrac12$}
+%    % ----- Second flip (X2) given H -----
+%    child { node {HH\\[-2pt]$P=\tfrac14$}
+%      edge from parent node[lab,left,pos=0.5,xshift=-1mm] {$\tfrac12$} }
+%    child { node {HT\\[-2pt]$P=\tfrac14$}
+%      edge from parent node[lab,right,pos=0.5,xshift=1mm] {$\tfrac12$} }
+%  }
+%  child { node (T) {T}
+%    edge from parent node[lab,right,pos=0.5,xshift=1mm] {$\tfrac12$}
+%    % ----- Second flip (X2) given T -----
+%    child { node {TH\\[-2pt]$P=\tfrac14$}
+%      edge from parent node[lab,left,pos=0.5,xshift=-1mm] {$\tfrac12$} }
+%    child { node {TT\\[-2pt]$P=\tfrac14$}
+%      edge from parent node[lab,right,pos=0.5,xshift=1mm] {$\tfrac12$} }
+%  };
+%
+%% Generation labels
+%\node[above=2mm] at (R) {$X_1$};
+%\node[left=3mm]  at (H) {$X_2$};
+%\node[right=3mm] at (T) {$X_2$};
+%
+%\end{tikzpicture}
+%\end{center}
 \end{example}
 
-
+For more discussion and examples, see \cite[Ch.~1, Sec.~1.2.1]{evans}.
 
 
 
@@ -382,6 +422,8 @@ import numpy as np
 # Define probabilities for each (Y_A, Y_B) pair
 probs = [1/2, 1/8, 1/8, 1/4]  # (0,0), (0,1), (1,0), (1,1)
 pairs = [(0,0), (0,1), (1,0), (1,1)]
+# we could have defined this as [1,2,3,4] 
+# then we would just need to remember which outcomes they map to
 
 # Generate samples
 N = 10000
@@ -817,14 +859,7 @@ Y_A|(Y_B=1) &\sim \text{Bernoulli}(1/2)
 \end{exercise}
 
 
-%---------------------------------------------------------------------------------------------------------------------------------------
-\begin{exercise}[Verifying variance formula for Bernoulli variable]
-Using Python, verify the formula for the variance
-\begin{equation*}
-{\rm Var}(Y) = q(1-q)
-\end{equation*}
-This is a bit vague, but part of the exercise is to think about how you might justify this formula. In particular, what type of plot should you make? Use AI to help with coding if needed, but think about what you are trying to achieve first. 
-\end{exercise}
+
 
 %---------------------------------------------------------------------------------------------------------------------------------------
 \begin{exercise}[Working with Washington Post Data]

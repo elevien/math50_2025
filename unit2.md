@@ -7,7 +7,7 @@ bibliography:
 
 # Expectation, Continuous probability, CLT and Normal models
 
-In this section we introduce **expectation**, an operation which takes a random variable and produces a deterministic quantity. The expectation of a random variable can be appoximated with **sample averages** and from them we can infer properties of the model (like paramaters). Much of statistics relies on the fact that sample averages approximate expectations, and understanding how well these approximations work is a central goal of statistics. This will motivate us to study the probability distribution of sums of random variables, which leads to the **CLT** and the **Normal distribution.** If there is time, we will also learn about **log normal distributions**, which are a better model for many real world random variables, but can easily by mapped to normal random variables. 
+In this section we introduce **expectation**, an operation which takes a random variable and produces a deterministic quantity. The expectation of a random variable can be approximated with **sample averages**, and from them we can infer properties of the model (like parameters). Much of statistics relies on the fact that sample averages approximate expectations, and understanding how well these approximations work is a central goal of statistics. This will motivate us to study the probability distribution of sums of random variables, which leads to the **CLT** and the **Normal distribution**. If there is time, we will also learn about **log-normal distributions**, which are a better model for many real-world random variables, but can easily be mapped to normal random variables.
 
 
 Material: 

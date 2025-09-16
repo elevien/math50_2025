@@ -15,8 +15,8 @@
 
 \section*{Introduction}
 
-In this section we, begin by introducing the idea of expectation. This will help us summarize important properties of the data, such as variance. Then, we will introduce continuous probability distribution (modeling real valued random variables).  The most important is the Normal distribution and discuss its properties. It will be important to understand where the Normal distribution comes from, so we will discuss (in non-rigorous terms) the central limit theorem (CLT).  Time permitted we may also discuss the random walk. 
 
+In this section we introduce \dfn{expectation}, an operation which takes a random variable and produces a deterministic quantity. The expectation of a random variable can be approximated with \dfn{sample averages} and from them we can infer properties of the model (like parameters). Much of statistics relies on the fact that sample averages approximate expectations, and understanding how well these approximations work is a central goal of statistics. This will motivate us to study the probability distribution of sums of random variables, which leads to the \dfn{CLT} and the \dfn{Normal distribution.} If there is time, we will also learn about \dfn{log normal distributions}, which are a better model for many real world random variables, but can easily by mapped to normal random variables. 
 
 
 
@@ -29,7 +29,9 @@ In this section we, begin by introducing the idea of expectation. This will help
 
 \subsection{Sample averages and expectation}
 \sectionrefs{ \cite[Ch. 3]{evans}}
- Usually it is difficult to obtain the full distribution of a random variable from data and it may not even be that relevant for the questions we are asking. Instead, we would like to summarize properties of a random variable by looking at averages. The simplest example is the \dfn{sample mean}, \dfn{sample average}, or \dfn{empirical average}. 
+ Usually it is difficult to obtain the full distribution of a random variable from data and it may not even be that relevant for the questions we are asking. Instead, we would like to summarize properties of a random variable by looking at averages.  In other cases, we have a good idea what the type of distribution is, but there are unknown parameters which can be estimated by averages.  
+ 
+ You are probably familiar with the \dfn{sample mean}, \dfn{sample average}, or \dfn{empirical average}. 
 If $Y_1,Y_2,\dots,Y_n$ are iid samples of $Y$, the sample mean is defined as
 \begin{equation*}
 \overline{Y} = \frac{1}{n}\sum_{i=1}^nY_i
@@ -39,6 +41,7 @@ More generally, we might look at the average of some function of a random variab
 \begin{equation*}
 \overline{f(Y)} = \frac{1}{n}\sum_{i=1}^nf(Y_i)
 \end{equation*}
+(Remember, a function of a random variable is just another random variable, so there is nothing too deep here). 
 If we take the function to be 
 \begin{equation}
 f(y) =1_A(y) =  \left\{\begin{array}{lr} 
@@ -46,12 +49,17 @@ f(y) =1_A(y) =  \left\{\begin{array}{lr}
 0 & \text{if }y \in A
 \end{array}\right.
 \end{equation}
-Then $\overline{f(Y)} \approx P(\{Y \in A\})$, so we can connect the idea of a sample average to estimates of probabilities. Any quantity we compute from data is in some way a sample average, so a great deal of statistics is about understanding the behavior of sample averages. 
+Then we can connect the idea of a sample average to estimates of probabilities via
+\begin{equation}
+\overline{f(Y)} = \frac{N(y \in A)}{n} \approx P(\{Y \in A\})
+\end{equation}
+Any quantity we compute from data is in some way a sample average, so a great deal of statistics is about understanding the behavior of sample averages. 
 
-A sample average can be computed from the probability distribution.  Suppose each $Y_i$ are iid random variables with sample space $S$.  If $n$ is large, then the fraction of samples for which $Y_i= y$ will be $P(\{Y_1=y\})$, thus the sample mean converges to the true mean: 
+Now we introduce the idea of \dfn{expectation}. I like to think of expectation as the mathematical idealization of a sample average, just as probabilities are mathematical idealizations of long-run frequencies\footnote{This is at least the frequentist interpretation. We can also interpret them as measures of belief. More on that in Unit 6 and 7}.   Suppose each $Y_i$ are iid random variables with each having sample space $Y$. If $n$ is large, then of course the fraction of samples for which $Y_i= y$ will be $\approx P(\{Y_1=y\})$. We can express the sample average in terms of the probabilities via
  \begin{equation*}
-\overline{Y} =  \frac{1}{n}\sum_{i}Y_i = \frac{1}{n} \sum_{y=1}^m y N(Y=y) =\sum_{y \in S} y \frac{N(Y=y) }{n}\approx  \sum_{y\in S}^m y P(Y=y)
+\overline{Y} =  \frac{1}{n}\sum_{i}Y_i = \frac{1}{n} \sum_{y \in S} y N(Y=y) =\sum_{y \in S} y \frac{N(Y=y) }{n}\approx  \sum_{y\in S} y P(Y=y).
 \end{equation*}
+The second equality just came from putting the samples in groups according to their value of $y$. 
 The expression on the right is the definition of the mean, or \dfn{expectation}, and is denoted
 \begin{equation}
 \E[Y] = \sum_{y=1}^m y P(Y=y)
@@ -60,23 +68,77 @@ The expression on the right is the definition of the mean, or \dfn{expectation},
  \begin{equation}\label{eq:EappoverY}
  E[Y] \approx \overline{Y}
  \end{equation}
+ Sometimes we use $\E$ instead of $E$ to distinguish it from other variables names $E$, but I will try not to use $E$ for other things. 
 If we have a function $f:S \to S'$ from the sample space to some other space $S'$, then $f(Y)$ is simply a new random variable with sample space $S'$, but we don't usually need to find the distribution of $X = f(Y)$ to compute expectations, since this can be written  
-\begin{equation}
-\E[X] = \E[f(Y)] = \sum_{y\in S} f(y) P(Y=y). 
+\begin{equation}\label{eq:Efy}
+E[X] = E[f(Y)] = \sum_{y\in S} f(y) P(Y=y). 
 \end{equation}
-This will be important for the definition of variance below. 
+The nice thing here is that we can use the probability distribution for $Y$ to compute the expectation of $X$, which in some cases may be simpler (this is the case for variance below). 
 
  It is important to understand that, just like probabilities, the expectation is an operation which takes a random variable to a deterministic number. The sample average is the approximate version of this. I like to think of expectations and sample averages as living in ``math world'' and ''data world'' respectively. After discussion variance, standard deviation and CV, Section \ref{sec:llnclt} will take you on a deeper dive into this connection, which is made precise by the LLN and CLT. 
 
 
+\begin{example}[Expectation of a discrete random variable]
+Let $Y$ be a random variable taking values in $\{1,2,3\}$ with probabilities
+\[
+P(Y=1)=\tfrac{1}{2}, \quad P(Y=2)=\tfrac{1}{3}, \quad P(Y=3)=\tfrac{1}{6}.
+\]
 
+\noindent
+\underline{Question}: What is $E[Y]$?\\
 
+\noindent
+\underline{Solution}: By definition,
+\begin{align*}
+E[Y] &= \sum_{y=1}^3 y P(Y=y) \\
+     &= 1\cdot \tfrac{1}{2} + 2\cdot \tfrac{1}{3} + 3\cdot \tfrac{1}{6} \\
+     &= \tfrac{1}{2} + \tfrac{2}{3} + \tfrac{1}{2} \\
+     &= \tfrac{5}{3}.
+\end{align*}
+So the expected value of $Y$ is $E[Y] = \tfrac{5}{3}$. 
+
+\noindent
+\underline{Python exercise}: Write code that generates a dataframe with $n$ simulated values of $Y$, computes the sample mean, and plots the sample mean as a function of $n$. Compare your results with the theoretical expectation $E[Y]=5/3$. 
+
+\begin{lstlisting}[language=Python]
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+
+# Define the probability distribution
+values = [1, 2, 3]
+probs = [1/2, 1/3, 1/6]
+
+# Number of samples to generate
+Nmax = 5000
+
+# Draw samples from the distribution
+samples = np.random.choice(values, size=Nmax, p=probs)
+
+# Store in a dataframe
+df = pd.DataFrame({"Y": samples})
+
+# Compute running sample mean
+sample_means = df["Y"].expanding().mean()
+
+# Plot sample mean vs n
+plt.figure(figsize=(6,4))
+plt.plot(sample_means, label="Sample mean")
+plt.axhline(5/3, color="red", linestyle="--", label="Theoretical $E[Y]=5/3$")
+plt.xlabel("n (sample size)")
+plt.ylabel("Sample mean")
+plt.legend()
+plt.title("Convergence of sample mean to expectation")
+plt.show()
+\end{lstlisting}
+\end{example}
 
 \subsection{Measuring variation}
- In many cases we would like to measure deviations from the mean. For this we define \dfn{variance},
+One of the most important expectations is the \dfn{variance}, which measures the typical distance from the mean. This is defined as
 \begin{equation*}
 {\rm var}(Y) = E[(Y-E[Y])^2]
 \end{equation*}
+which you should comes from taking $f(Y) = (Y-E[Y])^2$ in Eq. \ref{eq:Efy}. 
 Another way to write this is 
 \begin{equation*}
  {\rm var}(Y) = E[Y^2] - 2E[Y]^2 + E[Y]^2 = E[Y^2]-E[Y]^2
@@ -94,14 +156,13 @@ Let $Y$ be a Bernoulli random variable with parameter $q$. We will use the conve
 \begin{equation*}
 E[Y] = P(Y=0)\times 0 + P(Y=1)\times 1 = q
 \end{equation*}
-similarly you should be able to see that ${\rm var}(Y) = q(1-q)$. 
-In the python notebook we test the formula $E[Y]=q$. 
+similarly you should be able to see that ${\rm var}(Y) = q(1-q)$. Try testing this formula with Python (this is one of the exercises). 
 \end{example}
 
 Based on this example, we can see that to estimate $q$ we can use $\hat{q} = \bar{Y}$ (as expected). Here I'm defining $\hat{q}$ as shorthand for an estimator of $q$. 
 
 
-To measure ``how much variation'' there is in a random variable, we need to compare the variance to the mean. However, these is a problem with doing this directly: the variance has different units than the mean. For example, say we are looking at human height. If the mean height is about $170 \,\text{cm}$, then the variance might be something like $100 \,\text{cm}^2$. This is hard to interpret because the mean is measured in centimeters, while the variance is in squared centimeters. To make the comparison meaningful, we first take the square root of the variance to obtain the \dfn{standard deviation}, which brings the measure of spread back into the same units as the mean (in this case, centimeters). Now we can meaningfully say that the spread around the mean height is about $10 \,\text{cm}$.  
+To measure ``how much variation'' there is in a random variable, we need to compare the variance to the mean. However, there is a problem with doing this directly: the variance has different units than the mean. For example, say we are looking at human height. If the mean height is about $170 \,\text{cm}$, then the variance might be something like $100 \,\text{cm}^2$. This is hard to interpret because the mean is measured in centimeters, while the variance is in squared centimeters. To make the comparison meaningful, we first take the square root of the variance to obtain the \dfn{standard deviation}, which brings the measure of spread back into the same units as the mean (in this case, centimeters). Now we can meaningfully say that the spread around the mean height is about $10 \,\text{cm}$.  
 
 But even the standard deviation is not enough by itself when we want to compare variability across different contexts. Suppose we measure the weights of the same individuals, where the mean is around $70 \,\text{kg}$ and the standard deviation is $10 \,\text{kg}$. The ``10'' here is not directly comparable to the ``10'' cm in height, because the scales of measurement are different. What matters is not the absolute size of the variation, but its size \emph{relative to the mean}.  
 
@@ -122,7 +183,7 @@ Thus, the CV is the correct measure of variation when our goal is to compare var
 
  We define the conditional expectation  \cite[Definition 3.5.1]{evans} as the expectation of the conditional variable; that is, 
 \begin{equation*}
-\E[X|Y=y] = \sum_{x} xP(X|Y=y)
+E[X|Y=y] = \sum_{x} xP(X|Y=y)
 \end{equation*}
 With samples
 \begin{equation*}
@@ -130,7 +191,7 @@ With samples
 \end{equation*}
 we have 
  \begin{equation*}
- \E[X|Y=y] \approx  \frac{1}{N(Y=y)}\sum_{i=1}^n1_{\{y_i = y\}}x_i
+E[X|Y=y] \approx  \frac{1}{N(Y=y)}\sum_{i=1}^n1_{\{y_i = y\}}x_i
  \end{equation*}
  where $1_{\{y_i = y\}}$ is the \dfn{indicator function}
  \begin{equation*}
@@ -178,6 +239,50 @@ E[Y_A|Y_B=1] = \frac{2}{3}.
 
 \end{example}
 
+
+\begin{example}[Mean of a Geometric random variable via simulation]
+Let $X \sim \mathrm{Geometric}(q)$ with support $\{1,2,\dots\}$, i.e.,
+\[
+P(X=k) = q(1-q)^{k-1},\quad k\in\{1,2,\dots\}.
+\]
+
+\noindent
+\underline{Question}: Use simulations to confirm that $E[X] = 1/q$.\\
+
+\noindent
+\underline{Solution}: 
+
+\begin{lstlisting}[language=Python]
+import numpy as np
+import matplotlib.pyplot as plt
+
+rng = np.random.default_rng(42)
+
+q = 0.3        # success probability
+N = 100_000    # total number of samples
+
+# NumPy's geometric uses support {1,2,...} with P(X=k)=q(1-q)^{k-1}
+X = rng.geometric(p=q, size=N)
+
+# Running sample mean
+running_mean = np.cumsum(X) / np.arange(1, N+1)
+
+print(f"Theoretical E[X] = {1/q:.6f}")
+print(f"Estimated  E[X] = {running_mean[-1]:.6f}")
+\end{lstlisting}
+
+Analytically,
+\[
+E[X] = \sum_{k=1}^\infty k\,q(1-q)^{k-1}
+= q \cdot \sum_{k=1}^\infty k r^{\,k-1}\Big|_{r=1-q}
+= q \cdot \frac{1}{(1-r)^2}\Big|_{r=1-q}
+= \frac{1}{q}.
+\]
+but you don't need to be able to do this calculation. 
+
+
+\end{example}
+
 \begin{example}[Computing conditional expectation from data ]
 Consider the following data containing children's test scores and some other information. 
 \begin{lstlisting}[language=Python]
@@ -214,13 +319,12 @@ Let $Y$ be the test score and $X$ be a binary variable representing whether the 
 
   \subsection{Properties of expectation}\label{prop:lin} 
   
-  Previously, I introduced the notation of expectation and we saw how to compute expectations in Python. Now we cover some addition properties. 
+Expectation has some important properties. These become particularly relevant when we work with linear regression models, which are defined in terms of conditional expectations. 
   \begin{enumerate}
-  \item {\bf Linearity  \cite[Theorem 3.1.2]{evans}:} For two random variables $X$ and $Y$ with discrete samples spaces $S_X$ and $S_Y$, 
-  \begin{equation*}
+  \item {\bf Linearity  \cite[Theorem 3.1.2]{evans}:} For two random variables $X$ and $Y$   \begin{equation*}
   E[X+Y] = E[X]+E[Y]
   \end{equation*}
-  \begin{proof} We have 
+  \begin{proof} We do the proof when the sample spaces $S_X$ and $S_Y$ are discrete: 
   \begin{align*}
   E[X+Y] &= \sum_{y \in S_Y}\sum_{x\in S_X} (x+y)P(X=x,Y=y) \\
   &= \sum_{x \in S_X} \sum_{y \in S_Y} xP(X=x,Y=y)  +  \sum_{x \in S_X} \sum_{y \in S_Y} yP(X=x,Y=y) \\
@@ -260,48 +364,102 @@ Let $Y$ be the test score and $X$ be a binary variable representing whether the 
 
   
   
-   \begin{example}[Calculating conditional expectations]
-Consider the model probability model for a variable $X$ (similar to Equation \ref{eq:gene}) 
-\begin{equation*}\label{eq:gene}
-P(X) = \left\{ \begin{array}{cc}
-1/2 & \text{ if }X=1\\
-1/8 & \text{ if }X=2\\
-1/8 & \text{ if }X=3\\
-1/4 & \text{ if }X=4
-\end{array}
- \right.\\
- \end{equation*}
- and define 
- \begin{equation*}
- Y = X\cdot Z,\quad Z = {\rm Geometric}(1/2). 
- \end{equation*}
-In this example we consider the joint distribution $(Y,X)$. \\
+\begin{example}[Calculating conditional expectations]
+Consider the probability model for a variable $X$
+\begin{equation}\label{eq:Xdist_ex}
+P(X=x)=
+\begin{cases}
+\frac{1}{2}, & x=1,\\[2pt]
+\frac{1}{8}, & x=2,\\[2pt]
+\frac{1}{8}, & x=3,\\[2pt]
+\frac{1}{4}, & x=4,
+\end{cases}
+\end{equation}
+and define
+\begin{equation}\label{eq:YZ_ex}
+Y = X\cdot Z,\qquad Z \sim \mathrm{Geometric}(X/4),
+\end{equation}
 
 
 \noindent
-\underline{Question}: Using simulations of this model, illustrate properties of expectation in Python.\\
+\underline{Question}: Compute $E[Y]$ using the tower property and check your answer using simulations.\\
 
 \noindent
-\underline{Solution}: See Python notebook. The one that requires the most explanation is the tower property.
-We will use simulations to show. Let $(X_1,Y_2),\dots,(X_N,Y_N)$ be our samples. We will show that $E[X] = E[E[X|Y]]$. The left hand side is easy to approximate with samples -- just take the mean of the $X$ values. To compute $E[X|Y]$ we need to compute $E[X|Y=y]$ for each $y$. If $n_y$ is the number of samples such that $Y_i=y$ then 
-\begin{equation*}
-E[X|Y=y] \approx \frac{1}{n_y}\sum_{\{i:Y_i =y\}}X_i
-\end{equation*}
-The sum is over all the $Y_i$ for which $Y_i=y$. We could also write this sum as $\sum_{i=1}^NX_i1_{Y_i=y}$. 
-This means 
-\begin{equation*}
-E[E[X|Y]] \approx E\left[ \frac{1}{n_y}\sum_{\{i:Y_i =Y\}}X_i  \right] = \sum_{y \in S_y}P(Y=y)\underbrace{\left(\frac{1}{n_y}\sum_{\{i:Y_i =y\}}X_i  \right)}_{\approx E[X|Y=y]}
-\end{equation*}
-Now use that $P(Y=y) \approx n_y/N$, therefore 
-\begin{equation*}
-E[E[X|Y]]  \approx \sum_{y \in S_y}\frac{1}{n_y}\sum_{\{i:Y_i =y\}}X_i  \frac{n_y}{N}
-\end{equation*}
-Notice that when we cancel the $n_y$ terms we just get the usual sample mean of $X$: 
-\begin{equation*}
-E[E[X|Y]]  \approx \frac{1}{N} \sum_{y \in S_y}\sum_{\{i:Y_i =y\}}X_i   =  \frac{1}{N}\sum_{i=1}^NX_i = \overline{X} \approx E[X]
-\end{equation*}
+\underline{Solution}:
+By the tower property,
+\begin{align}
+E[Y] &= E\!\left[\,E[Y\mid X]\,\right] \label{eq:tower_start}\\
+     &= E\!\left[\,E[XZ\mid X]\,\right]  \\
+     &=\sum_{x \in S_X} P(X=x) E[xZ\mid X=x] \label{eq:pull_out}\\
+     &=\sum_{x \in S_X} P(X=x)x E[Z| X=x] = \sum_{x \in S_X} P(X=x)x\frac{4}{x}\\
+     &= E\!\left[\,X \cdot \frac{4}{X}\,\right] \label{eq:geom_mean}\\
+     &= E[\,4\,] \;=\; 4. \label{eq:finalEY}
+\end{align}
+Hence, regardless of the distribution in \eqref{eq:Xdist_ex}, as long as $Z\sim\mathrm{Geometric}(X/4)$ (with support starting at $1$), we have
+\begin{equation}\label{eq:EY_value}
+E[Y]=4.
+\end{equation}
 
- \end{example}
+\begin{lstlisting}[language=Python]
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+
+rng = np.random.default_rng(2025)
+
+# Distribution of X
+x_vals  = np.array([1, 2, 3, 4])
+x_probs = np.array([1/2, 1/8, 1/8, 1/4])
+
+def simulate(N):
+    # Sample X
+    X = rng.choice(x_vals, size=N, p=x_probs)
+    # For each X, sample Z ~ Geometric(p=X/4)
+    Z = np.array([rng.geometric(p=xi/4) for xi in X])
+    Y = X * Z
+    return pd.DataFrame({"X": X, "Z": Z, "Y": Y})
+
+# Run simulation
+N = 200_000
+df = simulate(N)
+
+# Estimate E[Y]
+EY_hat = df["Y"].mean()
+
+# Empirical E[E[Y|X]]
+EY_given_X_hat = df.groupby("X")["Y"].mean().sort_index()
+pX_hat         = df["X"].value_counts(normalize=True).sort_index()
+EEY_given_X_hat = (EY_given_X_hat * pX_hat).sum()
+
+print(f"Theoretical E[Y]    = 4.000000")
+print(f"Estimated E[Y]      = {EY_hat:.6f}")
+print(f"Estimated E[E[Y|X]] = {EEY_given_X_hat:.6f}")
+print("\nConditional means E[Y|X=x] (each should be ~4):")
+print(EY_given_X_hat)
+\end{lstlisting}
+
+\end{example}
+
+%\noindent
+%\underline{Solution}:  Let $(X_1,Y_2),\dots,(X_N,Y_N)$ be our samples. We will show that $E[X] = E[E[X|Y]]$. The left hand side is easy to approximate with samples -- just take the mean of the $X$ values. To compute $E[X|Y]$ we need to compute $E[X|Y=y]$ for each $y$. If $N(y)$ is the number of samples such that $Y_i=y$ then 
+%\begin{equation*}
+%E[X|Y=y] \approx \frac{1}{N(y)}\sum_{\{i:Y_i =y\}}X_i
+%\end{equation*}
+%The sum is over all the $Y_i$ for which $Y_i=y$. We could also write this sum as $\sum_{i=1}^NX_i1_{Y_i=y}$. 
+%This means 
+%\begin{equation*}
+%E[E[X|Y]] \approx E\left[ \frac{1}{N(y)}\sum_{\{i:Y_i =Y\}}X_i  \right] = \sum_{y \in S_y}P(Y=y)\underbrace{\left(\frac{1}{N(y)}\sum_{\{i:Y_i =y\}}X_i  \right)}_{\approx E[X|Y=y]}
+%\end{equation*}
+%Now use that $P(Y=y) \approx N(y)/N$, therefore 
+%\begin{equation*}
+%E[E[X|Y]]  \approx \sum_{y \in S_y}\frac{1}{N(y)}\sum_{\{i:Y_i =y\}}X_i  \frac{N(y)}{N}
+%\end{equation*}
+%Notice that when we cancel the $N(y)$ terms we just get the usual sample mean of $X$: 
+%\begin{equation*}
+%E[E[X|Y]]  \approx \frac{1}{N} \sum_{y \in S_y}\sum_{\{i:Y_i =y\}}X_i   =  \frac{1}{N}\sum_{i=1}^NX_i = \overline{X} \approx E[X]
+%\end{equation*}
+
+ %\end{example}
 
 % \begin{example}[Binomial distribution in python]
 % Let's explore binomial random variables in python. 
@@ -345,7 +503,7 @@ E[Y] = qN \quad\quad{\rm var}(Y) = Nq(1-q).
  
  The important observation that the mean grows much faster with $N$ than the variance is also captured by the coefficient of variation: 
 \begin{equation*}
-{\rm CV} = \frac{\sqrt{{\rm var}(Y)}}{\E[Y]} = \sqrt{\frac{(1-q)}{q} \frac{1}{N}}. 
+{\rm CV} = \frac{\sqrt{{\rm var}(Y)}}{E[Y]} = \sqrt{\frac{(1-q)}{q} \frac{1}{N}}. 
 \end{equation*}
 The idea is that we are measuring the variation \emph{relative} to the average. This is relevant for many applications where we only care about the relative deviations. 
 
@@ -367,7 +525,29 @@ Think about the assumption we are making when we use this model. \\
 \underline{Question:} Suppose there is a city in which a fraction $q = 0.51$ of people support a candidate for city council. If $N=1000$ people turnout for the election, what is the chance that the actual vote share, $\phi = M/N$, differs from the actual fraction of support throughout the population by more than $1\%$?\\
 
  \noindent
-\underline{Solution:} See the Python notebook.
+\underline{Solution:} 
+
+\begin{lstlisting}[language=Python]
+import numpy as np
+import matplotlib.pyplot as plt
+
+# Parameters
+q = 0.51       # true population support
+N = 1000       # number of voters
+delta = 0.01   # tolerance for deviation in vote share
+trials = 200_000  # Monte Carlo repetitions
+
+rng = np.random.default_rng(123)
+
+# --- Monte Carlo estimation ---
+# Draw M ~ Binomial(N, q) many times, compute phi = M/N, estimate P(|phi - q| > delta)
+M_samples = rng.binomial(n=N, p=q, size=trials)
+phi = M_samples / N
+prob_est = np.mean(np.abs(phi - q) > delta)
+
+print(f"Monte Carlo estimate P(|phi - {q}| > {delta}) = {prob_est:.6f} "
+      f"(N={N}, trials={trials})")
+\end{lstlisting}
 \end{example}
 
  In the problem above the vote share is the same as the sample mean:
@@ -411,11 +591,11 @@ To understand what happens to the distribution of sums and averages of random va
 \]  
 Even if each \(Y_i\) only takes finitely many values (for instance, a Bernoulli random variable), the average can take increasingly many distinct values as \(n\) grows.  
 
-For example, starting with Bernoulli variables, the associated Binomial distribution lives on the sample space  
+For example, starting with iid Bernoulli variables $X_1,\dots,X_n$, the sample average $\bar{X}$ (which is a Binomial random variable divided by $n$)  has sample space 
 \[
-\Bigl\{0,\tfrac{1}{N},\tfrac{2}{N},\dots,1\Bigr\}.
+S_{\bar{X}} = \Bigl\{0,\tfrac{1}{n},\tfrac{2}{n},\dots,1\Bigr\}.
 \]  
-As \(N \to \infty\), this set of possible outcomes becomes dense in the interval \([0,1]\). In the limit we naturally want to talk about a probability distribution supported on a continuum of values---but our previous discrete framework does not cover this situation.  
+As \(n \to \infty\), this set of possible outcomes becomes dense in the interval \([0,1]\). In the limit we naturally want to talk about a probability distribution supported on a continuum of values---but our previous discrete framework does not cover this situation.  
 
 Fortunately, much of the discrete theory still applies once we replace sums with integrals. You will not be asked to evaluate integrals in this course, but we need to set up the basic definitions.  
 
@@ -468,8 +648,7 @@ Every pdf \(f(y)\) must satisfy:
 \item \textbf{Normalization:} \(\int_{-\infty}^{\infty} f(y)\,dy = 1\).  
 \end{enumerate}
 
-These are the continuous analogues of the conditions we imposed on discrete probability distributions.  
-
+These are the continuous analogues of the conditions we imposed on discrete probability distributions.  Note that $f(y)$ need NOT be less than $1$, because $f(y)$ is not a probability, rather integrals $\int_{a}^bf(y)dy$ is a probability. For example, suppose $f(y)$ is a uniform distribution on $[0,L] = [0,1/1000]$. Then $f(y) = 1/L = 1000$ for $y$ between $0$ and $1/1000$, and zero otherwise. The fact that the density is concentrated in a very small region cancels with the large values it takes in this region so that the integrals are always $\le 1$.
 
 \begin{figure}[h]
 \centering
@@ -505,7 +684,39 @@ Thus
 \begin{equation*}
 Y|(Y<1/2) \sim {\rm Uniform}(0,1/2)
 \end{equation*}
-We also check this with simulations in the Python notebook. 
+
+
+\begin{lstlisting}[language=Python]
+import numpy as np
+import matplotlib.pyplot as plt
+
+rng = np.random.default_rng(123)
+
+# Number of samples
+N = 200_000
+
+# Sample Y ~ Uniform(0,1)
+Y = rng.uniform(0, 1, size=N)
+
+# Condition on Y < 1/2
+Y_cond = Y[Y < 0.5]
+
+print(f"Proportion of samples kept (should be ~0.5): {len(Y_cond)/N:.3f}")
+print(f"Sample mean of conditional distribution: {Y_cond.mean():.3f}")
+print(f"Theoretical mean of Uniform(0,0.5): {0.25}")
+
+# Plot histogram of conditional samples
+plt.figure(figsize=(6,4))
+plt.hist(Y_cond, bins=40, density=True, alpha=0.7, label="Simulated density")
+plt.axhline(2.0, color="red", linestyle="--", label="Theoretical density f(y|Y<1/2)=2")
+plt.xlabel("y")
+plt.ylabel("Density")
+plt.title("Conditional distribution of Y given Y < 1/2")
+plt.legend()
+plt.tight_layout()
+plt.show()
+\end{lstlisting}
+
 \end{example}
 
 
@@ -704,7 +915,7 @@ Z = \frac{X-\mu_x}{\sigma_x}
 \end{equation*}
  {\bf Transforming $X$ to a standard Normal is equivalent to measuring $X$ in units of standard deviations.} For example, if we make a histogram of $X$, all this transformation does is change the $X$ axis to units of standard deviations from the mean. 
 
-  \begin{thm}[Special case of Theorem 4.6.1 in \cite{tabak}]\label{thm:addingnormal}
+  \begin{thm}[Special case of Theorem 4.6.1 in \cite{evans}]\label{thm:addingnormal}
 Let
 \begin{align*}
 X_1 &\sim {\rm Normal}(\mu_1,\sigma_1^2)\\
@@ -720,10 +931,10 @@ aX_1+bX_2 + d \sim {\rm Normal}\left(a\mu_1+b\mu_2+d,a^2\sigma_1^2 + b^2\sigma_2
 
 \appendix
 
- \section{Additional discussion of continuous random variables}
+ \section{Additional discussion of continuous random variables (optional)}
 
 
-
+\subsection{Exponential distribution}
  Suppose we want to model that time before a component of a machine fails. We will assume that the rate of failure -- that is, the chance that it fails per unit time -- is a constant $\lambda$. In other words, for a small time interval $dt$, the probability for the component to fail in a small time interval $[t,t+dt)$ given that it has not yet failed is $\lambda dt$. Or, in mathematical notation 
  If $T$ is the time of failure, then the density of $f_T(t)$ is 
 \begin{equation*}
@@ -844,12 +1055,12 @@ Do Exercises 3.1.3, 3.1.4, 3.1.10, 3.1.14  in  \cite{evans} and for each one che
 \begin{exercise}[Independence and conditional expectation \ding{111}]
 Let $X$ and $Y$ be two random variables with (discrete) sample spaces $S_X$ and $S_Y$.  (you can find these in the textbook, but give them a try yourself first). 
 \begin{enumerate}[label=(\alph*)]
-\item Show that if $X$ and $Y$ are independent $\E[X|Y=y]=\E[X]$ and $\E[Y|X=x]=\E[Y]$ for all $x \in S_X$ and $y \in S_Y$.  You may assume $S_X$ and $S_Y$ have a finite number of elements, e.g. $S_X = \{1,2,3,4\}$. 
+\item Show that if $X$ and $Y$ are independent $E[X|Y=y]=E[X]$ and $E[Y|X=x]=E[Y]$ for all $x \in S_X$ and $y \in S_Y$.  You may assume $S_X$ and $S_Y$ have a finite number of elements, e.g. $S_X = \{1,2,3,4\}$. 
 \item Prove the tower property of expectation, which says that 
 \begin{equation*}
-\E[X] = \sum_{y \in S_Y}\E[X|Y=y]P(Y=y)
+E[X] = \sum_{y \in S_Y}E[X|Y=y]P(Y=y)
 \end{equation*} 
-This is sometimes stated as $\E[X] = \E[\E[X|Y]]$ where the inner expectation is interpreted as a random variable depending on the value of $Y$. 
+This is sometimes stated as $E[X] = E[E[X|Y]]$ where the inner expectation is interpreted as a random variable depending on the value of $Y$. 
 \item Show that if $X$ and $Y$ are independent, then 
 \begin{equation*}
 {\rm var}(X+Y) = {\rm var}(X) + {\rm var}(Y)
@@ -863,7 +1074,14 @@ This is sometimes stated as $\E[X] = \E[\E[X|Y]]$ where the inner expectation is
 \end{enumerate}
 \end{exercise}
 
-
+%---------------------------------------------------------------------------------------------------------------------------------------
+\begin{exercise}[Verifying variance formula for Bernoulli variable \ding{111}]
+Using Python, verify the formula for the variance
+\begin{equation*}
+{\rm Var}(Y) = q(1-q)
+\end{equation*}
+This is a bit vague, but part of the exercise is to think about how you might justify this formula. In particular, what type of plot should you make? Use AI to help with coding if needed, but think about what you are trying to achieve first. 
+\end{exercise}
 
 
 
@@ -888,6 +1106,17 @@ Compute each of the following using Python
 \item $P(Z_2Z_1>0|Z_1+Z_2<4)$
 \end{enumerate}
 \end{exercise}
+
+\begin{exercise}[General linear transformation]
+Suppose $X \sim {\rm Normal}(5,9)$. Define
+Y = -2X + 7.
+\begin{enumerate}[label=(\alph*)]
+\item Find the distribution of $Y$ (mean and variance).
+\item Estimate $P(Y > 0)$ by hand and check with simulations. 
+\end{enumerate}
+\end{exercise}
+
+
 
 
 \begin{exercise}
