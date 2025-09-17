@@ -282,9 +282,9 @@ and $25/64  \approx  0.39 \ne 1/2$.
  \sum_{y \in S_Y}P(x,y) = P(x) \sum_{y \in S_Y}P(y) = P(x)
  \end{equation}
  
-\begin{example}[Calculating probabilities from a specified joint distribution]
+\begin{example}[Calculating probabilities from a specified joint distribution]\label{ex:abc}
 
-Suppose random variables $A,B,C \in \{0,1\}$ have the joint PMF $P(a,b,c)=P(A=a,B=b,C=c)$ given on $S = \{0,1\}^3$ by
+Suppose random variables $A,B,C \in \{0,1\}$ have the joint probability distribution $P(a,b,c)=P(A=a,B=b,C=c)$ given on $S = \{0,1\}^3$ by
 \begin{equation}
 p(a,b,c)=
 \begin{cases}
@@ -315,51 +315,6 @@ P(C=1)
 
 \medskip
 \noindent
-\underline{Question 2}: Make a Python data frame whose columns are \texttt{A}, \texttt{B}, \texttt{C} and whose rows are i.i.d.\ samples from \eqref{eq:pmf}. From this data frame, estimate the conditional probability $P(A=0 \mid B=1,C=1)$.\\
-
-\noindent
-\underline{Solution}: By definition,
-\begin{equation}
-P(A=0 \mid B=1,C=1)=\frac{P(A=0,B=1,C=1)}{P(B=1,C=1)}.
-\label{eq:cond_def}
-\end{equation}
-From \eqref{eq:pmf},
-\[
-P(A=0,B=1,C=1)=0.1,\qquad
-P(B=1,C=1)=p(0,1,1)+p(1,1,1)=0.1+0.2=0.3,
-\]
-so
-\begin{equation}
-P(A=0 \mid B=1,C=1)=\frac{0.1}{0.3}=\frac{1}{3}\approx 0.3333.
-\label{eq:cond_value}
-\end{equation}
-
-To estimate this empirically in Python, sample from the eight outcomes with their probabilities, place the samples into a \texttt{pandas} DataFrame, and compute the empirical conditional probability:
-\begin{lstlisting}[language=Python]
-import numpy as np
-import pandas as pd
-
-# Support and probabilities (match Eq. (1))
-outcomes = np.array([
-    (0,0,0), (0,0,1), (0,1,0), (0,1,1),
-    (1,0,0), (1,0,1), (1,1,0), (1,1,1)
-], dtype=int)
-probs = np.array([0.1, 0.2, 0.1, 0.1, 0.1, 0.1, 0.1, 0.2], dtype=float)
-
-# Draw N i.i.d. samples
-N = 200_000
-idx = np.random.choice(len(outcomes), size=N, p=probs)
-samples = outcomes[idx]
-
-# Build DataFrame with columns A, B, C
-df = pd.DataFrame(samples, columns=["A", "B", "C"])
-
-# Estimate P(A=0 | B=1, C=1)
-mask = (df["B"]==1) & (df["C"]==1)
-est = (df.loc[mask, "A"]==0).mean()
-print("Estimated P(A=0 | B=1, C=1):", est)
-\end{lstlisting}
-The printed estimate should be close to the exact value in \eqref{eq:cond_value}.
 \end{example}
 
 \begin{example}(\cite[Example 2.3.4]{evans})
@@ -464,6 +419,57 @@ P(X=x|Y=y) &= \begin{cases}
 The joint probability is then $P(X=x, Y=y) = P(X=x|Y=y)P(Y=y)$.
 \end{example}
 
+
+\begin{example}
+In this example use the same distribution as Example \ref{ex:abc}. 
+\underline{Question}: Make a Python data frame whose columns are \texttt{A}, \texttt{B}, \texttt{C} and whose rows are i.i.d.\ samples from \eqref{eq:pmf}. From this data frame, estimate the conditional probability $P(A=0 \mid B=1,C=1)$.\\
+
+\noindent
+\underline{Solution}: By definition,
+\begin{equation}
+P(A=0 \mid B=1,C=1)=\frac{P(A=0,B=1,C=1)}{P(B=1,C=1)}.
+\label{eq:cond_def}
+\end{equation}
+From \eqref{eq:pmf},
+\[
+P(A=0,B=1,C=1)=0.1,\qquad
+P(B=1,C=1)=p(0,1,1)+p(1,1,1)=0.1+0.2=0.3,
+\]
+so
+\begin{equation}
+P(A=0 \mid B=1,C=1)=\frac{0.1}{0.3}=\frac{1}{3}\approx 0.3333.
+\label{eq:cond_value}
+\end{equation}
+
+To estimate this empirically in Python, sample from the eight outcomes with their probabilities, place the samples into a \texttt{pandas} DataFrame, and compute the empirical conditional probability:
+\begin{lstlisting}[language=Python]
+import numpy as np
+import pandas as pd
+
+# Support and probabilities (match Eq. (1))
+outcomes = np.array([
+    (0,0,0), (0,0,1), (0,1,0), (0,1,1),
+    (1,0,0), (1,0,1), (1,1,0), (1,1,1)
+], dtype=int)
+probs = np.array([0.1, 0.2, 0.1, 0.1, 0.1, 0.1, 0.1, 0.2], dtype=float)
+
+# Draw N i.i.d. samples
+N = 200_000
+idx = np.random.choice(len(outcomes), size=N, p=probs)
+samples = outcomes[idx]
+
+# Build DataFrame with columns A, B, C
+df = pd.DataFrame(samples, columns=["A", "B", "C"])
+
+# Estimate P(A=0 | B=1, C=1)
+mask = (df["B"]==1) & (df["C"]==1)
+est = (df.loc[mask, "A"]==0).mean()
+print("Estimated P(A=0 | B=1, C=1):", est)
+\end{lstlisting}
+The printed estimate should be close to the exact value in \eqref{eq:cond_value}.
+
+\end{example}
+
 %
 %\begin{example}[Example \ref{ex:probfromcode} cont.]
 %In the code from Example \ref{ex:probfromcode} cont. we have the internal variables flip1 and flip2. If $Y$ is the output, what is the conditional distribution 
@@ -561,8 +567,46 @@ This implies
 \begin{equation*}
 P(Y=k)=  {N \choose k}q^{k}(1-q)^{N-k}. 
 \end{equation*}
-A graph of this function looks like a bell curve when $N$ is large -- we will see this in Python. Let's explore binomial random variables in python.  
+A graph of this function looks like a bell curve when $N$ is large: 
+\begin{lstlisting}[language=Python]
+import numpy as np
+import matplotlib.pyplot as plt
+from scipy.stats import binom
 
+# parameters
+N = 100        # number of trials
+q = 0.3        # success probability
+M = 100000    # number of Monte Carlo replicates
+
+rng = np.random.default_rng(123)
+# Simulate Y ~ Binomial(N, q) via direct binomial draws
+samples = rng.binomial(n=N, p=q, size=M)
+
+# Histogram settings for a discrete variable: bin edges at half-integers
+bins = np.arange(-0.5, N + 1.5, 1)
+
+# Compute analytical pmf on the support 0..N
+k = np.arange(0, N + 1)
+pmf = binom.pmf(k, N, q)
+
+fig, ax = plt.subplots(figsize=(7, 4))
+
+# Monte Carlo histogram (normalized to probabilities)
+ax.hist(samples, bins=bins, density=True, alpha=0.5, label="Monte Carlo (hist)")
+
+# Analytical pmf as stems
+(markerline, stemlines, baseline) = ax.stem(k, pmf, label="Analytical distribution")
+plt.setp(baseline, visible=False)
+
+
+ax.set_xlabel("k")
+ax.set_ylabel("Probability")
+ax.set_title(f"Binomial(N={N}, q={q})")
+ax.legend()
+ax.set_xlim(-0.5, N + 0.5)
+plt.tight_layout()
+plt.show()
+\end{lstlisting}
 
 \newpage 
 
