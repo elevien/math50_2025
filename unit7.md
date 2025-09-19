@@ -9,7 +9,6 @@ bibliography:
 
 I will cover additional topics depending on time and iterests. Potential topics include: 
 - Gaussian processes
-- Dimensionality reduction and PCA
 - Multi-level models, mixed and fixed effects model 
-- Time series and stochastic processes (autoregressive models)
+- Autoregressive models
 - Logistic regression

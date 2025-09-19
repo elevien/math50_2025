@@ -20,8 +20,8 @@ Probablility models, random variales, samples spaces, probability distributions,
 
 Material: 
 - [Notes and exercises](/public/latex_notes/unit1/unit1.pdf)
-- [Colab notebook (2024)](https://colab.research.google.com/drive/1COqhCR5zFuxUJZ6MCCFC4ZqBu9iVkdMJ?usp=sharing)
-- [Colab notebook used in class]()
+- [Colab notebook from class (2024)](https://colab.research.google.com/drive/1COqhCR5zFuxUJZ6MCCFC4ZqBu9iVkdMJ?usp=sharing)
+- [Colab notebook from class (2025)](https://colab.research.google.com/drive/1TJbczFilGLYf5hAH-nqxDJPZ6PABPeLT?usp=sharing)
 
 ## Things to practice
 
