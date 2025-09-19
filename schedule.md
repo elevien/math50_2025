@@ -7,7 +7,7 @@ bibliography:
 
 Before going through Unit 1, please review [Unit 0](../unit0/index.html). This material will not be covered in class and it is expected that if you are not already familiar with it, you will learn it by the end of the first week.
 
-**Note** This schedule is subject to changes throughout the term. Please check this schedule on a weekly basis. Changes will only effect exams in rare circumstances. 
+**Note** This schedule is subject to changes throughout the term. Please check this schedule on a weekly basis. Changes will only effect exams in rare circumstances. You should check the [commit history](https://github.com/elevien/math50_2025/commits/main/) on a weekly basis to check if any changes have been made. 
 
 
 | Date       | Unit Material       | Topics | Notes |
@@ -17,7 +17,7 @@ Before going through Unit 1, please review [Unit 0](../unit0/index.html). This m
 | Wed Sept 17 | [Unit 1](../unit1/index.html) | Unit 1.2 (Conditional probability, marginalization) |  |
 | Fri Sept 19 | [Unit 1](../unit1/index.html) | Python, working with tabular data | Course survey |
 | Week 2 || | | 
-| Mon Sept 22 | [Unit 2](../unit2/index.html) | Unit 2.1 (Expectation, conditional expectation, variance)  Unit 2.2 (LLN) |  |
+| Mon Sept 22 | [Unit 2](../unit2/index.html) | Unit 2.1 (Expectation, conditional expectation, variance)  Unit 2.2 (LLN,) |  |
 | Wed Sept 24 | [Unit 2](../unit2/index.html)  | Unit 2.2 (Continuous distributions, Normal distribution and CLT) |  |
 | Fri Sept 26 | [Unit 3](../unit2/index.html) | Unit 3.1 (Estimators, confidence intervals) |  |
 | Week 3 || | | 

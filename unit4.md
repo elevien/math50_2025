@@ -12,7 +12,7 @@ This unit covers linear regression with **multiple predictors**. Many new ideas 
 
 Material:
 - [Notes and exercises](/public/latex_notes/unit4/unit4.pdf)
-- [Colab notebook](https://colab.research.google.com/drive/1oIRgP_7-c5DGV1D2iz5nj406mZfJxUIG?usp=sharing)
+- [Colab notebook (2024)](https://colab.research.google.com/drive/1oIRgP_7-c5DGV1D2iz5nj406mZfJxUIG?usp=sharing)
 
 # Concepts
 

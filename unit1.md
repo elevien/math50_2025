@@ -20,11 +20,12 @@ Probablility models, random variales, samples spaces, probability distributions,
 
 Material: 
 - [Notes and exercises](/public/latex_notes/unit1/unit1.pdf)
-- [Colab notebook](https://colab.research.google.com/drive/1COqhCR5zFuxUJZ6MCCFC4ZqBu9iVkdMJ?usp=sharing)
+- [Colab notebook (2024)](https://colab.research.google.com/drive/1COqhCR5zFuxUJZ6MCCFC4ZqBu9iVkdMJ?usp=sharing)
+- [Colab notebook used in class]()
 
 ## Things to practice
 
-- Notation for probability distributions, joint probabilities and conditional probabilities. Be comfertable with different notations: 
+- Notation for probability distributions, joint probabilities and conditional probabilities. Be comfortable with different notations. 
 - Identify the sample space for an experiment or random variable. 
 - Translate basic Python code to math and vice versa. 
 - Calculating conditional, marginal probabilities and checking whether two variables are independent: 

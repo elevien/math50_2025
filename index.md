@@ -25,9 +25,9 @@ See [weekly schedule]({{ '/schedule/' | relative_url }}) for details.
 - Generally available to answer questions on Slack (please use Slack over email for course-related matters) throughout the week. I will occasionally answer questions on the weekend, but there is no guarantee.  
 
 **Textbooks:** My notes are mostly self contained, although I will reference material from a few textbooks: 
-- James, Gareth, Witten, Daniela, Hastie, Trevor, Tibshirani, Robert, et al. (2013). *An introduction to statistical learning (python version)*. Springer.  
+- James, Gareth, Witten, Daniela, Hastie, Trevor, Tibshirani, Robert, et al. (2013). *An introduction to statistical learning (python version)* (ISLP). Springer.  
   - This book straddles the boundary between machine learning and statistics and I will reference it heavily in Units 5-7. I found the discussion of regularization very approachable. 
-- Gelman, Andrew, Hill, Jennifer, Vehtari, Aki. (2020). *Regression and other stories*. Cambridge University Press. 
+- Gelman, Andrew, Hill, Jennifer, Vehtari, Aki. (2020). *Regression and other stories (ROS)*. Cambridge University Press. 
   - This is a fantastic, non-technical, introduction to regression modeling through coding and examples. Many aspects of the course are inspired by this book. The code is in R, but you can find versions in Python. It has a nice introduction to causal inference and I really like how they talk about interpreting regression coefficients. I also like that they take a Bayesian view, but are not too strict about it and focus on the practical goals of regression modeling, rather than the underlying philosophy. 
 - Evans, Michael J., Rosenthal, Jeffrey S. (2004). *Probability and statistics: The science of uncertainty*. Macmillan.
   -  This is a more mathematically technical book on statistical inference and probability theory. If you are interested in going deeper into the theory, I recommend taking a look. I will reference it heavily in Units 1-4, but only for those who are interested in going deeper. 
