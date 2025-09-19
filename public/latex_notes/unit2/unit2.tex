@@ -39,19 +39,19 @@ If $Y_1,Y_2,\dots,Y_n$ are iid samples of $Y$, the sample mean is defined as
 Sometimes the notation $\langle \cdot \rangle$ is used. 
 More generally, we might look at the average of some function of a random variable 
 \begin{equation*}
-\overline{f(Y)} = \frac{1}{n}\sum_{i=1}^nf(Y_i)
+\overline{g(Y)} = \frac{1}{n}\sum_{i=1}^nf(Y_i)
 \end{equation*}
 (Remember, a function of a random variable is just another random variable, so there is nothing too deep here). 
 If we take the function to be 
 \begin{equation}
-f(y) =1_A(y) =  \left\{\begin{array}{lr} 
+g(y) =1_A(y) =  \left\{\begin{array}{lr} 
 1 & \text{if }y \in A\\
 0 & \text{if }y \in A
 \end{array}\right.
 \end{equation}
 Then we can connect the idea of a sample average to estimates of probabilities via
 \begin{equation}
-\overline{f(Y)} = \frac{N(y \in A)}{n} \approx P(\{Y \in A\})
+\overline{g(Y)} = \frac{N(y \in A)}{n} \approx P(\{Y \in A\})
 \end{equation}
 Any quantity we compute from data is in some way a sample average, so a great deal of statistics is about understanding the behavior of sample averages. 
 
@@ -69,9 +69,9 @@ The expression on the right is the definition of the mean, or \dfn{expectation},
  E[Y] \approx \overline{Y}
  \end{equation}
  Sometimes we use $\E$ instead of $E$ to distinguish it from other variables names $E$, but I will try not to use $E$ for other things. 
-If we have a function $f:S \to S'$ from the sample space to some other space $S'$, then $f(Y)$ is simply a new random variable with sample space $S'$, but we don't usually need to find the distribution of $X = f(Y)$ to compute expectations, since this can be written  
+If we have a function $g:S \to S'$ from the sample space to some other space $S'$, then $g(Y)$ is simply a new random variable with sample space $S'$, but we don't usually need to find the distribution of $X = g(Y)$ to compute expectations, since this can be written  
 \begin{equation}\label{eq:Efy}
-E[X] = E[f(Y)] = \sum_{y\in S} f(y) P(Y=y). 
+E[X] = E[g(Y)] = \sum_{y\in S} g(y) P(Y=y). 
 \end{equation}
 The nice thing here is that we can use the probability distribution for $Y$ to compute the expectation of $X$, which in some cases may be simpler (this is the case for variance below). 
 
@@ -611,6 +611,7 @@ Here \(Y\) is equally likely to fall anywhere in the interval \([a,b]\) (with \(
 \[
 P(y_1 \le Y \le y_2) = \frac{y_2-y_1}{L}.
 \]  
+This is shown in Figure \ref{fig:density}. 
 In words: the probability of landing in an interval is proportional to its length. This ensures normalization:  
 \[
 P(a \le Y \le b) = 1.
@@ -649,6 +650,12 @@ Every pdf \(f(y)\) must satisfy:
 \end{enumerate}
 
 These are the continuous analogues of the conditions we imposed on discrete probability distributions.  Note that $f(y)$ need NOT be less than $1$, because $f(y)$ is not a probability, rather integrals $\int_{a}^bf(y)dy$ is a probability. For example, suppose $f(y)$ is a uniform distribution on $[0,L] = [0,1/1000]$. Then $f(y) = 1/L = 1000$ for $y$ between $0$ and $1/1000$, and zero otherwise. The fact that the density is concentrated in a very small region cancels with the large values it takes in this region so that the integrals are always $\le 1$.
+
+For a density, the expectation is defined by replacing the sum with a integral: 
+\begin{equation}
+E[g(Y)] = \int_{S_Y}g(y)f(y)dy
+\end{equation}
+You won't have to calculate integrals in this class, but it's important to understand where the expectation comes from for a continuous distribution. 
 
 \begin{figure}[h]
 \centering
@@ -722,16 +729,24 @@ plt.show()
 
   \subsection{The Gaussian curve}
 We know meet the most important probability model of all. This is the Normal distribution, which has a density 
-   \begin{equation*}
-   f(x) = \frac{1}{\sqrt{2\pi \sigma^2}}e^{-\frac{(x-\mu)^2}{2 \sigma^2}}
-   \end{equation*}
- Despite the simplicity of the density function, calculating probabilities for Normal random variable by computing the area under the curve (integrating) is difficult. Instead we can remember some rough estimates based on the following figure. 
+   \begin{equation}\label{eq:normalpdf}
+   g(x)= \frac{1}{\sqrt{2\pi \sigma^2}}e^{-\frac{(x-\mu)^2}{2 \sigma^2}}
+   \end{equation}
+ Despite the simplicity of the density function, calculating probabilities for Normal random variable by computing the area under the curve (integrating) is difficult. Instead we can remember some rough estimates based on the following figure. You should also be able to justify (to yourself) the bell curve shape by looking at the function. Hint: near $x = \mu$, the tangent line to $(x-\mu)^2$ is horizontal, then it decays exponentially. There is an inflection point, where is it? 
 
 \begin{figure}[h]
 \centering
 \includegraphics[width=0.6\textwidth]{./../figures/bellcurve}
 \caption{Probabilities in the Normal distribution}\label{fig:bellcurve}
 \end{figure}
+
+If $X$ has the probability density $g(x)$ given in Eq. \ref{eq:normalpdf}, then we write
+\begin{equation}
+X \sim {\rm Normal}(\mu, \sigma^2)
+\end{equation}
+It can be shown that $E[X] = \mu$ and ${\rm var}(X) = \sigma^2$, hence the Normal distribution has the mean and variance. But BE CAREFUL: Sometimes (in code or in math) normal random variables are parameterized by the mean and variance, so one would instead write ${\rm Normal}(\mu, \sigma)$. Both conventions are used, so always check. 
+
+
 
 
 
@@ -793,8 +808,9 @@ Z \sim {\rm Normal}(0,1)
  \end{thm}
  The normal variable $Z$ with zero mean and variance one is called a \dfn{standard normal} random variable. Since evaluations of the CDF of a standard normal random variable appear so often, we use the shorthand 
  \begin{equation*}
- \Phi(z) = P(Z<z).
+ \Phi(z) = P(Z<z)
  \end{equation*}
+ and write $\phi(z)$ for the pdf. 
 
  
 \begin{example}[Binomial] Let 
@@ -868,19 +884,39 @@ print(f"Monte Carlo: {mc_estimate:.4f}")
 Z \sim {\rm Normal}(0,1)
 \end{equation*}
 and define 
-\begin{equation*}
+\begin{equation}\label{eq:Zlineartrans}
 X = \sigma Z + \mu 
-\end{equation*}
+\end{equation}
 Then 
 \begin{align*}
-P(X<x) &= P(\mu + \sigma Z<x) \\
-&= P\left(Z<\frac{x - \mu}{\sigma}\right)
-%&= \int_0^{\frac{x - \mu}{\sigma}}f(x)dx
+P(X<x) &= P(\mu + \sigma Z<x) = P\left(Z<\frac{x - \mu}{\sigma}\right)\\
+&= \int_{-\infty}^{\frac{x - \mu}{\sigma}}\phi(z)dz
 \end{align*}
-Hence 
+\noindent
+Now set
+\[
+u = \mu + \sigma z \implies dz = \frac{du}{\sigma}.
+\]
+
+\noindent
+When $z \to -\infty$, we have $u \to -\infty$, and when 
+$z = \frac{x-\mu}{\sigma}$, we have $u = x$. Therefore,
+\begin{align*}
+P(X<x) 
+&= \int_{-\infty}^{x} 
+\phi\!\left(\frac{u-\mu}{\sigma}\right)\,\frac{1}{\sigma}\,du \\
+&= \int_{-\infty}^{x} 
+\frac{1}{\sigma\sqrt{2\pi}}
+\exp\!\left(-\frac{(u-\mu)^2}{2\sigma^2}\right)\,du.
+\end{align*}
+We have shown that 
 \begin{equation*}
 X \sim {\rm Normal}(\mu,\sigma^2).
 \end{equation*} 
+when $X$ is given by Eq. \ref{eq:Zlineartrans}. In particular, any Normal random variable is obtained via a linear transformation of a standard normal. 
+
+
+
 With this understanding of how to linearly transform a Normal random variable, we can see that the CLT can be informally stated as
 \begin{equation*}
 S_N \approx S_{\rm CLT} \sim {\rm Normal}(N\mu,N\sigma^2)
@@ -893,8 +929,7 @@ Now consider
 \begin{equation*}\label{eq:linear}
 Y = aX + b 
 \end{equation*}
-At this point it should make sense that $Y$ is also normal. 
- but what are the mean and variance? Taking the average of both sides, 
+At this point it should make sense that $Y$ is also normal.  Taking the average of both sides, 
 \begin{equation*}
 E[Y] = a\mu + b
 \end{equation*}
@@ -927,7 +962,89 @@ aX_1+bX_2 + d \sim {\rm Normal}\left(a\mu_1+b\mu_2+d,a^2\sigma_1^2 + b^2\sigma_2
 \end{equation*}
  \end{thm}
 
+ \section{Examples of linear regression models}
+Equipped with the normal distribution and it properties, we can begin to explore linear regression models, but we focus on properties of the model at the moment and not statistical inference aspect until the next unit. A (single-predictor) \dfn{linear regression model} is a model of the form 
+\begin{equation}
+Y|X \sim {\rm Normal}(\beta_0 + \beta_1 X,\sigma^2). 
+\end{equation}
+here $X$ is a called a \dfn{predictor} and $Y$ is the \dfn{response variable}. We begin with some examples. 
 
+ 
+
+ \begin{example}[Linear regression with a binary predictor: the difference of means]\label{ex:zerothreg}
+ Let
+\begin{align*}
+X &\sim {\rm Bernoulli}(q)\\
+Y|X &\sim {\rm Normal}(\beta_1X + \beta_0,\sigma^2)
+\end{align*} \noindent
+\underline{Question:} What is the marginal mean of $Y$? How would you estimate $\beta_1$? (not using least squares if you know it)  \\
+
+
+ \noindent
+\underline{Solution:} 
+Another way to write the model is 
+\begin{equation}
+Y = \beta_1X + \beta_0 + \sigma Z
+\end{equation}
+and taking the expectation gives
+\begin{equation}
+E[Y] = \beta_1q + \beta_0
+\end{equation}
+You might notice that 
+\begin{equation}
+\beta_1 = E[Y|X=1]-E[Y|X=0]
+\end{equation}
+hence, we could estimate $\beta_1$ by computing the conditional mean within each group. 
+
+
+ \end{example}
+
+ 
+ \begin{example}[Linear regression model with Normal predictor]\label{ex:firstreg}
+Let
+\begin{align*}
+X &\sim {\rm Normal}(\mu_x,\sigma_x^2)\\
+Y|X &\sim {\rm Normal}(\beta_1X + \beta_0,\sigma^2)
+\end{align*}
+
+ \noindent
+\underline{Question:} What is the marginal distribution of $Y$? What is $E[XY]$? How does this compare to $E[X]E[Y]$?\\
+
+
+ \noindent
+\underline{Solution:} We know that 
+\begin{equation*}
+Y|X =\beta_1X+\beta_0 + Z,\quad Z \sim {\rm Normal}(0,\sigma^2)
+\end{equation*}
+Thus, the marginal distribution of $Y$ is the sum of two Normal random variables with mean and variance $(\beta_1\mu_x+\beta_0,a\sigma_x^2)$ and $(0,\sigma^2)$ respectively. As we saw in the previous unit
+\begin{equation*}
+Y  \sim {\rm Normal}(\beta_1\mu_x+\beta_0,\beta_1^2\sigma_x^2 + \sigma^2)
+\end{equation*}
+
+To compute $E[XY]$, we note that 
+\begin{equation*}
+E[XY|X=x]=  E[xY|X=x]= xE[Y|X=x]
+\end{equation*}
+therefore
+\begin{equation*}
+E[XY] = E[XE[Y|X]] = E[X(\beta_1X+\beta_0)] = \beta_1E[X^2]+\beta_0E[X]
+\end{equation*}
+Using 
+\begin{equation*}
+E[X^2] = {\rm var}(X) + E[X]^2 = \sigma_x^2 + \mu_x^2
+\end{equation*}
+Therefore 
+\begin{equation*}
+E[XY] =  \beta_1\sigma_x^2 + \beta_1\mu_x^2 + \beta_0\mu_x
+\end{equation*}
+On the other hand, 
+\begin{equation*}
+E[X]E[Y] = \mu_x(\beta_1\mu_x+\beta_0) = \beta_1 \mu_x^2 +\beta_0 \mu_x
+\end{equation*}
+The difference between the two is the additional term $\beta_1\sigma_x^2$, which we picked up from the variance of $x$.  
+
+
+\end{example}
 
 \appendix
 

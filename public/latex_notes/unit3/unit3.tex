@@ -5,7 +5,7 @@
 
 \begin{document}
 
-\title{Unit 3: Statistical inference and single-predictor linear regression models}
+\title{Unit 3: Statistical inference for single-predictor linear regression models}
 \author{Ethan Levien}
 \maketitle
 \tableofcontents
@@ -175,7 +175,7 @@ The idea of the \dfn{confidence interval} is, roughly speaking, to describe the 
 \begin{equation}\label{eq:95CI}
 [\hat{\theta} - 1.96{\rm se}(\hat{\theta}), \hat{\theta} + 1.96{\rm se}(\hat{\theta})]
 \end{equation}
-The factors $1.96$ in front of the standard errors ensure that $95\%$ of samples from the sample distribution will fall in this range, 
+The factors $1.96$ in front of the standard errors ensure that $95\%$ of samples from the sample distribution will fall in this range. 
 This makes sense if the sample distribution is well approximated by a Normal distribution. 
 
 
@@ -268,7 +268,7 @@ You can do this using calculus (if you know how, I suggest you give it a try) to
 For a Normal distribution with mean and variance $\mu$ and $\sigma$, the MLE estimators are the usual sample mean and standard deviation which we have already been exposed to. 
 
 \section{Single-predictor linear regression model}
-Regression models model input-output relationships. The input is the \dfn{predictor} ($X$) and the output is the \dfn{response} variable ($Y$). For a  \dfn{linear regression model}, 
+Regression models model input-output relationships. The input is the \dfn{predictor} ($X$) and the output is the \dfn{response} variable ($Y$). Recall from the previous unit that a  \dfn{linear regression model} is defined by
 \begin{align*}
 Y = \beta_0 + \beta_1 X_1 + \epsilon,\quad \epsilon \sim {\rm Normal}(0,\sigma_{\xi}^2).
 \end{align*}
@@ -283,70 +283,8 @@ X &\sim \text{some distribution with mean $\mu_x$ and variance $\sigma_x^2$}\\
 Y|X &\sim {\rm Normal}(\beta_1X + \beta_0,\sigma^2). 
 \end{split}
 \end{align}
-In the examples below we look at Bernoulli and Normal predictors. 
- 
+We saw examples with Bernoulli and Normal predictors in Unit 2. 
 
- \begin{example}[Linear regression with a binary predictor: the difference of means]\label{ex:zerothreg}
- Let
-\begin{align*}
-X &\sim {\rm Bernoulli}(q)\\
-Y|X &\sim {\rm Normal}(\beta_1X + \beta_0,\sigma^2)
-\end{align*} \noindent
-\underline{Question:} What is the marginal mean of $Y$? What is an estimator of $\beta_1$? (not using covariance as below)  Is it biased? \\
-
-
- \noindent
-\underline{Solution:} 
-
-
- \end{example}
-
- 
- \begin{example}[Linear regression model with Normal predictor]\label{ex:firstreg}
-Let
-\begin{align*}
-X &\sim {\rm Normal}(\mu_x,\sigma_x^2)\\
-Y|X &\sim {\rm Normal}(\beta_1X + \beta_0,\sigma^2)
-\end{align*}
-
- \noindent
-\underline{Question:} What is the marginal distribution of $Y$? What is $E[XY]$? How does this compare to $E[X]E[Y]$?\\
-
-
- \noindent
-\underline{Solution:} We know that 
-\begin{equation*}
-Y|X =\beta_1X+\beta_0 + Z,\quad Z \sim {\rm Normal}(0,\sigma^2)
-\end{equation*}
-Thus, the marginal distribution of $Y$ is the sum of two Normal random variables with mean and variance $(\beta_1\mu_x+\beta_0,a\sigma_x^2)$ and $(0,\sigma^2)$ respectively. As we saw in the previous unit
-\begin{equation*}
-Y  \sim {\rm Normal}(\beta_1\mu_x+\beta_0,\beta_1^2\sigma_x^2 + \sigma^2)
-\end{equation*}
-
-To compute $E[XY]$, we note that 
-\begin{equation*}
-E[XY|X=x]=  E[xY|X=x]= xE[Y|X=x]
-\end{equation*}
-therefore
-\begin{equation*}
-E[XY] = E[XE[Y|X]] = E[X(\beta_1X+\beta_0)] = \beta_1E[X^2]+\beta_0E[X]
-\end{equation*}
-Using 
-\begin{equation*}
-E[X^2] = {\rm var}(X) + E[X]^2 = \sigma_x^2 + \mu_x^2
-\end{equation*}
-Therefore 
-\begin{equation*}
-E[XY] =  \beta_1\sigma_x^2 + \beta_1\mu_x^2 + \beta_0\mu_x
-\end{equation*}
-On the other hand, 
-\begin{equation*}
-E[X]E[Y] = \mu_x(\beta_1\mu_x+\beta_0) = \beta_1 \mu_x^2 +\beta_0 \mu_x
-\end{equation*}
-The difference between the two is the additional term $\beta_1\sigma_x^2$, which we picked up from the variance of $x$.  
-
-
-\end{example}
 
 
 \subsection{Covariance} 
@@ -376,14 +314,14 @@ so
 \begin{align*}
 {\rm cov}(X,Y) &= \beta_1\sigma_x^2
 \end{align*}
-regardless of the distribution of $X$ (assuming $\sigma_x^2 <\infty$). The intuition for this formula is given in figure \ref{fig:cov_effect}.
+regardless of the distribution of $X$ (assuming $\sigma_x^2 <\infty$). %The intuition for this formula is given in figure \ref{fig:cov_effect}.
 
-
-\begin{figure}[h]
-\centering
-\includegraphics[width=0.8\textwidth]{./../figures/cov_effect}
-\caption{}\label{fig:cov_effect}
-\end{figure}
+%    
+%    \begin{figure}[h]
+%    \centering
+%    \includegraphics[width=0.8\textwidth]{./../figures/cov_effect.png}
+%    \caption{}\label{fig:cov_effect}
+%    \end{figure}
 
 
 A crucial observation is that the covariance allows us to relate the parameter $\beta_1$ (the slope) in the model above to averages over $X$ and $Y$. In other words, it provides us with a means to estimate the slope from samples $(x_1,y_2),\dots,(x_n,y_n)$. 
@@ -412,48 +350,7 @@ RSS = \sum_{i=1}^n r_i^2,\quad r_i  = Y_i - (\hat{\beta}_1X_i + \hat{\beta}_0)
 \end{equation*}
 smallest. The R
 
-%\begin{tikzpicture}[>=Stealth, line cap=round, line join=round, scale=1.1]
-%
-%% Parameters for the regression line: y = m x + b
-%\def\m{0.7}
-%\def\b{0.5}
-%
-%% Axes
-%\draw[->] (0,0) -- (5.4,0) node[below] {$X$};
-%\draw[->] (0,0) -- (0,3.9) node[left] {$Y$};
-%
-%% Regression line
-%\draw[very thick, red] (0,\b) -- (5,\m*5+\b);
-%
-%% Data points: (xi, yi). Adjust as desired.
-%%             i   x     y
-%\foreach \i/\x/\y in {
-%  1/0.7/0.35,
-%  2/1.5/0.95,
-%  3/2.3/1.05,
-%  4/3.2/1.55,
-%  5/4.1/1.85
-%}{
-%  % Predicted value on the line at x: yhat = m*x + b
-%  \pgfmathsetmacro{\yhat}{\m*\x+\b}
-%  % Residual segment (vertical): from (x, y) to (x, yhat)
-%  \draw[red, line width=1pt] (\x,\y) -- (\x,\yhat);
-%  % Residual label r_i near the middle of the segment
-%  \pgfmathsetmacro{\ymid}{(\y+\yhat)/2}
-%  \draw[red] (\x+0.08,\ymid) node {$r_{\i}$};
-%
-%  % Data point
-%  \fill (\x,\y) circle (1.5pt);
-%  % Label y_i next to the point
-%  \node[anchor=east] at (\x-0.08,\y) {$y_{\i}$};
-%  % Optional: label \hat y_i near the line (comment out if not wanted)
-%  % \node[red, anchor=south] at (\x,\yhat) {$\hat y_{\i}$};
-%}
-%
-%% Annotation: minimize sum of squared residuals
-%\node[red] at (2.6,0.9) {$\displaystyle \min_{a,b}\ \sum_{i} r_i^{\,2}$};
-%
-%\end{tikzpicture}
+
 \begin{figure}[h]
 \centering
 \includegraphics[width=0.4\textwidth]{./../figures/rss}

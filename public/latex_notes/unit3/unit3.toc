@@ -6,6 +6,6 @@
 \contentsline {subsection}{\numberline {3.2.4}Bias-variance tradeoff}{5}{subsection.2.4}%
 \contentsline {subsection}{\numberline {3.2.5}Maximum Likelihood (optional)}{5}{subsection.2.5}%
 \contentsline {section}{\numberline {3.3}Single-predictor linear regression model}{6}{section.3}%
-\contentsline {subsection}{\numberline {3.3.1}Covariance}{7}{subsection.3.1}%
-\contentsline {subsection}{\numberline {3.3.2}Least square interpretation}{8}{subsection.3.2}%
-\contentsline {section}{\numberline {3.4}Hypothesis testing}{9}{section.4}%
+\contentsline {subsection}{\numberline {3.3.1}Covariance}{6}{subsection.3.1}%
+\contentsline {subsection}{\numberline {3.3.2}Least square interpretation}{7}{subsection.3.2}%
+\contentsline {section}{\numberline {3.4}Hypothesis testing}{8}{section.4}%
