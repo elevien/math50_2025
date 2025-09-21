@@ -141,7 +141,7 @@ One of the most important expectations is the \dfn{variance}, which measures the
 which you should comes from taking $f(Y) = (Y-E[Y])^2$ in Eq. \ref{eq:Efy}. 
 Another way to write this is 
 \begin{equation*}
- {\rm var}(Y) = E[Y^2] - 2E[Y]^2 + E[Y]^2 = E[Y^2]-E[Y]^2
+ {\rm var}(Y) = E[Y^2] - 2(E[Y])^2 + E[Y]^2 = E[Y^2]-(E[Y])^2
 \end{equation*}
 
 \begin{example}[Mean and variance of Bernoulli random variable]
@@ -346,7 +346,7 @@ Expectation has some important properties. These become particularly relevant wh
     \begin{align*}
      E[XY] &= \sum_{x \in S_X}\sum_{y \in S_Y} xy P(X=x,Y=y)  \\
      &= \sum_{x \in S_X}\sum_{y \in S_Y} xP(X=x)yP(Y=y) \\
-     &= \left( \sum_{x \in S_X} xP(X=x)\right)\left( \sum_{y \in S_Y} yP(X=x)\right)= E[X]E[Y]
+     &= \left( \sum_{x \in S_X} xP(X=x)\right)\left( \sum_{y \in S_Y} yP(Y=y)\right)= E[X]E[Y]
     \end{align*}
     \end{proof}
     \item {\bf Tower property \cite[Theorem 3.5.2]{evans}:} Let $X$ and $Y$ be two random variables,  
