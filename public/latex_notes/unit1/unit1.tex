@@ -245,7 +245,7 @@ There are two different ways we can interpret a statement like: The probability 
 \subsection{Independence and marginal distributions}
 Two random variables $X,Y$ are \dfn{independent} if 
 \begin{equation}
-P(X=x,Y=y) = P(X=x)P(X=y)
+P(X=x,Y=y) = P(X=x)P(Y=y)
 \end{equation}
 for all $(x,y) \in S$. This might make more sense after we introduce the idea of conditional probability. 
 
@@ -484,11 +484,11 @@ The printed estimate should be close to the exact value in \eqref{eq:cond_value}
 
  In general, we have 
 \begin{equation}
-P(x|y) = \frac{P(y,x)}{P(x)}.
+P(x|y) = \frac{P(y,x)}{P(y)}.
 \end{equation}
 Notice that we can replace $P(y,x) = P(y|x)P(x)$, to obtain \dfn{Bayes' formula}
 \begin{equation}\label{eq:bayes}
-P(y|x) = \frac{P(y,x)}{P(x)}.
+P(x|y) = \frac{P(y|x)P(x)}{P(y)}.
 \end{equation}
 An equivalent definition of independence is $P(y|x)  = P(y)$ and $P(x|y) = P(y)$.  In summary: 
 \begin{equation*}
