@@ -15,7 +15,7 @@ This unit introduces **probability models** as a framework for reasoning about u
 
 ## Concepts
 
-Probablility models, random variales, samples spaces, probability distributions, Bernoulli random variables, joint marginal and conditional probabilities, independence, generating random variables in Python
+Probability models, random variables, sample spaces, probability distributions, Bernoulli random variables, joint marginal and conditional probabilities, independence, generating random variables in Python
 
 
 Material: 
@@ -39,6 +39,6 @@ Material:
 - [Random variable](https://en.wikipedia.org/wiki/Random_variable)
 - [Sample space](https://en.wikipedia.org/wiki/Sample_space)
 - [Bernoulli distribution](https://en.wikipedia.org/wiki/Bernoulli_distribution)
-- [Geometric distribution](https://en.wikipedia.org/wiki/Conditional_probability)
+- [Geometric distribution](https://en.wikipedia.org/wiki/Geometric_distribution)
 - [Binomial distribution](https://en.wikipedia.org/wiki/Binomial_distribution)
 - [Statistical independence](https://en.wikipedia.org/wiki/Independence_(probability_theory))

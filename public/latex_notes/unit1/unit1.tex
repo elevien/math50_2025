@@ -245,7 +245,7 @@ There are two different ways we can interpret a statement like: The probability 
 \subsection{Independence and marginal distributions}
 Two random variables $X,Y$ are \dfn{independent} if 
 \begin{equation}
-P(X=x,Y=y) = P(X=x)P(X=y)
+P(X=x,Y=y) = P(X=x)P(Y=y)
 \end{equation}
 for all $(x,y) \in S$. This might make more sense after we introduce the idea of conditional probability. 
 
@@ -324,11 +324,11 @@ X_i \sim {\rm Bernoulli}(q), \quad i = 1,2,3,\dots
 \end{equation*}
 then 
 \begin{equation*}
-Y = \min_{i\ge0}\left\{i:X_i=1 \right\}
+Y = \min_{i\ge1}\left\{i:X_i=1 \right\}
 \end{equation*} 
 and we would say 
 \begin{equation*}
-Y \sim {\rm Geometric}(p).
+Y \sim {\rm Geometric}(q).
 \end{equation*}
 The sample space of $Y$ is $\{1,2,\dots,\infty\}$. What is the probability distribution? 
 \begin{align*}
@@ -484,11 +484,11 @@ The printed estimate should be close to the exact value in \eqref{eq:cond_value}
 
  In general, we have 
 \begin{equation}
-P(x|y) = \frac{P(y,x)}{P(x)}.
+P(x|y) = \frac{P(y,x)}{P(y)}.
 \end{equation}
 Notice that we can replace $P(y,x) = P(y|x)P(x)$, to obtain \dfn{Bayes' formula}
 \begin{equation}\label{eq:bayes}
-P(y|x) = \frac{P(y,x)}{P(x)}.
+P(x|y) = \frac{P(y|x)P(x)}{P(y)}.
 \end{equation}
 An equivalent definition of independence is $P(y|x)  = P(y)$ and $P(x|y) = P(y)$.  In summary: 
 \begin{equation*}
@@ -509,7 +509,7 @@ This is because, as mentioned earlier, we can always associated the even $\{Y>y\
   \end{equation*} 
   are independent. We will use the convention that $Y_i=1$ with probability $q$. Let
 \begin{equation*}
-Y = \sum_{i=1}^N y_i
+Y = \sum_{i=1}^N Y_i
 \end{equation*}
  Then we say $Y$ follows \dfn {binomial distribution} and write
 \begin{equation*}

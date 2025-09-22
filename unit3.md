@@ -8,7 +8,7 @@ bibliography:
 
 # Statistical inference for linear regression models
 
-This unit introduces statistical inference for **single‑predictor linear regression**.  In this context, we will learn all the basics of linear regression modeling and statistical inference, including: to fit an OLS line, quantify uncertainty in estimates via **standard errors**, **confidence intervals**, and **hypothesis tests**. We will also learn about **estimators** and **bias–variance tradeoffs**. While the mathematical details of these topics could take an entire course, we will focus on building intuition with numerical experiments in Python and rules of thumb. You will not need to learn the formula for t distributions of chi-squared, only where these things come from and when/why they matter. 
+This unit introduces statistical inference for **single‑predictor linear regression**.  In this context, we will learn all the basics of linear regression modeling and statistical inference, including: to fit an OLS line, quantify uncertainty in estimates via **standard errors**, **confidence intervals**, and **hypothesis tests**. We will also learn about **estimators** and **bias–variance tradeoffs**. While the mathematical details of these topics could take an entire course, we will focus on building intuition with numerical experiments in Python and rules of thumb. You will not need to learn the formulae for t-distributions and chi-squared distributions, only where these things come from and when/why they matter. 
 
 Material: 
 - [Notes and exercises](/public/latex_notes/unit3/unit3.pdf)
@@ -22,7 +22,7 @@ Estimators, bias and consistency, Linear regression (single predictor) model and
 - Identify whether a simple estimator is biased or not, by hand if possible, or using simulations in Python.  
 - Use the CLT to approximate the sample distribution of an estimator. 
 - Stating the assumptions of a linear regression model and identify (e.g. based on plots) when they are invalid. 
-- Be able to explain the phenomona of regression to the mean. 
+- Be able to explain the phenomenon of regression to the mean. 
 - Interpret the output of a fitted linear regression model and access the goodness of fit. 
 - Recalling the basic facts quantities such as $p$-values and $R^2$ depend on the sample size. 
 

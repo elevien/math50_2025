@@ -7,7 +7,7 @@ bibliography:
 
 # Expectation, Continuous probability, CLT and Normal models
 
-In this section we introduce **expectation**, an operation which takes a random variable and produces a deterministic quantity. The expectation of a random variable can be approximated with **sample averages**, and from them we can infer properties of the model (like parameters). Much of statistics relies on the fact that sample averages approximate expectations, and understanding how well these approximations work is a central goal of statistics. This will motivate us to study the probability distribution of sums of random variables, which leads to the **CLT** and the **Normal distribution**. We will also learn about **log-normal distributions**, which are a better model for many real-world random variables, but can easily be mapped to normal random variables. By defining joint distribution where the conditionals are Normal, we will arrive at our first example of a **linear regession** model. 
+In this section we introduce **expectation**, an operation which takes a random variable and produces a deterministic quantity. The expectation of a random variable can be approximated with **sample averages**, and from them we can infer properties of the model (like parameters). Much of statistics relies on the fact that sample averages approximate expectations, and understanding how well these approximations work is a central goal of statistics. This will motivate us to study the probability distribution of sums of random variables, which leads to the **CLT** and the **Normal distribution**. We will also learn about **log-normal distributions**, which are a better model for many real-world random variables, but can easily be mapped to normal random variables. By defining joint distribution where the conditionals are Normal, we will arrive at our first example of a **linear regression** model. 
 
 
 Material: 
@@ -16,7 +16,7 @@ Material:
 
 # Concepts
 
-Expectation, conditional expectation, emperical averages, CLT, Normal random variables and their properties, coefficient of variation, mean vs. median, log normal (if time permits).
+Expectation, conditional expectation, empirical averages, CLT, Normal random variables and their properties, coefficient of variation, mean vs. median, log normal (if time permits).
 
 # Things to practice
 
@@ -32,6 +32,6 @@ Expectation, conditional expectation, emperical averages, CLT, Normal random var
 - [Conditional expectation](https://en.wikipedia.org/wiki/Conditional_expectation)
 - [Coefficient of variation](https://en.wikipedia.org/wiki/Coefficient_of_variation)
 - [Law of large numbers](https://en.wikipedia.org/wiki/Law_of_large_numbers)
-- [Sample distribution](https://en.wikipedia.org/wiki/Sampling_distribution)
+- [Sampling distribution](https://en.wikipedia.org/wiki/Sampling_distribution)
 - [Central limit theorem](https://en.wikipedia.org/wiki/Central_limit_theorem)
 - [Log Normal distribution](https://en.wikipedia.org/wiki/Log-normal_distribution)
