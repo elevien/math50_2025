@@ -7,11 +7,13 @@ title: Exam study guide
 
 The midterm will cover Units 1, 2 and 3. Here are some things you absoutely need to know
 
-- Distributions: Bernoulli and Normal
-- How to calculate conditional probability, marginal probability, expectations given a probability distribtion.  
+- Know distributions: Bernoulli, Uniform and Normal
+- How to calculate conditional probability, marginal probability, expectations given a probability distribtion. Same with expectations/conditional expectations. 
 - How to estimate probabilities of sums using the CLT. You will be given a table if needed. 
 - Know the rules for manipulating Normal random variables (adding them, multiplying by constants)
-- Be able to identify whether data is normal based on visual inspection. 
+- Be able to identify whether data is normal based on visual inspection or quantiles 
+- Basic concepts of statistical inference: Sample distribution, bias, consistency. Be able to tell if estimator is biased
+- Basics ideas of regression modeling: Assumptions, relationship between covariance, correlations, R-squared. Derive formula for these. 
 - In terms of Python, you need to know enough syntax to identify what a line or two of codes does. I will NOT ask about plotting syntax or dataframes.  I may ask about
   - Basic logic: If statements and for loops 
   - How to generate random numbers using ``np.random.choice`` and ``np.random.normal``. 
