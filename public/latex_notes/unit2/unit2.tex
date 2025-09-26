@@ -1114,6 +1114,8 @@ Let
 X &\sim {\rm Normal}(\mu_x,\sigma_x^2)\\
 Y|X &\sim {\rm Normal}(\beta_1X + \beta_0,\sigma^2)
 \end{align*}
+In this case, if we want to estimate $\beta_1$ we cannot merely look at the difference of means between $X=0$ and $X=1$ say, because we may not have such values of $X$! We need to find another way to identify $\beta_1$ and this will lead to least squares. 
+
 
  \noindent
 \underline{Question:} What is the marginal distribution of $Y$? What is $E[XY]$? How does this compare to $E[X]E[Y]$?\\
@@ -1150,10 +1152,6 @@ On the other hand,
 E[X]E[Y] = \mu_x(\beta_1\mu_x+\beta_0) = \beta_1 \mu_x^2 +\beta_0 \mu_x
 \end{equation*}
 The difference between the two is the additional term $\beta_1\sigma_x^2$, which we picked up from the variance of $x$.  
-
-
-
-
 
 \end{example}
 
