@@ -974,9 +974,12 @@ here $X$ is a called a \dfn{predictor} and $Y$ is the \dfn{response variable}. W
  \begin{example}[Linear regression with a binary predictor: the difference of means]\label{ex:zerothreg}
  Let
 \begin{align*}
-X &\sim {\rm Bernoulli}(q)\\
+X &\sim {\rm Bernoulli}(1/2)\\
 Y|X &\sim {\rm Normal}(\beta_1X + \beta_0,\sigma^2)
-\end{align*} \noindent
+\end{align*}
+ We motivate this by the following: A clinical trial is conducted where participants are placed in control ($X=0$) or treatment ($X=1$) groups. People in the treatment group recieve a drug some test outputs an observation $Y$ (such as blood pressure).
+
+ \noindent
 \underline{Question:} What is the marginal mean of $Y$? How would you estimate $\beta_1$? (not using least squares if you know it)  \\
 
 
@@ -988,14 +991,119 @@ Y = \beta_1X + \beta_0 + \sigma Z
 \end{equation}
 and taking the expectation gives
 \begin{equation}
-E[Y] = \beta_1q + \beta_0
+E[Y] = \beta_1/2 + \beta_0
 \end{equation}
-You might notice that 
-\begin{equation}
-\beta_1 = E[Y|X=1]-E[Y|X=0]
-\end{equation}
-hence, we could estimate $\beta_1$ by computing the conditional mean within each group. 
 
+The quantity of interest is usually $\beta_1$, which can be expressed as the difference between conditional expectations:
+\begin{equation}
+E[Y|X=1] - E[Y|X=0] = \beta_1
+\end{equation}
+Suppose we have $N$ data points $(X_1,Y_1),\dots,(X_N,Y_N)$.
+Because we can compute expectations from sample averages, it is natural to estimate $\beta_1$ with a quantity $\hat{\beta}_1$ given by
+\begin{equation}
+\widehat{\beta}_1 =\overline{Y|X=1} - \overline{Y|X=0}
+\end{equation}
+where $\overline{Y|X=1}$ and $\overline{Y|X=0}$ are the conditional sample averages; that is,
+\begin{equation}
+ \overline{Y|X=1} = \frac{1}{N(X=1)}\sum_{i=1}^N Y_i1_{X_i=1}
+ \end{equation}
+
+
+Below I have functions which generate samples and produce an estimate of $\beta$
+
+
+\begin{lstlisting}[language=Python]
+def generate_data(beta0,beta1,sigma,n_samples):
+  x = np.random.choice([0,1],n_samples)
+  y = beta0 + beta1*x + np.random.normal(0,sigma,n_samples)
+  # put in dataframe
+  df = pd.DataFrame(np.array([x,y]).T,columns=['x','y'])
+  return df
+
+def beta1_hat(df):
+  n_samples = df.shape[0]
+  beta1_hat = (df[df['x']==1]['y'].mean()-df[df['x']==0]['y'].mean())
+  return beta1_hat
+\end{lstlisting}
+
+
+This is a random quantity which depends on the number of samples we have and specific data we collected. A natural question to ask is: how many samples we need to have a high probability of being close to the true $\beta$? Specifically: 
+
+\noindent
+\underline{Question:} How large does $N$ need to be for the probability that $|\hat{\beta}_1 - \beta|<0.1$ to be at least $95$ percent?. \\
+
+
+ \noindent
+\underline{Solution:} 
+
+
+The answer will depend on the parameter values so we will assume we have some rough idea of what these numbers might be. We can answer the question with simulations, but let's first obtain some analytical results. To make the calculation simpler, we assume there are exactly $N/2$ individuals in each group. This makes sense since for large enough $N$ there are very close to $N/2$ in each group:
+\begin{equation}
+N(X=0) \approx  N(X=1) \approx N/2
+\end{equation}
+
+Given our assumption about $N$, $\overline{Y|X=0}$ and $\overline{Y|X=1}$ are each sums of $N/2$ Normal random variables.
+\begin{align}
+\overline{Y|X=0} &\sim {\rm Normal}(\beta_0,\sigma^2/N)\\
+\overline{Y|X=1} &\sim {\rm Normal}(\beta_0+\beta_1,\sigma^2/N)
+\end{align}
+Thus
+\begin{equation}
+\widehat{\beta}_1 \sim {\rm Normal}(\beta_1,2\sigma^2/N)
+\end{equation}
+Let's test this
+
+\begin{lstlisting}[language=Python]
+beta1_hat_dist = np.array([beta1_hat(generate_data(beta0,beta1,sigma,N)) for i in range(1000)])
+# check normal probailities:
+diff = np.abs(beta1_hat_dist - beta1)
+len(diff[diff < 2*np.sqrt(2*sigma/N)])/len(diff)
+\end{lstlisting}
+
+
+
+
+We have confirmed that 
+\begin{equation}
+P(|\hat{\beta}_1 - \beta|_1<2{\rm se}(\widehat{\beta}_1)) \approx 0.95 
+\end{equation}
+as expected. 
+
+If we want enough samples so that 
+\begin{equation}
+P(|\hat{\beta}_1 - \beta|_1<0.1) \approx 0.95
+\end{equation}
+then we should try to find $N$ so that 
+\begin{equation}
+2{\rm se}(\widehat{\beta}_1) = 4 \sigma/\sqrt{N} = 0.1
+\end{equation}
+This means we want 
+\begin{equation}
+N > 16\sigma^2/0.1^2
+\end{equation}
+
+\begin{lstlisting}[language=Python]
+nc =16*sigma**2/0.1**2
+
+n_range = np.array(range(2,25,1)) 
+n_sims = 100 
+p_within_01 = np.zeros(len(n_range)) # initialize array to store results
+for i in range(len(n_range)):
+  n = n_range[i]
+  for j in range(n_sims):
+    df = generate_data(beta0,beta1,sigma,n)
+    b = beta1_hat(df)
+    p_within_01[i] = p_within_01[i] + int(np.abs(b-beta1)<0.1)
+p_within_01 = p_within_01/n_sims
+
+fig,ax = plt.subplots(figsize=(10,4))
+ax.plot(n_range,p_within_01,".")
+ax.plot(n_range,np.ones(len(n_range))*0.95,"k--")
+# verticle line at nc
+ax.axvline(nc,color="red")
+ax.set_xlabel("Number of samples")
+ax.set_ylim([0,1])
+\end{lstlisting}
 
  \end{example}
 
@@ -1042,6 +1150,9 @@ On the other hand,
 E[X]E[Y] = \mu_x(\beta_1\mu_x+\beta_0) = \beta_1 \mu_x^2 +\beta_0 \mu_x
 \end{equation*}
 The difference between the two is the additional term $\beta_1\sigma_x^2$, which we picked up from the variance of $x$.  
+
+
+
 
 
 \end{example}

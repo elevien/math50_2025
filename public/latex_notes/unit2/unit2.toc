@@ -1,15 +1,15 @@
 \contentsline {section}{\numberline {2.1}Expectation, variance and standard deviation}{1}{section.1}%
 \contentsline {subsection}{\numberline {2.1.1}Sample averages and expectation}{1}{subsection.1.1}%
-\contentsline {subsection}{\numberline {2.1.2}Measuring variation}{4}{subsection.1.2}%
+\contentsline {subsection}{\numberline {2.1.2}Measuring variation}{3}{subsection.1.2}%
 \contentsline {subsection}{\numberline {2.1.3}Conditional expectation}{4}{subsection.1.3}%
 \contentsline {subsection}{\numberline {2.1.4}Properties of expectation}{6}{subsection.1.4}%
-\contentsline {section}{\numberline {2.2}Connecting ``math world'' and ``data world'': LLN and CLT}{11}{section.2}%
+\contentsline {section}{\numberline {2.2}Connecting ``math world'' and ``data world'': LLN and CLT}{10}{section.2}%
 \contentsline {subsection}{\numberline {2.2.1}LLN}{11}{subsection.2.1}%
 \contentsline {subsection}{\numberline {2.2.2}Continuous probability distributions}{11}{subsection.2.2}%
 \contentsline {subsection}{\numberline {2.2.3}The Gaussian curve}{14}{subsection.2.3}%
 \contentsline {subsection}{\numberline {2.2.4}The central limit theorem and sample distribution}{15}{subsection.2.4}%
-\contentsline {subsection}{\numberline {2.2.5}Properties of Normal random variables}{17}{subsection.2.5}%
+\contentsline {subsection}{\numberline {2.2.5}Properties of Normal random variables}{16}{subsection.2.5}%
 \contentsline {section}{\numberline {2.3}Examples of linear regression models}{18}{section.3}%
-\contentsline {section}{\numberline {A}Additional discussion of continuous random variables (optional)}{19}{appendix.A}%
-\contentsline {subsection}{\numberline {A.1}Exponential distribution}{19}{subsection.A.1}%
-\contentsline {subsection}{\numberline {A.2}Conditional probability and expectation with Continuous variables}{20}{subsection.A.2}%
+\contentsline {section}{\numberline {A}Additional discussion of continuous random variables (optional)}{20}{appendix.A}%
+\contentsline {subsection}{\numberline {A.1}Exponential distribution}{20}{subsection.A.1}%
+\contentsline {subsection}{\numberline {A.2}Conditional probability and expectation with Continuous variables}{22}{subsection.A.2}%
