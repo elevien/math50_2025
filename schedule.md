@@ -17,13 +17,13 @@ Before going through Unit 1, please review [Unit 0](../unit0/index.html). This m
 | Wed Sept 17 | [Unit 1](../unit1/index.html) | Unit 1.2 (Conditional probability, marginalization) |  |
 | Fri Sept 19 | [Unit 1](../unit1/index.html) | Python, working with tabular data | Course survey |
 | Week 2 || | | 
-| Mon Sept 22 | [Unit 2](../unit2/index.html) | Unit 2.1 (Expectation, conditional expectation, variance)  Unit 2.2 (LLN,) |  |
-| Wed Sept 24 | [Unit 2](../unit2/index.html)  | Unit 2.2 (Continuous distributions, Normal distribution and CLT) |  |
-| Fri Sept 26 | [Unit 3](../unit2/index.html) | Unit 3.1 (Estimators, confidence intervals) |  |
+| Mon Sept 22 | [Unit 2](../unit2/index.html) | Unit 2.1 (Expectation, conditional expectation, variance) |  |
+| Wed Sept 24 | [Unit 2](../unit2/index.html)  | Unit 2.2 (Continuous distributions, Normal distribution and CLT) | I didn't cover continious distributions in detial. This will not be so important for future sections.  |
+| Fri Sept 26 | [Unit 3](../unit2/index.html) | Unit 2.3 (linear regression with binary predictor)|  I introduced the idea of sample distribution in the context of linear regression with binary predictor|
 | Week 3 || | | 
-| Mon Sept 29 | [Unit 3](../unit3/index.html) | Unit 3.1 (bias, consistency)  Unit 3.1 (Linear regression examples)   |  |
-| Wed Oct 1   | [Unit 3](../unit3/index.html) | Unit 3.2 (Least squares, Correlation, coefficient of determination) |  |
-| Fri Oct 3   | [Unit 3](../unit3/index.html)| Unit 3 leftover + **Exploratory data analysis** | End of midterm material |
+| Mon Sept 29 | [Unit 3](../unit3/index.html) | Unit 3.1 cont. (estimators, bias, consistency)  Unit 3.2 (linear regression with normal predictor)  |  |
+| Wed Oct 1   | [Unit 3](../unit3/index.html) | Unit 3.2 cont. (Least squares, Correlation, coefficient of determination) |  |
+| Fri Oct 3   | [Unit 3](../unit3/index.html)| Unit 3 leftover + **Exploratory data analysis/project discussion** | End of midterm material |
 | Week 4 || | | 
 | Mon Oct 6   | Review | | Come with questions! |
 | Wed Oct 8   | MIDTERM IN CLASS |  |  |
