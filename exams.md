@@ -25,9 +25,11 @@ In terms of Python, you need to know enough syntax to identify what a line or tw
   - How to index 1D arrays, compute their lengths (I will not ask about multidimensional arrays). This will mostly be relavent in the context of estimating conditional probabilities: For example, if you are given a dataframe ``df`` and tell you the rows are samples from some probability model, I might ask to estimate a conditional or/and marginal probability. 
   - Describe how to do something in Python but not write out the exact code. For example, I might ask you to describe how you would check whether a given formula (say the variance of some sample distributio) is correct, and the anwer can be in words: "I would first generate a function which returns the samples as a dataframe, then run this function for different $N$, etc..."
 
-### Practice exam
+### Practice problems
+- You should go through all the problems in the Unit 1,2 and 3 notes. Espcially those marked with ❐.
 - [Practice midterm from 2024]({{ '/public/exam_practice/midterm_practice_2024.pdf' | relative_url }}) (ignore problem 5)
 - [Midterm from 2024]({{ '/public/exam_practice/midterm_2024-10.pdf' | relative_url }})
+<!-- - [Additional practice problems]({{ '/public/exam_practice/midterm_practice_problems' | relative_url }}) -->
 
 
 ## Final 

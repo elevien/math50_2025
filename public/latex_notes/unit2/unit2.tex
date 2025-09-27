@@ -1379,7 +1379,57 @@ Verify your approximation by plotting ${\rm MSD}(X_k)$ as a function of $N$.
 
 
 
-%You can start by modifying the following function:
+
+\begin{exercise}[Normal approximation to estimator \ding{111}] 
+We are considering the model
+\begin{equation}
+Y \mid X \sim {\rm Bernoulli}(q_0 + (q_1-q_0)X),
+\end{equation}
+with $X \in \{0,1\}$. This is a model for an individual outcome in a study where people are placed in two groups: the control group ($X=0$) and the treatment group ($X=1$). For example, the treatment group might be given a heart medication and $Y=1$ indicates that an individual has a heart attack. We will write $\Delta = q_1 - q_0$, which represents the difference in the probability of the positive outcome between the control and treatment groups. Alternatively, this can be expressed with conditional expectations:
+\begin{equation}
+\Delta = q_1 - q_0 = E[Y \mid X=1] - E[Y \mid X=0].
+\end{equation}
+
+Now suppose we have $N$ people randomly assigned to $X=0$ and $X=1$ groups,
+\begin{equation}
+X \sim {\rm Bernoulli}(1/2).
+\end{equation}
+We can therefore estimate $\Delta$ by looking at the difference of sample averages:
+\begin{equation}
+\widehat{\Delta} = \frac{N(Y=1 \mid X=1)}{N(X=1)} - \frac{N(Y=1 \mid X=0)}{N(X=0)}.
+\end{equation}
+
+Below is a function which generates data from this model, and another function which takes the dataframe and produces an estimate of $\widehat{\Delta}$.
+\begin{enumerate}
+\item Write a Python function \texttt{generate\_data(q0, delta, n\_samples)} which produces a dataframe \texttt{df} whose columns are samples $X$ and $Y$ (each row is a sample). Then write a function \texttt{estimate\_delta(df)} which produces an estimate of $\Delta$. (You may modify the code from Example 5.)
+\item Estimate the number of samples needed in order for there to be a $95\%$ chance that our estimate is within $0.1$ of the true value. 
+\item Pick some values for $q_0$ and $\Delta$, and then test your result above. 
+\end{enumerate}
+\end{exercise}
+
+
+\begin{exercise}[Implementing a geometric distribution and testing the variance formula \ding{111}]
+A geometric distribution (which we did not cover formally) is defined as follows:  
+Let $Y$ be the number of Bernoulli trials until the first success. That is, if $X_1, X_2, X_3, \ldots$ are i.i.d.\ Bernoulli trials with probability of success $q$, then $Y$ is the minimum value of $i$ such that $X_i = 1$. 
+
+The variance of $Y$ is known to be
+\[
+\mathrm{Var}(Y) = \frac{1-q}{q^2}.
+\]
+
+\begin{enumerate}
+    \item[(a)] Write a function \texttt{geometric(q,n)} that generates $n$ simulations of a geometric random variable. 
+    \item[(b)] Explain (in words, without writing any code) how you could use this function to test the variance formula above. In particular:  
+    \begin{enumerate}
+        \item[(i)] Describe what type of dataset you would generate.  
+        \item[(ii)] Describe a plot you could make to compare the empirical variance with the theoretical formula.  
+    \end{enumerate}
+\end{enumerate}
+\end{exercise}
+
+
+
+
 
 \end{exercise}
 
