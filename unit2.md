@@ -17,7 +17,7 @@ Material:
 
 # Concepts
 
-Expectation, conditional expectation, empirical averages, CLT, Normal random variables and their properties, coefficient of variation, mean vs. median, log normal (if time permits).
+Expectation, conditional expectation, empirical averages, CLT, Normal random variables and their properties, coefficient of variation, sample distribution, linear regression model
 
 # Things to practice
 
