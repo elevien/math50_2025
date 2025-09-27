@@ -7,22 +7,23 @@ title: Exam study guide
 
 The midterm will cover Units 1, 2 and 3. Here are some things you absoutely need to know
 
-- Know distributions: Bernoulli, Uniform and Normal
-- How to calculate conditional probability, marginal probability, expectations given a probability distribtion. Same with expectations/conditional expectations. 
-- How to estimate probabilities of sums using the CLT. You will be given a table if needed. 
-- Know the rules for manipulating Normal random variables (adding them, multiplying by constants)
-- Be able to identify whether data is normal based on visual inspection or quantiles 
-- Basic concepts of statistical inference: Sample distribution, bias, consistency. Be able to tell if estimator is biased
-- Basics ideas of regression modeling: Assumptions, relationship between covariance, correlations, R-squared. Derive formula for these. 
-- In terms of Python, you need to know enough syntax to identify what a line or two of codes does. I will NOT ask about plotting syntax or dataframes.  I may ask about
-  - Basic logic: If statements and for loops 
-  - How to generate random numbers using ``np.random.choice`` and ``np.random.normal``. 
-  - How to index 1D arrays, compute their lengths (I will not ask about multidimensional arrays)
-  - How to translate probability statements, such as a conditional probability into Python code. 
-  - Describe how to do something in Python but not write out the exact code. 
+#### Overview
+- The only distributions you need to know about are Bernoulli, Binomial (don't need to know binomial formula) Uniform and Normal
+- How to calculate conditional probability, marginal probability, expectations given a probability distribtion. Same with expectations/conditional expectations. Problems here you have to calculate these things by hand will involve discrete random variables.  
+- Understand what the LLN and CLT are saying and their significance for statistical inference. 
+- Be able to work with Normal random variables (in the sense of adding them ad estimating probabilities given a table or the bell curve)
+- Basic concepts of statistical inference: Sample distribution, bias, consistency. Be able to tell if a (simple) estimator is biased. 
+- Basics ideas of regression modeling: What are the assumptions assumptions? Relationship between covariance, correlations, R-squared. Derive formula for these. 
+
+#### Python
+In terms of Python, you need to know enough syntax to identify what a line or two of codes does. I will NOT ask about plotting syntax or constructing dataframes (you may be asked to compute something given a data frame).  More specifically: 
+  - Basic logic: You should know the syntax for if statements and for loops; however the questions on the midterm will mostly focus on things directly related to statistics/probability.  
+  - How to generate random numbers using ``np.random.choice`` and ``np.random.normal``. If I give you a probability model in the form such as $X \sim {\rm SomeDistribution}$, $Y|X \sim {\rm SomeDistribution}$ you should be able to write a function which returns samples from this distribution (as numpy arrays). It's a good idea to look at every probability model in the exercises and try to impelement in Python.  
+  - How to index 1D arrays, compute their lengths (I will not ask about multidimensional arrays). This will mostly be relavent in the context of estimating conditional probabilities: For example, if you are given a dataframe ``df`` and tell you the rows are samples from some probability model, I might ask to estimate a conditional or/and marginal probability. 
+  - Describe how to do something in Python but not write out the exact code. For example, I might ask you to describe how you would check whether a given formula (say the variance of some sample distributio) is correct, and the anwer can be in words: "I would first generate a function which returns the samples as a dataframe, then run this function for different $N$, etc..."
 
 ### Practice exam
-- [Practice midterm from 2024]({{ '/public/exam_practice/midterm_practice_2024.pdf' | relative_url }})
+- [Practice midterm from 2024]({{ '/public/exam_practice/midterm_practice_2024.pdf' | relative_url }}) (ignore problem 5)
 - [Midterm from 2024]({{ '/public/exam_practice/midterm_2024-10.pdf' | relative_url }})
 
 

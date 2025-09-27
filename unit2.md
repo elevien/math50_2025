@@ -7,7 +7,7 @@ bibliography:
 
 # Expectation, Continuous probability, CLT and Normal models
 
-In this section we introduce **expectation**, an operation which takes a random variable and produces a deterministic quantity. The expectation of a random variable can be approximated with **sample averages**, and from them we can infer properties of the model (like parameters). Much of statistics relies on the fact that sample averages approximate expectations, and understanding how well these approximations work is a central goal of statistics. This will motivate us to study the probability distribution of sums of random variables, which leads to the **CLT** and the **Normal distribution**. We will also learn about **log-normal distributions**, which are a better model for many real-world random variables, but can easily be mapped to normal random variables. By defining joint distribution where the conditionals are Normal, we will arrive at our first example of a **linear regression** model. 
+In this section we introduce **expectation**, an operation which takes a random variable and produces a deterministic quantity. The expectation of a random variable can be approximated with **sample averages**, and from them we can infer properties of the model (like parameters). Much of statistics relies on the fact that sample averages approximate expectations, and understanding how well these approximations work is a central goal of statistics. This will motivate us to study the probability distribution of sums of random variables, which leads to the **CLT** and the **Normal distribution**.  By defining joint distribution where the conditionals are Normal, we will arrive at our first example of a **linear regression** model. We will study a linear regression model with a binary predictor and introduce the idea of a sample distribution in this context. 
 
 
 Material: 
@@ -21,10 +21,10 @@ Expectation, conditional expectation, empirical averages, CLT, Normal random var
 
 # Things to practice
 
-- Calculate expectations by hand and in Python (including conditional expectations).
-- Manipulate normal random variables  (apply linearity of expectation and independence to simplify calculations.)
-- How to use CLT to estimate probabilities of sums (and know when the CLT gives an accurate approximation)
-- Determine if the Normal model is a good model from data based on quantiles. 
+- Calculate expectations by hand and in Python (including conditional expectations)
+- Manipulate normal random variables  (appling linearity of expectation and independence)
+- How to use CLT to estimate probabilities of sums
+- For a linear regression model with a binary predictor, understand how to estimate the regression coefficient as difference of conditional averages and derive the sample distribution (make sure you understand Example 12)
   
 
 # Wikipedia References
