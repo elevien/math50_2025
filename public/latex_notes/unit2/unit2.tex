@@ -1044,12 +1044,12 @@ N(X=0) \approx  N(X=1) \approx N/2
 
 Given our assumption about $N$, $\overline{Y|X=0}$ and $\overline{Y|X=1}$ are each sums of $N/2$ Normal random variables.
 \begin{align}
-\overline{Y|X=0} &\sim {\rm Normal}(\beta_0,\sigma^2/N)\\
-\overline{Y|X=1} &\sim {\rm Normal}(\beta_0+\beta_1,\sigma^2/N)
+\overline{Y|X=0} &\sim {\rm Normal}(\beta_0,2\sigma^2/N)\\
+\overline{Y|X=1} &\sim {\rm Normal}(\beta_0+\beta_1,2\sigma^2/N)
 \end{align}
 Thus
 \begin{equation}
-\widehat{\beta}_1 \sim {\rm Normal}(\beta_1,2\sigma^2/N)
+\widehat{\beta}_1 \sim {\rm Normal}(\beta_1,4\sigma^2/N)
 \end{equation}
 Let's test this
 
@@ -1075,7 +1075,7 @@ P(|\hat{\beta}_1 - \beta|_1<0.1) \approx 0.95
 \end{equation}
 then we should try to find $N$ so that 
 \begin{equation}
-2{\rm se}(\widehat{\beta}_1) = 4 \sigma/\sqrt{N} = 0.1
+2{\rm se}(\widehat{\beta}_1) = 16 \sigma/\sqrt{N} = 0.1
 \end{equation}
 This means we want 
 \begin{equation}
