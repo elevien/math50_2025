@@ -1005,7 +1005,35 @@ ax.legend()
 \end{Verbatim}
 \end{enumerate}
 
+\begin{exercise}{Exercise \#14}
+Given that: 
+\begin{Verbatim}
+import numpy as np
+x = np.random.choice([0,1,2])
+y = np.random.choice([0,x])
+P = [1-(x/3), (x/3)]
+\end{Verbatim}
+\begin{enumerate}[label=(\alph*)]
+\item What is the sample space?
+\item Find the joint probability of \(x\) and \(y\).
+\end{enumerate}
+\end{exercise}
 
+\begin{exercise}{Conditional Probabilities: Exercise \#15}
+If we are given that:
+\begin{Verbatim}
+import numpy as np
+u = np.random.choice([1,3])
+v = np.random.choice([1, u])
+prob_u = [0.6, 0.4]
+prob_v_given_u = {1: [0.8,0.2], 3: [0.3,0.7]}
+\end{Verbatim}
+Calculate the conditional probabilities \(P(u,v)\).
+\end{exercise}
+
+\begin{exercise}{Exercise \#16}
+Given \(X \sim \text{Bernoulli}(0.3)\) and \(Y|X \sim \text{Bernoulli}(q_i)\), where \(q_0 = 0.4\) and \(q_1 = 0.7\), write a function that generates \(n\) samples of \((X,Y)\) according to this distribution, returning two numpy arrays (one for \(X\) samples and one for \(Y\) samples).
+\end{exercise}
 
 
  \bibliographystyle{cell}
