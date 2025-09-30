@@ -23,7 +23,7 @@ Before going through Unit 1, please review [Unit 0](../unit0/index.html). This m
 | Week 3 || | | 
 | Mon Sept 29 | [Unit 3](../unit3/index.html) | Unit 3.1 cont. (estimators, bias, consistency)  Unit 3.2 (linear regression with normal predictor)  |  |
 | Wed Oct 1   | [Unit 3](../unit3/index.html) | Unit 3.2 cont. (Least squares, Correlation, coefficient of determination) |  |
-| Fri Oct 3   | [Unit 3](../unit3/index.html)| Unit 3 leftover + **Exploratory data analysis/project discussion** | End of midterm material |
+| Fri Oct 3   | [Unit 3](../unit3/index.html)| Unit 3 leftover if needed + **Exploratory data analysis/project discussion** | End of midterm material |
 | Week 4 || | | 
 | Mon Oct 6   | Review | | Come with questions! |
 | Wed Oct 8   | MIDTERM IN CLASS |  |  |

@@ -60,7 +60,7 @@ The point that should be emphasized is that the estimator is a function of the d
 \begin{example}[sample distribution of normal mean]
 Suppose 
 \begin{equation*}
-Y \sim {\rm Normal}(\mu,\sigma)
+Y \sim {\rm Normal}(\mu,\sigma^2)
 \end{equation*}
 
 
@@ -72,11 +72,11 @@ Y \sim {\rm Normal}(\mu,\sigma)
 \begin{equation*}
 \hat{\mu} = \bar{Y} = \frac{1}{N}\sum_{i=1}^NY_i
 \end{equation*}
-The CLT tell us (informally speaking) that 
+Using properties of Normal 
 \begin{equation*}
 \sum_{i=1}^NY_i \sim {\rm Normal}\left(\mu n,n\sigma^2 \right)
 \end{equation*}
-where by $\sim$ we really mean ``approximately distributed as''. Dividing by $N$, 
+ Dividing by $N$, 
 \begin{equation*}
 \hat{\mu} \sim {\rm Normal}\left(\mu ,\frac{\sigma^2}{N} \right)
 \end{equation*}
@@ -258,11 +258,11 @@ rearranging terms yields the result.
 Sometimes it is quite clear what the estimator for a parameter should be. This is the case for $q$ in the Bernoulli distribution. However, we will find this is not always the case, so it is useful to have a {\bf more systematic way of finding estimators.} 
 Recall that the probability distribution for the binomial distribution is 
 \begin{equation}\label{eq:binomial-pdf}
-p(Y) = {n \choose Y}q^Y(1-q)^{n-Y}
+P(Y) = {n \choose Y}q^Y(1-q)^{n-Y}
 \end{equation}
 In statistics, we sometimes call this the \dfn{likelihood} and denoted $P(Y) = L(Y|q)$. The notation here is suggesting that we think of $P$ as a distribution which is conditioned on a particular value of the parameter.  More generally, the likelihood is defined as the probability we say a data set given the parameters. This notation and terminology foreshadows Bayesian thinking, wherein one thinks of the parameter as random variables themselves -- more on this later. 
 For now, notice that Equation \eqref{eq:binomial-pdf} tells us how likely it is to observe $k$ YES among $n$ people surveyed. Then, it seems reasonable that this number should not be very small, since that would mean our survey results are an anomaly. More generally, the larger $L(Y|q)$ is the more likelihood our results are. This suggests one a way to estimate determine $q$: We can take as our estimate $\hat{q}$ the value which makes $L(Y|q)$ largest. In other words, we are finding the value of $q$ which makes the data the most likely, and we will call this the \dfn {maximum likelihood estimate}.
-You can do this using calculus (if you know how, I suggest you give it a try) to determine that the value of $q$ which makes \eqref{eq:binomial-pdf} largest is \begin{equation*}
+You can do this using calculus (try it!) to determine that the value of $q$ which makes \eqref{eq:binomial-pdf} largest is \begin{equation*}
 \hat{q}_{\rm MLE} = \frac{Y}{n}
 \end{equation*}
 For a Normal distribution with mean and variance $\mu$ and $\sigma$, the MLE estimators are the usual sample mean and standard deviation which we have already been exposed to. 
@@ -555,8 +555,8 @@ In rather abstract terms, the basic procedure of hypothesis testing is as follow
 \item Next, we do a sort of probabilistic thought experiment and ask: What is the chance that we would observe a value of $\hat{T}$ at least as large as the value we measured  IF our hypothesis was in-fact true.  The result is the \dfn{$p$-value}. 
 \end{enumerate}
 
-\begin{example}[hypothesis testing for a clinical trial]
-Consider the example of a clinical trial. The effect of a drug, denoted $Y$ (e.g. blood pressure is measured in two groups) is measured in two groups.  One group is given a placebo, the other (the treatment group) is given a drug. Let $X=0$ for people in the control group and $X=2$ for those in the treatment group.   For simplicity we will assume that there are $N/2$ people in each group. We can model $Y$ with a regression model 
+\begin{example}[hypothesis testing for a linear regression model with binary predictor]
+Consider the example of a clinical trial again. The effect of a drug, denoted $Y$ (e.g. blood pressure is measured in two groups) is measured in two groups.  One group is given a placebo, the other (the treatment group) is given a drug. Let $X=0$ for people in the control group and $X=2$ for those in the treatment group.   For simplicity we will assume that there are $N/2$ people in each group. We can model $Y$ with a regression model 
 \begin{equation*}
 Y|X \sim{\rm Normal}(\mu_C (1-X) + \mu_T X,\sigma^2)
 \end{equation*}
