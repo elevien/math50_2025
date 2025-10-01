@@ -270,11 +270,11 @@ For a Normal distribution with mean and variance $\mu$ and $\sigma$, the MLE est
 \section{Single-predictor linear regression model}
 Regression models model input-output relationships. The input is the \dfn{predictor} ($X$) and the output is the \dfn{response} variable ($Y$). Recall from the previous unit that a  \dfn{linear regression model} is defined by
 \begin{align*}
-Y = \beta_0 + \beta_1 X_1 + \epsilon,\quad \epsilon \sim {\rm Normal}(0,\sigma_{\xi}^2).
+Y = \beta_0 + \beta_1 X_1 + \epsilon,\quad \epsilon \sim {\rm Normal}(0,\sigma_{\epsilon}^2).
 \end{align*}
 Written another way
 \begin{equation}
-Y|X \sim {\rm Normal}(\beta_0 + \beta_1 X,\sigma^2). 
+Y|X \sim {\rm Normal}(\beta_0 + \beta_1 X,\sigma_{\epsilon}^2). 
 \end{equation}
 It should be noted that in regression modeling the distribution of the predictor is often not specified. However, we should always think about what this is, because it plays an important role in the inference process as I will discuss below. For this reason, I often think of a linear regression model as a model of both variables:
 \begin{align}
@@ -283,63 +283,77 @@ X &\sim \text{some distribution with mean $\mu_x$ and variance $\sigma_x^2$}\\
 Y|X &\sim {\rm Normal}(\beta_1X + \beta_0,\sigma^2). 
 \end{split}
 \end{align}
-We saw examples with Bernoulli and Normal predictors in Unit 2. 
+We saw examples with Bernoulli and Normal predictors in Unit 2, but this involved looking at differences of conditional expectations. In general, this is a feasible way to estimate $\beta_1$ because (1) we may not have data points whose $X$ values differ by $1$ and (2) even if we do it is not clear how to utilize all the data to compute $\beta_1$. We would like some way to approximate $\beta_1$, a quantity which is interpreted as differences of conditional expectations, without actually computing those conditional expectations. In particular, we would like to express $\beta_1$ in terms of marginal expectations. To do so, we will need the idea of covariance, which has already appeared in the examples from the previous section. 
 
 
 
 \subsection{Covariance} 
- The example above motivates the definition of \dfn{covariance}
+The \dfn{covariance} of two variables is defined by
 \begin{equation}
 {\rm cov}(X,Y) = E[XY]-E[X]E[Y]
 \end{equation}
-Note that another way to write this is 
-\begin{equation*}
- E[(Y-E[Y])(X-E[X)] = E[XY] - 2E[X]E[Y]+E[X]E[Y] = {\rm cov}(X,Y)
-\end{equation*}
-so if we replaced $X$ with $Y$, this becomes the variance. 
- 
- 
-The relationships above can easily be generalized. 
-Recall that we can write $E[X^2]$ as
-\begin{equation*}
-E[X^2] ={\rm var}(X) + E[X]^2 =  \sigma_x^2 + \mu_x^2. 
-\end{equation*}
-Now for any linear regression model
-\begin{align*}
-E[XY] &= E[XE[Y|X]] = E[X(\beta_1 X+\beta_0)] = \beta_1E[X^2] + \beta_0 E[X] \\
-&= \beta_1\sigma_x^2 +\beta_1 \mu_x^2 +\beta_0 \mu_x\\
-E[Y] &= \beta_1\mu_x +\beta_0
-\end{align*}
-so 
-\begin{align*}
-{\rm cov}(X,Y) &= \beta_1\sigma_x^2
-\end{align*}
-regardless of the distribution of $X$ (assuming $\sigma_x^2 <\infty$). %The intuition for this formula is given in figure \ref{fig:cov_effect}.
-
-%    
-%    \begin{figure}[h]
-%    \centering
-%    \includegraphics[width=0.8\textwidth]{./../figures/cov_effect.png}
-%    \caption{}\label{fig:cov_effect}
-%    \end{figure}
-
-
-A crucial observation is that the covariance allows us to relate the parameter $\beta_1$ (the slope) in the model above to averages over $X$ and $Y$. In other words, it provides us with a means to estimate the slope from samples $(x_1,y_2),\dots,(x_n,y_n)$. 
-\begin{align*}
- \beta_1 &\approx  \frac{\sum_{i=1}^n\left(x_i - \bar{X}\right)\left(y_i-\bar{Y}\right)}{\sum_{i=1}^n\left(x_i - \bar{X}\right)^2}
-\end{align*}
-The is what the function 
+This is what the function 
 \begin{Verbatim}
 np.cov(x,y)[0,1]
 \end{Verbatim}
 computes in Python. 
 The reason for the $[0,1]$ is that the covariance function in numpy actually computes a 2D array (a Matrix), where the off diagonal entries are the covariance. The diagonal entries are the variances. 
 
+Note that another way to write this is 
+\begin{equation*}
+ E[(Y-E[Y])(X-E[X)] = E[XY] - 2E[X]E[Y]+E[X]E[Y] = {\rm cov}(X,Y)
+\end{equation*}
+so if we replaced $X$ with $Y$, this becomes the variance. Hence the name covariance -- this is essentially a generalization of variance to two variables. 
+ 
+ 
+The relationships above can easily be generalized. 
+
+\subsection{Paramater estimates}
+We first recall that from the definition of variance we can write $E[X^2]$ as
+\begin{equation*}
+E[X^2] ={\rm var}(X) + E[X]^2 =  \sigma_x^2 + \mu_x^2. 
+\end{equation*}
+Therefore we can write 
+\begin{align*}
+E[XY] &= E[XE[Y|X]] = E[X(\beta_1 X+\beta_0)] = \beta_1E[X^2] + \beta_0 E[X] \\
+&= \beta_1\sigma_x^2 +\beta_1 \mu_x^2 +\beta_0 \mu_x\\
+E[Y] &= \beta_1\mu_x +\beta_0
+\end{align*}
+and combining everything we find 
+\begin{align*}
+{\rm cov}(X,Y) &= \beta_1\sigma_x^2 \implies \beta_1 = \frac{{\rm cov}(X,Y)}{\sigma_x^2}
+\end{align*}
+regardless of the distribution of $X$ (assuming $\sigma_x^2 <\infty$). 
+
+The crucial observation is that the covariance allows us to relate the parameter $\beta_1$ (the slope) in the model above to averages over $X$ and $Y$. In other words, it provides us with a means to estimate the slope from samples $(x_1,y_2),\dots,(x_n,y_n)$. 
+\begin{align*}
+ \beta_1 &\approx  \frac{\sum_{i=1}^n\left(x_i - \bar{X}\right)\left(y_i-\bar{Y}\right)}{\sum_{i=1}^n\left(x_i - \bar{X}\right)^2}
+\end{align*}
+
+
 We can also estimate $\beta_0$. Using $E[Y] = \beta_1 \mu_x + \beta_0$ we have
 \begin{equation*}
 \beta_0 =  E[Y]  - \beta_1 \mu_x \approx \hat{\beta}_0 =  \overline{Y} - \left(\frac{\sum_{i=1}^n\left(x_i - \bar{X}\right)\left(y_i-\bar{Y}\right)}{\sum_{i=1}^n\left(x_i - \bar{X}\right)^2}\right)\overline{X}
 \end{equation*}
+This is also an unbiased estimator. 
 
+Finally, we want to estimate $\sigma_{\epsilon}^2$, which is the same as the conditional variance ${\rm var}(Y|X)$ in our model. From the definition of $\epsilon$, 
+\begin{equation}
+\epsilon = Y - \beta_0 - \beta_1 X
+\end{equation}
+We call the observed values of $\epsilon$ the residuals, and they are defined by 
+\begin{equation}
+r_i = Y_i - \hat{\beta}_0 - \hat{\beta}_1 X_i. 
+\end{equation}
+A natural approach to estimating $\sigma_{\epsilon}^2$ would be to estimate the empirical variance in the usual way, leading to 
+\begin{equation}
+\frac{1}{N -1}\sum_{i=1}^N(r_i- \overline{r})^2
+\end{equation}
+but we need to remember that (1) we know $E[\epsilon]=0$, we can simply set $\overline{r}=0$ and (2) we need to account for the fact that $\hat{\beta}_0$ and $\hat{\beta}_1$ have also been obtained from the data. The correct unbiased estimator is 
+\begin{equation}
+\hat{\sigma}_{\epsilon}^2 = \frac{1}{N -2}\sum_{i=1}^Nr_i^2
+\end{equation}
+where the $N-2$ corrects for the fact that the differences are biased to be smaller due to our using the $Y_i$ points to estimate the regression coefficients. 
 
 
 \subsection{Least square interpretation}
@@ -348,7 +362,7 @@ These estimators are known as \dfn{least squares} estimators (note that we haven
 \begin{equation*}
 RSS = \sum_{i=1}^n r_i^2,\quad r_i  = Y_i - (\hat{\beta}_1X_i + \hat{\beta}_0)
 \end{equation*}
-smallest. The R
+smallest.
 
 
 \begin{figure}[h]
