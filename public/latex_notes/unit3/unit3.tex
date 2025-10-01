@@ -760,13 +760,13 @@ The $p$-value is all about the ``tail'' of the sample distribution -- ``tail'' u
 
 \section*{Exercises}
  % ------------------------------------------------------------------------------------------------------------------------------------------
-\begin{exercise}[Bias and consistency]\label{ex:1}
+\begin{exercise}[Bias and consistency \ding{111}]\label{ex:1}
 Let
 \begin{equation*}
 X \sim {\rm Bernoulli}(q)
 \end{equation*}
 and $X_1,\dots,X_N$ denote $N$ samples of $X$. 
-For each of the following estimators of $q$, (i) write down the standard error and (ii) state whether they are un-biased and/or consistent. (In each case, you can write down an exact formula for the standard error, so you do NOT need to use the CLT.)
+For each of the following estimators of $q$, (i) write down the standard error and (ii) state whether they are un-biased and/or consistent 
 \begin{enumerate}[label=(\alph*)]
 \item 
 \begin{equation*}
@@ -858,7 +858,6 @@ This is a special case of Jenson's inequality.
 
 
 
-
  % ------------------------------------------------------------------------------------------------------------------------------------------
 \begin{exercise}[Earnings data] Consider the earnings data. This can be loaded with 
 \begin{Verbatim}
@@ -881,9 +880,29 @@ In this exercises, you will study the association between earnings and gender. I
 \end{exercise}
 
  % ------------------------------------------------------------------------------------------------------------------------------------------
-\begin{exercise}[Quiz practice]
-Answer the questions on the practice quiz. You are welcome to provide some feedback on the quiz regarding difficultly level, clarity of problems, relevance to course material etc. 
+\begin{exercise}[Estimating slope \ding{111}]
+\begin{enumerate}
+\item  Estimate the regression slope of the following dataset by hand 
+\[
+\begin{array}{c|c}
+X & Y \\\hline
+1 & 2 \\
+2 & 3 \\
+3 & 5 \\
+4 & 6 \\
+5 & 8 \\
+\end{array}
+\]
+\item What happens when you add a new data point at $(X_6,Y_6) = (100,3)$? The numbers don't work out as nicely, so you can using Python or LLM. Now try changing the $X$ and $Y$ of the new datapoint. How does the slope change? 
+\end{enumerate}
+
+\end{exercise} 
+
+ % ------------------------------------------------------------------------------------------------------------------------------------------
+\begin{exercise}[Linear regression model parameters \ding{111}]
+Suppose that for a given linear regression model it is found that $\hat{\beta}_1 = 1/2$, $\hat{\sigma}_{\epsilon} = 1$ and $\sigma_X^2 = 4$. What is your estimate of $R^2$? 
 \end{exercise}
+
 
 
 
