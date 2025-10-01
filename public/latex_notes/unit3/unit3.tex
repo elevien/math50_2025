@@ -91,7 +91,7 @@ This assumes $\sigma$ is known.
 This tells us how much our estimate will vary between different experiments (or surveys/simulations). 
 Importantly, the standard error depends on $\sigma$ which we may not know!!! Thus, it is common to estimate the standard error using an estimate of $\sigma$, $\hat{\sigma}$, leading to an estimator of the standard deviation:
 \begin{equation}\label{eq:se2}
-{\rm se}(\hat{\mu}) =  \frac{\hat{\sigma}}{\sqrt{N}}. 
+{\rm se}(\hat{\mu}) \approx  \frac{\hat{\sigma}}{\sqrt{N}}. 
 \end{equation}
 It should be clear from the context which one we are talking about: If we are working with data and we don't know what $\sigma$ is, when we say standard error we mean Equation \ref{eq:se2}. If we are working with a particular model where we have specified the parameters, we mean Equation \ref{eq:se1}. 
 
@@ -299,14 +299,11 @@ np.cov(x,y)[0,1]
 computes in Python. 
 The reason for the $[0,1]$ is that the covariance function in numpy actually computes a 2D array (a Matrix), where the off diagonal entries are the covariance. The diagonal entries are the variances. 
 
-Note that another way to write this is 
+Note that another way to write this is  (check yourself!)
 \begin{equation*}
- E[(Y-E[Y])(X-E[X)] = E[XY] - 2E[X]E[Y]+E[X]E[Y] = {\rm cov}(X,Y)
+ {\rm cov}(X,Y) = E[(Y-E[Y])(X-E[X)] %= E[XY] - 2E[X]E[Y]+E[X]E[Y] = {\rm cov}(X,Y)
 \end{equation*}
-so if we replaced $X$ with $Y$, this becomes the variance. Hence the name covariance -- this is essentially a generalization of variance to two variables. 
- 
- 
-The relationships above can easily be generalized. 
+so if we replaced $X$ with $Y$, this becomes the variance. Hence the name covariance -- thus the name. 
 
 \subsection{Paramater estimates}
 We first recall that from the definition of variance we can write $E[X^2]$ as
@@ -325,23 +322,22 @@ and combining everything we find
 \end{align*}
 regardless of the distribution of $X$ (assuming $\sigma_x^2 <\infty$). 
 
-The crucial observation is that the covariance allows us to relate the parameter $\beta_1$ (the slope) in the model above to averages over $X$ and $Y$. In other words, it provides us with a means to estimate the slope from samples $(x_1,y_2),\dots,(x_n,y_n)$. 
+The crucial observation is that the covariance allows us to relate the parameter $\beta_1$ (a difference in conditional expectations) to over the joint and marginal distributions $X$ and $Y$ {\bf without the need to explicitly condition, as was done for the binary predictor example}. If we have data  $(X_1,Y_2),\dots,(X_n,Y_n)$. 
 \begin{align*}
  \beta_1 &\approx  \frac{\sum_{i=1}^n\left(x_i - \bar{X}\right)\left(y_i-\bar{Y}\right)}{\sum_{i=1}^n\left(x_i - \bar{X}\right)^2}
 \end{align*}
-
-
-We can also estimate $\beta_0$. Using $E[Y] = \beta_1 \mu_x + \beta_0$ we have
+Perhaps surprisingly, this is also an unbiased estimator!
+We can then estimate $\beta_0$. Using $E[Y] = \beta_1 \mu_x + \beta_0$ we have
 \begin{equation*}
 \beta_0 =  E[Y]  - \beta_1 \mu_x \approx \hat{\beta}_0 =  \overline{Y} - \left(\frac{\sum_{i=1}^n\left(x_i - \bar{X}\right)\left(y_i-\bar{Y}\right)}{\sum_{i=1}^n\left(x_i - \bar{X}\right)^2}\right)\overline{X}
 \end{equation*}
-This is also an unbiased estimator. 
+
 
 Finally, we want to estimate $\sigma_{\epsilon}^2$, which is the same as the conditional variance ${\rm var}(Y|X)$ in our model. From the definition of $\epsilon$, 
 \begin{equation}
 \epsilon = Y - \beta_0 - \beta_1 X
 \end{equation}
-We call the observed values of $\epsilon$ the residuals, and they are defined by 
+In practice we need to approximate the $\epsilon$ using our data and fitted line. The approximations are called residuals and defined by 
 \begin{equation}
 r_i = Y_i - \hat{\beta}_0 - \hat{\beta}_1 X_i. 
 \end{equation}
@@ -357,12 +353,13 @@ where the $N-2$ corrects for the fact that the differences are biased to be smal
 
 
 \subsection{Least square interpretation}
- Suppose we plot $X$  and $Y$ points in a place. Regardless of where these $X$ and $Y$ points come from (Normal model or not), we can compute $\hat{\beta}_1$ and $\hat{\beta}_0$. 
-These estimators are known as \dfn{least squares} estimators (note that we haven't formally defined what an estimator is) because  it happens that these values minimize the sum of the squared difference between our data points and the line $\hat{a}x + \hat{b}$. That is, they are the values that make the \dfn{residual sum of squares}(RSS) smallest
+
+There is another way to arrive at the estimators we have obtained, which is the fine the slope and intercept that minimize the residuals directly. Specifically, we find the minimum of the function 
 \begin{equation*}
 RSS = \sum_{i=1}^n r_i^2,\quad r_i  = Y_i - (\hat{\beta}_1X_i + \hat{\beta}_0)
 \end{equation*}
-smallest.
+as a function of $\hat{\beta}_1$ and $\hat{\beta}_0$. This can be intuitively justified You might wonder how this approach is related 
+
 
 
 \begin{figure}[h]
@@ -372,7 +369,7 @@ smallest.
 \end{figure}
 
 
-There are many other ways we could draw a line through a set of $(x,y)$ points. This particular way of estimating the slope -- by minimizing RSS -- happen to make sense under the assumption that  the data is sampled from a Linear regression model (Equation \ref{eq:linreg}). 
+
 
 
 
@@ -560,7 +557,136 @@ Here we consider the some on advertising budgets and sales for a company. We wil
 
 
 %------------------------------------------------------------------------------------------------------------------------------------------------------
-\section{Hypothesis testing}
+\section{Coefficient of determination and correlation}
+\subsection{Coefficient of determination}
+
+In most applications the goal of regression modeling is predict  the response ($Y$ values) given the predictor ($X$ values). Thus, it is natural to look for metrics which assess how well these predictions can be made. To gain an intuition about this, let's think about the best case scenario for making predictions. This would be that $\sigma_{\epsilon}=0$ (and $\beta_1\ne0$), because then $Y$ is determined \emph{deterministically} for a given $X$. Predictions should get worse as $\sigma_{\epsilon}$ grows, because $\sigma_{\epsilon}$ measure the variability in the $Y$ values for a fixed $X$. So the worst case is that $\sigma_{\epsilon}$ is very large (or $\beta_1=0$), but large relative to what? $\sigma_{\epsilon}^2$ has the same units as $Y$. This means we need to compare it to something that has $Y$ units, so we compare to the overall (marginal) variance in $Y$, $\sigma_Y^2 = {\rm var}(Y)$. Note that (check yourself!)
+\begin{equation}
+\sigma_Y^2 = \beta_1^2\sigma_X^2 + \sigma_{\epsilon}^2 \ge  \sigma_{\epsilon}^2
+\end{equation}
+Notice that the overall variance in $Y$ is the sum of the variation from $\epsilon$ (random factors independent of $X$) and $\beta_1^2\sigma_X^2$ (the spread of the $X$ values, which is weighted by the squared slope). 
+
+This discussion motivates \underline{coefficient of determination}, which is 
+\begin{equation}
+\rho^2 = 1 - \frac{\sigma_{\epsilon}^2}{\sigma_Y^2}. 
+\end{equation}
+Another way to write $\rho^2$ is
+\begin{equation}
+\rho^2 = 1 - \frac{{\rm var}(Y|X)}{{\rm var}(Y)}. 
+\end{equation}
+This is between zero and one. When $\rho^2=1$, this is saying nearly all the variation in $Y$ values is a result of variation in $X$. Notice that $\rho^2 = 0$ when $\sigma_{\epsilon^2} = \sigma_Y^2$. In this case, knowing the $X$ values (e.g. knowing whether some is in the control or treatment group) does not change how variable the $Y$ values are (e.g. the blood pressure). This means all the variation in $Y$ values is due to things other than $X$.  
+
+When we estimate $\rho^2$ from data, we call it $R^2$. The estimator has the form
+\begin{equation}
+R^2 = 1 - \frac{\sum_{i=1}^Nr_i^2}{\sum_{i=1}^N(Y_i - \overline{Y})^2}
+\end{equation}
+It should make sense why this is the estimator of $\rho^2$. 
+
+\subsection{Correlation}
+There is another way to arrive at $\rho^2$, which is to consider the regression model after standardizing the predictor and response variable. This is natural thing to do since we want to measure the association between two variables on a dimensionless scale. Let 
+\begin{equation}
+Z_ X = \frac{X- \mu_X}{\sigma_X},\quad Z_ Y = \frac{Y- \mu_Y}{\sigma_Y}
+\end{equation} 
+We then have
+\begin{equation}
+Z_ Y = \frac{\beta_0 + \beta_1 X + \epsilon - \mu_Y}{\sigma_Y} = 
+\end{equation}
+Because \(\mu_Y = \beta_0 + \beta_1 \mu_X\), we simplify:
+\[
+Z_Y = \frac{\beta_1 (X - \mu_X)}{\sigma_Y} + \frac{\epsilon}{\sigma_Y} = \frac{\beta_1 \sigma_X}{\sigma_Y} Z_X + \frac{\epsilon}{\sigma_Y}.
+\]
+Thus,
+\[
+Z_Y \big| Z_X \sim \text{Normal}\left( \frac{\beta_1 \sigma_X}{\sigma_Y} Z_X, \frac{\sigma_\epsilon^2}{\sigma_Y^2} \right).
+\]
+This is a simple linear regression of standardized response \(Z_Y\) on standardized predictor \(Z_X\) with slope 
+\[
+b = \frac{\beta_1 \sigma_X}{\sigma_Y}.
+\]
+ The slope \(b\) represents the expected change in standard deviations of \(Y\) associated with a one standard deviation change in \(X\).
+
+Motivated by this, we define the \dfn{correlation coefficient} \(\rho\) as this regression slope:
+\[
+\rho := b = \frac{\beta_1 \sigma_X}{\sigma_Y}.
+\]
+Using the earlier result that 
+\[
+\mathrm{cov}(X,Y) = \beta_1 \sigma_X^2,
+\]
+we can write
+\[
+\rho = \frac{\beta_1 \sigma_X}{\sigma_Y} = \frac{\mathrm{cov}(X,Y)}{\sigma_X \sigma_Y}.
+\]
+Usually it is the last equation that is used to define covariance, because this can be defined for any two random variables and doesn't require an underlying regression model (which is where the $\beta_1$ comes from). 
+Notice that if we begin with two random variables which have standard deviations $1$, then $\rho$ and covariance are the same thing. There is a very import result in math called the Cauchy-Schwarz inequality, which tells us $1 \le \rho\le 1$. 
+
+Now to show that this is indeed the same as $\rho^2$. To do so, we recall that $\sigma_Y = \beta_1^2\sigma_X^2 + \sigma_{\epsilon}^2$. Therefore, 
+\begin{equation}
+\rho^2 = \frac{\beta_1^2 \sigma_X^2}{\sigma_Y^2} =  \frac{\sigma_Y^2 -\sigma_{\epsilon}^2 }{\sigma_Y^2}
+\end{equation}
+Thus, the approach of standardizing and computing a unitless regression slope ultimately leads to the same metric for the strength of association as comparing the variance conditioned on the predictor to the overall variance. 
+
+
+
+
+\subsection{Regression to the mean}
+
+Regression to the mean arises naturally in the context of repeated measurements or time series data when the correlation between successive observations is less than perfect.
+Consider a time series \(\{X_i\}\), where \(X_i\) is the measurement at time \(i\). Suppose \(X_i\) and \(X_{i+1}\) are random variables with the same distribution, mean \(\mu\) and variance \(\sigma^2\), but are not perfectly correlated. Since we can standardize them aways, we may take $\mu=0$ and $\sigma=1$.  We model the noise via a linear regression model, and it must be that 
+\begin{equation} 
+X_{i+1}|X_i \sim {\rm Normal}(\rho X_i ,1-\rho^2).
+\end{equation}
+
+
+%
+%%
+%\[
+%Z_i = \frac{X_i - \mu}{\sigma}, \quad Z_{i+1} = \frac{X_{i+1} - \mu}{\sigma},
+%\]
+%
+%so both have mean zero and variance one. Let the correlation between successive observations be
+%
+%\[
+%\mathrm{corr}(X_i, X_{i+1}) = \rho < 1.
+%\]
+%
+%The conditional distribution of \(Z_{i+1}\) given \(Z_i\) under a bivariate normal assumption is
+%
+%\[
+%Z_{i+1} | Z_i = z \sim \text{Normal}(\rho z, 1 - \rho^2).
+%\]
+%
+%This corresponds to a regression model:
+%
+%\[
+%\mathbb{E}[Z_{i+1} | Z_i = z] = \rho z.
+%\]
+%
+%Because \(|\rho| < 1\), when \(Z_i\) takes on an extreme value (e.g., \(z=2\)), the expected value of \(Z_{i+1}\) is closer to zero:
+%
+%\[
+%\mathbb{E}[Z_{i+1} | Z_i = 2] = 2\rho,
+%\]
+%
+%which is less extreme than 2 since \(\rho < 1\). Thus, the subsequent measurement \(Z_{i+1}\) "regresses" toward the mean (here zero) relative to its predecessor \(Z_i\).
+%
+%**Intuition:** Extreme observations at one time point tend to be followed by observations closer to the average, because the deviation of the initial observation arises partly from random variation, which is unlikely to persist perfectly into the next observation.
+%
+%**Important notes:**
+%
+%- When \(\rho = 1\), there is perfect correlation and no regression to the mean: the subsequent observation matches the previous one exactly.
+%- When \(\rho = 0\), there is no correlation and the expected next value is always the mean.
+%- Regression to the mean is not a causal process; it is a natural consequence of imperfect correlation and variability.
+%
+%
+
+
+
+
+
+\subsection{Regression to the mean}
+%------------------------------------------------------------------------------------------------------------------------------------------------------
+\section{$p$-values Hypothesis testing}
 In statistics, we might infer parameters not because we are interested in specific values, but rather because we would like to use them to make a decision. For example, in a clinical trial, we might be interested in deciding whether a candidate drug is worth moving forward with. This problem is often framed in terms of \dfn{hypothesis testing}, in which we assign a probability to a particular hypothesis or its converse. 
 In rather abstract terms, the basic procedure of hypothesis testing is as follows:
 \begin{enumerate}
@@ -615,7 +741,9 @@ where $\hat{T}^*$ is the test statistic computed from $\hat{\beta}_1^*$ and the 
 
  The above example is very simple because we assume that $\sigma$ is known and we have only a binary predictor. In reality, the computation of $p$-values is much more complex, however the principle and interpretation is the same!
  {\bf Interpreting the $p$-value} If the $p$-value is very small, then it is highly unlikely we would have observed what we did when the null hypothesis was true. In this case, we can REJECT the null hypothesis as false. Usually some threshold is set for this, and if the $p_v$ is below that threshold we say our result in statistically significant. On the other hand, {\bf if $p_v$ is not small, it does not necessarily mean the null hypothesis is true.} A result is said to be statistically significant if $p_v<0.05$. Visually, we can see that $\beta_1$ is statistically significant exactly if $0$ is not contained in the confidence interval! 
-{\bf Relationship between $p$-values and confidence intervals}.  The $p$-value is all about the ``tail'' of the sample distribution -- ``tail'' usually just means the ends of the distribution. Naturally there is connection between between $p$-values and confidence intervals, which also measure the width of the sample distribution. To illustrate the connection, we will again assume {\bf $\sigma$ is known}.  Since the  the sample distribution can be obtained by shifting the distribution of $\hat{\beta}_1^*$ to $\hat{\beta}_1$, the $p$-value, $p_v$, is exactly the chance of being outside the interval $[\hat{\beta}_1 - |\hat{\beta}_1|,\hat{\beta}_1 + |\hat{\beta}_1|]$. Therefore,  recalling the interpretation of confidence intervals, $\hat{\beta}_1$ will fall in the confidence interval with probability $p_v$ when the null hypothesis is true.  If $\sigma$ isn't known all this is only approximately true, but intuition is still. 
+ 
+ 
+The $p$-value is all about the ``tail'' of the sample distribution -- ``tail'' usually just means the ends of the distribution. Naturally there is connection between $p$-values and confidence intervals, which also measure the width of the sample distribution. To illustrate the connection, we will again assume {\bf $\sigma$ is known}.  Since the  the sample distribution can be obtained by shifting the distribution of $\hat{\beta}_1^*$ to $\hat{\beta}_1$, the $p$-value, $p_v$, is exactly the chance of being outside the interval $[\hat{\beta}_1 - |\hat{\beta}_1|,\hat{\beta}_1 + |\hat{\beta}_1|]$. Therefore,  recalling the interpretation of confidence intervals, $\hat{\beta}_1$ will fall in the confidence interval with probability $p_v$ when the null hypothesis is true.  If $\sigma$ isn't known all this is only approximately true, but intuition is still. 
 
 
 
@@ -763,6 +891,98 @@ Answer the questions on the practice quiz. You are welcome to provide some feedb
 \begin{exercise}[Statistical significance -- {\bf optional challenge}]
 Show (using math OR simulations) that it is possible to conduct two experiments (let's use clinical trials as an example) so that $\Delta \hat{\mu}$ (using the same notation as my notes) is statistically significant for one experiment and not the other, yet the difference between $\Delta \hat{\mu}$ between the two experiments is not statistically significant.  Here, by statistically significant I mean the $p$-value is $<0.05$. 
 \end{exercise}
+
+ % ------------------------------------------------------------------------------------------------------------------------------------------
+\begin{exercise}[Model with conditional variance]
+Consider the model 
+\begin{align*}
+X &\sim {\rm Bernoulli}(q)\\
+Y|X &\sim {\rm Normal}(a,X + 2(1-X))
+\end{align*}
+
+\begin{enumerate}[label=(\alph*)]
+\item Is this a linear regression model (for the variable $Y$) as defined in class? 
+\item Compute ${\rm cov}(X,Y)$. 
+\item Confirm your answer by making a plot of the covariance as a function of $q$ from a samples of 10000 $(x,y)$ points. 
+\end{enumerate} 
+\end{exercise}
+
+ % ------------------------------------------------------------------------------------------------------------------------------------------
+\begin{exercise}[Swapping response and predictor variables]
+
+Consider the linear regression model
+\begin{align*}
+X &\sim {\rm Normal}(\mu_x,\sigma_x^2)\\
+Y|X &\sim {\rm Normal}(\beta_1X + \beta_0,\sigma_{\epsilon}^2)
+\end{align*}
+This is a regression model for $Y$. The goal of this problem is to understand the distribution of $X$ conditioned on $Y$. That is, we would like to understand the corresponding regression model for $X$. This is important in practice and it will also sharpen you understanding of what the covariance really means.  
+
+
+For some additional motivation, suppose that there is no noise in $Y|X$ (meaning $\sigma_{\epsilon}^2=0$). Then 
+\begin{equation*}
+Y =\beta_1X + \beta_0 \implies X = \frac{1}{\beta_1}Y - \frac{\beta_0}{\beta_1}
+\end{equation*}
+so the slope of $X$ vs.  $Y$ is $1/\beta_1$. We could try adding a normal random variable $Z \sim {\rm Normal}(0,\sigma_{\epsilon}^2)$ to represent the noise in $Y|X$ and then solve this again. This would lead us to to 
+\begin{equation*}
+Y =\beta_1X + \beta_0 + Z \implies X=  \frac{1}{\beta_1}Y - \frac{\beta_0}{\beta_1} + \frac{Z}{\beta_1}
+\end{equation*}
+It is tempting to conclude that $Y|X$ follows a Normal distribution with mean $Y/\beta_1 - \beta_0/\beta_1$ and variance $\sigma_{\epsilon}^2/\beta_1^2$. This is however false -- see part (c). In this problem you will derive the correct formula. 
+ %The problem is that $Z$ and $Y$ are not independent, since $Y|Z$ clearly does not have the same distribution as $Y$. 
+%\begin{equation*}
+%{\rm Normal}\left( \frac{1}{\beta_1}Y - \frac{\beta_0}{\beta_1} , \frac{\sigma_{y|x}^2}{\beta_1^2} \right)
+%\end{equation*}
+%Recall that 
+%\begin{equation*}
+%{\rm cov}(X,Y) = \beta_1 \sigma_x^2, 
+%\end{equation*}
+%so we might guess that (
+
+
+\begin{enumerate}[label=(\alph*)]
+\item Based on the formula for covariance derived in class, we know 
+\begin{equation*}
+{\rm cov}(X,Y)  =\beta_1'\sigma_y^2.
+\end{equation*}
+where $\beta_1'$ is the regression slope on $X$ vs. $Y$ and $\sigma_y^2$ is the marginal variance of $Y$.  
+eUsing(1)  ${\rm cov}(X,Y) = {\rm cov}(Y,X)$ (interchanging the role of $X$ and $Y$ doesn't change the covariance) and (2) the marginal variance of $Y$ is $\sigma_y^2 = \beta_1^2\sigma_x^2 + \sigma_{\epsilon}^2$, derive a formula for $\beta_1'$. 
+%\begin{equation*}
+%{\rm cov}(X,Y)  =\beta_1'\sigma_y^2.
+%\end{equation*}
+%where 
+%\begin{equation*}
+%\beta_1' =\left[\beta_1 + \frac{\sigma_{y|x}^2}{\beta_1 \sigma_x^2}\right]^{-1}. 
+%\end{equation*}
+\item Using the result of part (a), show that when $\sigma_{\epsilon}^2 \to 0$ we retrieve the ``naive'' formula $\beta_1' = 1/\beta_1$. 
+%\item Now observe that, by applying the formula for $\sigma_y^2$ with the role of $x$ and $y$ reversed, we get
+%\begin{equation*}
+%\sigma_x^2 = a'\sigma_y^2 + \sigma_{x|y}^2. 
+%\end{equation*}
+%derive a formula for $\sigma_{x|y}^2$
+\item Why is the naive formula $1/\beta_1$ incorrect when $\sigma_{\epsilon}^2>0$? In particular, why can't we simply solve for $X$ in terms of $Y$ to obtain the regression equation? Hint: does $Y|Z$ have the same distribution as $Y$? 
+%\item The result of part (a) means that we can write
+%\begin{align*}
+%X|Y &\sim {\rm Normal}(\beta_1'Y + \beta_0',\sigma_{x|y}^2)\\
+%Y  &\sim {\rm Normal}(\mu_y,\sigma_y^2).
+%\end{align*}
+%for some $\beta_0'$ and $\sigma_{x|y}^2$. Show that 
+% \begin{align*}
+%%b' = \mu_x - a'\mu_y. 
+%\beta_0' &= \mu_x - \beta_1'\mu_y \\
+% \sigma_{x|y}^2 &= (\beta_1')^2 \sigma_y^2  -  \sigma_x^2 
+%\end{align*}
+%\item The quantity 
+%\begin{equation*}
+%\rho_{x,y}= \frac{{\rm cov}(X,Y)}{\sigma_x\sigma_y}
+%\end{equation*}
+%is called the correlation coefficient. Show that 
+%\begin{equation*}
+%\rho_{x,y} ={\rm sign}(\beta_1)\sqrt{\beta_1'\beta_1}
+%\end{equation*}
+%where ${\rm sign}(\beta_1) = 1$ if $\beta_1>0$ and $-1$ otherwise. 
+\end{enumerate}
+\end{exercise}
+
+
 
 
 
