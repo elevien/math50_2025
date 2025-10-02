@@ -27,7 +27,7 @@ Before going through Unit 1, please review [Unit 0](../unit0/index.html). This m
 | Week 4 || | | 
 | Mon Oct 6   | Review | | Come with questions! |
 | Wed Oct 8   | MIDTERM IN CLASS |  |  |
-| Fri Oct 10  | Work on project |  |  [project]({{ '/project/' | relative_url }}) progress (on canvas)|
+| Fri Oct 10  | Work on project |  |  |
 | Week 5 || | | 
 | Mon Oct 13  | [Unit 4](../unit4/index.html) | Unit 4.1 (Multiple predictor regression examples, interpreting regression coefficients) |  |
 | Wed Oct 15  | [Unit 4](../unit4/index.html)| Unit 4.2 (Simpsons paradox, effects of adding predictors)  |  |
@@ -35,7 +35,7 @@ Before going through Unit 1, please review [Unit 0](../unit0/index.html). This m
 | Week 6 || | | 
 | Mon Oct 20  | [Unit 4](../unit4/index.html) | Unit 4 (models with catagorical predictors) |  |
 | Wed Oct 22  | [Unit 4](../unit4/index.html) | Unit 4 (analysis of variance)  |  |
-| Fri Oct 24  | [Unit 5](../unit5/index.html) | Unit 5 (interactions, residual plots)  |  |
+| Fri Oct 24  | [Unit 5](../unit5/index.html) | Unit 5 (interactions, residual plots)  |  | [project]({{ '/project/' | relative_url }}) progress (on canvas)
 | Week 7 || | | 
 | Mon Oct 27  | [Unit 5](../unit5/index.html) | Unit 5 (polynomial regression, linear regression view of fourier series )  |  |
 | Wed Oct 29  | [Unit 5](../unit5/index.html) | Unit 5(bias-variance trafeoff revisited and overfitting)  |  |
