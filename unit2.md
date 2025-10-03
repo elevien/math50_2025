@@ -12,8 +12,8 @@ In this section we introduce **expectation**, an operation which takes a random 
 
 Material: 
 - [Notes and exercises](/public/latex_notes/unit2/unit2.pdf)
-- [Colab notebook (2024)](https://colab.research.google.com/drive/1k3oTeSMmCrrNZ2z4P3EDGyzZONJAl1ZI?usp=sharing)
-- [Colab notebook (2025)](https://colab.research.google.com/drive/1JMI1T8a2nk06Q3L6ZFpkYZGV4GIzk7dG?usp=sharing)
+- [Colab notebook from class (2024)](https://colab.research.google.com/drive/1k3oTeSMmCrrNZ2z4P3EDGyzZONJAl1ZI?usp=sharing)
+- [Colab notebook from class (2025)](https://colab.research.google.com/drive/1JMI1T8a2nk06Q3L6ZFpkYZGV4GIzk7dG?usp=sharing)
 
 # Concepts
 

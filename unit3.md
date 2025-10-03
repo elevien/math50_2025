@@ -13,7 +13,8 @@ This unit introduces statistical inference for **single‑predictor linear regre
 
 Material: 
 - [Notes and exercises](/public/latex_notes/unit3/unit3.pdf)
-- [Colab notebook (2024)](https://colab.research.google.com/drive/1_4zOruAWfJ3HQoIf9sjefk3z0APko94-?usp=sharing)
+- [Colab notebook from class (2024)](https://colab.research.google.com/drive/1_4zOruAWfJ3HQoIf9sjefk3z0APko94-?usp=sharing)
+- [Colab notebook from class (2025)](https://colab.research.google.com/drive/1QZUXeu7-QhJ0X1mKIEN4ZiTplmdWbqfv?usp=sharing)
 
 # Concepts
 Estimators, bias and consistency, Linear regression (single predictor) model and assumptions, Covariance, correlation and their relationship to regression slope. Regression to the mean.  Least squares interpretation of covariance formula. Hypothesis testing for regression models. 
