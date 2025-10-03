@@ -29,7 +29,8 @@ In terms of Python, you need to know enough syntax to identify what a line or tw
 - You should go through all the problems in the Unit 1,2 and 3 notes. Espcially those marked with ❐.
 - [Practice midterm from 2024]({{ '/public/exam_practice/midterm_practice_2024.pdf' | relative_url }}) (ignore problem 5)
 - [Midterm from 2024]({{ '/public/exam_practice/midterm_2024-10.pdf' | relative_url }})
-- [Midterm from 2025]({{ '/public/exam_practice/math50_midterm_practice_2025.pdf' | relative_url }})
+- [Midterm from 2025 #1]({{ '/public/exam_practice/math50_midterm_practice_2025.pdf' | relative_url }})
+- [Midterm from 2025 #2]({{ '/public/exam_practice/math50_midterm_practice_2025_2.pdf' | relative_url }})
 <!-- - [Additional practice problems]({{ '/public/exam_practice/midterm_practice_problems' | relative_url }}) -->
 
 
