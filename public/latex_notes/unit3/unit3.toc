@@ -11,4 +11,4 @@
 \contentsline {section}{\numberline {3.4}Coefficient of determination and correlation}{8}{section.4}%
 \contentsline {subsection}{\numberline {3.4.1}Coefficient of determination}{8}{subsection.4.1}%
 \contentsline {subsection}{\numberline {3.4.2}Correlation}{9}{subsection.4.2}%
-\contentsline {section}{\numberline {3.5}Hypothesis testing}{10}{section.5}%
+\contentsline {section}{\numberline {3.5}Hypothesis testing (optional)}{10}{section.5}%

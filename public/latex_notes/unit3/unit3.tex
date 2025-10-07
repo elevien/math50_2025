@@ -623,7 +623,7 @@ Thus, the approach of standardizing and computing a unitless regression slope ul
 
 
 %------------------------------------------------------------------------------------------------------------------------------------------------------
-\section{Hypothesis testing}
+\section{Hypothesis testing (optional)}
 In statistics, we might infer parameters not because we are interested in specific values, but rather because we would like to use them to make a decision. For example, in a clinical trial, we might be interested in deciding whether a candidate drug is worth moving forward with. This problem is often framed in terms of \dfn{hypothesis testing}, in which we assign a probability to a particular hypothesis or its converse. 
 In rather abstract terms, the basic procedure of hypothesis testing is as follows:
 \begin{enumerate}
@@ -841,6 +841,81 @@ Suppose that for a given linear regression model it is found that $\hat{\beta}_1
  % ------------------------------------------------------------------------------------------------------------------------------------------
 \begin{exercise}[Statistical significance -- {\bf optional challenge}]
 Show (using math OR simulations) that it is possible to conduct two experiments (let's use clinical trials as an example) so that $\Delta \hat{\mu}$ (using the same notation as my notes) is statistically significant for one experiment and not the other, yet the difference between $\Delta \hat{\mu}$ between the two experiments is not statistically significant.  Here, by statistically significant I mean the $p$-value is $<0.05$. 
+\end{exercise}
+
+ % ------------------------------------------------------------------------------------------------------------------------------------------
+\begin{exercise}[Swapping response and predictor variables]
+
+Consider the linear regression model
+\begin{align*}
+X &\sim {\rm Normal}(\mu_x,\sigma_x^2)\\
+Y|X &\sim {\rm Normal}(\beta_1X + \beta_0,\sigma_{\epsilon}^2)
+\end{align*}
+This is a regression model for $Y$. The goal of this problem is to understand the distribution of $X$ conditioned on $Y$. That is, we would like to understand the corresponding regression model for $X$. This is important in practice and it will also sharpen you understanding of what the covariance really means.  
+
+
+For some additional motivation, suppose that there is no noise in $Y|X$ (meaning $\sigma_{\epsilon}^2=0$). Then 
+\begin{equation*}
+Y =\beta_1X + \beta_0 \implies X = \frac{1}{\beta_1}Y - \frac{\beta_0}{\beta_1}
+\end{equation*}
+so the slope of $X$ vs.  $Y$ is $1/\beta_1$. We could try adding a normal random variable $Z \sim {\rm Normal}(0,\sigma_{\epsilon}^2)$ to represent the noise in $Y|X$ and then solve this again. This would lead us to to 
+\begin{equation*}
+Y =\beta_1X + \beta_0 + Z \implies X=  \frac{1}{\beta_1}Y - \frac{\beta_0}{\beta_1} + \frac{Z}{\beta_1}
+\end{equation*}
+It is tempting to conclude that $Y|X$ follows a Normal distribution with mean $Y/\beta_1 - \beta_0/\beta_1$ and variance $\sigma_{\epsilon}^2/\beta_1^2$. This is however false -- see part (c). In this problem you will derive the correct formula. 
+ %The problem is that $Z$ and $Y$ are not independent, since $Y|Z$ clearly does not have the same distribution as $Y$. 
+%\begin{equation*}
+%{\rm Normal}\left( \frac{1}{\beta_1}Y - \frac{\beta_0}{\beta_1} , \frac{\sigma_{y|x}^2}{\beta_1^2} \right)
+%\end{equation*}
+%Recall that 
+%\begin{equation*}
+%{\rm cov}(X,Y) = \beta_1 \sigma_x^2, 
+%\end{equation*}
+%so we might guess that (
+
+
+\begin{enumerate}[label=(\alph*)]
+\item Based on the formula for covariance derived in class, we know 
+\begin{equation*}
+{\rm cov}(X,Y)  =\beta_1'\sigma_y^2.
+\end{equation*}
+where $\beta_1'$ is the regression slope on $X$ vs. $Y$ and $\sigma_y^2$ is the marginal variance of $Y$.  
+eUsing(1)  ${\rm cov}(X,Y) = {\rm cov}(Y,X)$ (interchanging the role of $X$ and $Y$ doesn't change the covariance) and (2) the marginal variance of $Y$ is $\sigma_y^2 = \beta_1^2\sigma_x^2 + \sigma_{\epsilon}^2$, derive a formula for $\beta_1'$. 
+%\begin{equation*}
+%{\rm cov}(X,Y)  =\beta_1'\sigma_y^2.
+%\end{equation*}
+%where 
+%\begin{equation*}
+%\beta_1' =\left[\beta_1 + \frac{\sigma_{y|x}^2}{\beta_1 \sigma_x^2}\right]^{-1}. 
+%\end{equation*}
+\item Using the result of part (a), show that when $\sigma_{\epsilon}^2 \to 0$ we retrieve the ``naive'' formula $\beta_1' = 1/\beta_1$. 
+%\item Now observe that, by applying the formula for $\sigma_y^2$ with the role of $x$ and $y$ reversed, we get
+%\begin{equation*}
+%\sigma_x^2 = a'\sigma_y^2 + \sigma_{x|y}^2. 
+%\end{equation*}
+%derive a formula for $\sigma_{x|y}^2$
+\item Why is the naive formula $1/\beta_1$ incorrect when $\sigma_{\epsilon}^2>0$? In particular, why can't we simply solve for $X$ in terms of $Y$ to obtain the regression equation? Hint: does $Y|Z$ have the same distribution as $Y$? 
+%\item The result of part (a) means that we can write
+%\begin{align*}
+%X|Y &\sim {\rm Normal}(\beta_1'Y + \beta_0',\sigma_{x|y}^2)\\
+%Y  &\sim {\rm Normal}(\mu_y,\sigma_y^2).
+%\end{align*}
+%for some $\beta_0'$ and $\sigma_{x|y}^2$. Show that 
+% \begin{align*}
+%%b' = \mu_x - a'\mu_y. 
+%\beta_0' &= \mu_x - \beta_1'\mu_y \\
+% \sigma_{x|y}^2 &= (\beta_1')^2 \sigma_y^2  -  \sigma_x^2 
+%\end{align*}
+%\item The quantity 
+%\begin{equation*}
+%\rho_{x,y}= \frac{{\rm cov}(X,Y)}{\sigma_x\sigma_y}
+%\end{equation*}
+%is called the correlation coefficient. Show that 
+%\begin{equation*}
+%\rho_{x,y} ={\rm sign}(\beta_1)\sqrt{\beta_1'\beta_1}
+%\end{equation*}
+%where ${\rm sign}(\beta_1) = 1$ if $\beta_1>0$ and $-1$ otherwise. 
+\end{enumerate}
 \end{exercise}
 
 

@@ -24,9 +24,9 @@ Estimators, bias and consistency, Linear regression (single predictor) model and
 - Identify whether a simple estimator is biased or not, by hand if possible, or using simulations in Python.  
 - Use the CLT to approximate the sample distribution of an estimator. 
 - Stating the assumptions of a linear regression model and identify (e.g. based on plots) when they are invalid. 
-- Be able to explain the phenomenon of regression to the mean. 
-- Interpret the output of a fitted linear regression model and access the goodness of fit. 
-- Recalling the basic facts quantities such as $p$-values and $R^2$ depend on the sample size. 
+- Be able to relate regression paramaters and means and variance of the predictor to the marginals. 
+- Understand the relationship between model paramaters, correlations, coefficient of determination. Know the meaning of correlations and cod. 
+- Interpret the output of a fitted linear regression model and access the goodness of fit (coefficient of determination). 
 
 # Wikipedia References
 - [Linear regression](https://en.wikipedia.org/wiki/Linear_regression)
