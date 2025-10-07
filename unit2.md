@@ -14,6 +14,7 @@ Material:
 - [Notes and exercises](/public/latex_notes/unit2/unit2.pdf)
 - [Colab notebook from class (2024)](https://colab.research.google.com/drive/1k3oTeSMmCrrNZ2z4P3EDGyzZONJAl1ZI?usp=sharing)
 - [Colab notebook from class (2025)](https://colab.research.google.com/drive/1JMI1T8a2nk06Q3L6ZFpkYZGV4GIzk7dG?usp=sharing)
+- [Colab notebook for code examples in notes](https://colab.research.google.com/drive/1Gbe6Um4pCjpc-VNkungfFT_ahZvFeY6g?usp=sharing)
 
 # Concepts
 
