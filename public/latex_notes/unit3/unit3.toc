@@ -4,8 +4,12 @@
 \contentsline {subsection}{\numberline {3.2.2}Bias and consistency}{3}{subsection.2.2}%
 \contentsline {subsection}{\numberline {3.2.3}Confidence intervals}{4}{subsection.2.3}%
 \contentsline {subsection}{\numberline {3.2.4}Bias-variance tradeoff}{5}{subsection.2.4}%
-\contentsline {subsection}{\numberline {3.2.5}Maximum Likelihood (optional)}{5}{subsection.2.5}%
+\contentsline {subsection}{\numberline {3.2.5}Maximum Likelihood (optional)}{6}{subsection.2.5}%
 \contentsline {section}{\numberline {3.3}Single-predictor linear regression model}{6}{section.3}%
 \contentsline {subsection}{\numberline {3.3.1}Covariance}{6}{subsection.3.1}%
 \contentsline {subsection}{\numberline {3.3.2}Least square interpretation}{7}{subsection.3.2}%
-\contentsline {section}{\numberline {3.4}Hypothesis testing}{8}{section.4}%
+\contentsline {section}{\numberline {3.4}Coefficient of determination and correlation}{8}{section.4}%
+\contentsline {subsection}{\numberline {3.4.1}Coefficient of determination}{8}{subsection.4.1}%
+\contentsline {subsection}{\numberline {3.4.2}Correlation}{9}{subsection.4.2}%
+\contentsline {section}{\numberline {3.5}Hypothesis testing}{10}{section.5}%
+\contentsline {subsection}{\numberline {3.5.1}A simple example}{14}{subsection.5.1}%

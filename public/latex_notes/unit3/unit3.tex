@@ -1,4 +1,6 @@
 \include{./../latex/notes_style.tex}
+\usepackage{environ}
+
 %--------------------------------------------------------------------------------------------------------------------------------
 \setcounter{unit}{3}
 \setcounter{section}{0}
@@ -16,7 +18,6 @@
 %\hideproofstrue %uncomment to hide proofs
 
 \ifhideproofs
-\usepackage{environ}
 \NewEnviron{hide}{}
 \let\proof\hide
 \let\endproof\endhide
@@ -37,13 +38,14 @@ Now we are almost ready to begin working with regression models, but we first di
 
 
 \section{Estimators}
-We have danced around the concept of statistical inference and parameter estimation for a bit and we saw an example of an estimator: $\hat{q} = \overline{Y}$ is an estimator of the parameter $q$ for a Bernoulli distribution.  We also talked a lot about going between the world of data (e.g. sample means, histogram) and math (e.g. expectation, density) with sample averages. W
+We have danced around the concept of statistical inference and parameter estimation for a bit and we saw an example of an estimator: $\hat{q} = \overline{Y}$ is an estimator of the parameter $q$ for a Bernoulli distribution.  We also talked a lot about going between the world of data (e.g. sample means, histogram) and math (e.g. expectation, density) with sample averages. 
+
 {\bf Statistical inference is the process of estimating the parameters (e.g. $\mu$ and $\sigma$) based on samples of $Y$ AND expressing our uncertainty in these estimates.} The expressing the uncertainty part is what we have not yet discussed formally. 
 
 
-In general, an \dfn{estimator} $\hat{\theta}$  of a parameter $\theta$ is just something we compute from the data which is meant to approximate $\hat{\theta}$. This could in principle be any quantity we can compute from the data (like the maximum value), but it will almost always be represented as a sample average in some way. We will see examples of this soon. 
+In general, an \dfn{estimator} $\hat{\theta}$  of a parameter $\theta$ is just something we compute from the data which is meant to approximate $\theta$. This could in principle be any quantity we can compute from the data (like the maximum value), but it will almost always be represented as a sample average in some way. We will see examples of this soon. 
 
-The point that should be emphasized is that the estimator is a function of the data. That is, {\bf $\hat{\theta}$ depends on the specific data we collect} or simulation we run. It is meant to approximation a parameter which does not depend on the data and is (in classical statistics) a fixed number. For example,  in the instance of a YES/NO survey or election with two candidates, the ``true'' quantity we are interested in measuring is the fraction of people answering YES to some question. Our estimate, $\hat{q}$, is a variable which depends on the specific subset of the population we sample and it will change if we look at a different subset. 
+The point that should be emphasized is that the estimator is a function of the data. That is, {\bf $\hat{\theta}$ depends on the specific data we collect} or simulation we run. It is meant to approximate a parameter which does not depend on the data and is (in classical statistics) a fixed number. For example,  in the instance of a YES/NO survey or election with two candidates, the ``true'' quantity we are interested in measuring is the fraction of people answering YES to some question. Our estimate, $\hat{q}$, is a variable which depends on the specific subset of the population we sample and it will change if we look at a different subset. 
 
 
 
@@ -385,6 +387,81 @@ Here we consider the some on advertising budgets and sales for a company. We wil
 
 
 
+
+\section{Coefficient of determination and correlation}
+\subsection{Coefficient of determination}
+
+In most applications the goal of regression modeling is predict  the response ($Y$ values) given the predictor ($X$ values). Thus, it is natural to look for metrics which assess how well these predictions can be made. To gain an intuition about this, let's think about the best case scenario for making predictions. This would be that $\sigma_{\epsilon}=0$ (and $\beta_1\ne0$), because then $Y$ is determined \emph{deterministically} for a given $X$. Predictions should get worse as $\sigma_{\epsilon}$ grows, because $\sigma_{\epsilon}$ measure the variability in the $Y$ values for a fixed $X$. So the worst case is that $\sigma_{\epsilon}$ is very large (or $\beta_1=0$), but large relative to what? $\sigma_{\epsilon}^2$ has the same units as $Y$. This means we need to compare it to something that has $Y$ units, so we compare to the overall (marginal) variance in $Y$, $\sigma_Y^2 = {\rm var}(Y)$. Note that (check yourself!)
+\begin{equation}
+\sigma_Y^2 = \beta_1^2\sigma_X^2 + \sigma_{\epsilon}^2 \ge  \sigma_{\epsilon}^2
+\end{equation}
+Notice that the overall variance in $Y$ is the sum of the variation from $\epsilon$ (random factors independent of $X$) and $\beta_1^2\sigma_X^2$ (the spread of the $X$ values, which is weighted by the squared slope). 
+
+This discussion motivates \underline{coefficient of determination}, which is 
+\begin{equation}
+\rho^2 = 1 - \frac{\sigma_{\epsilon}^2}{\sigma_Y^2}. 
+\end{equation}
+Another way to write $\rho^2$ is
+\begin{equation}
+\rho^2 = 1 - \frac{{\rm var}(Y|X)}{{\rm var}(Y)}. 
+\end{equation}
+This is between zero and one. When $\rho^2=1$, this is saying nearly all the variation in $Y$ values is a result of variation in $X$. Notice that $\rho^2 = 0$ when $\sigma_{\epsilon^2} = \sigma_Y^2$. In this case, knowing the $X$ values (e.g. knowing whether some is in the control or treatment group) does not change how variable the $Y$ values are (e.g. the blood pressure). This means all the variation in $Y$ values is due to things other than $X$.  
+
+When we estimate $\rho^2$ from data, we call it $R^2$. The estimator has the form
+\begin{equation}
+R^2 = 1 - \frac{\sum_{i=1}^Nr_i^2}{\sum_{i=1}^N(Y_i - \overline{Y})^2}
+\end{equation}
+It should make sense why this is the estimator of $\rho^2$. 
+
+\subsection{Correlation}
+There is another way to arrive at $\rho^2$, which is to consider the regression model after standardizing the predictor and response variable. This is natural thing to do since we want to measure the association between two variables on a dimensionless scale. Let 
+\begin{equation}
+Z_ X = \frac{X- \mu_X}{\sigma_X},\quad Z_ Y = \frac{Y- \mu_Y}{\sigma_Y}
+\end{equation} 
+We then have
+\begin{equation}
+Z_ Y = \frac{\beta_0 + \beta_1 X + \epsilon - \mu_Y}{\sigma_Y} = 
+\end{equation}
+Because \(\mu_Y = \beta_0 + \beta_1 \mu_X\), we simplify:
+\[
+Z_Y = \frac{\beta_1 (X - \mu_X)}{\sigma_Y} + \frac{\epsilon}{\sigma_Y} = \frac{\beta_1 \sigma_X}{\sigma_Y} Z_X + \frac{\epsilon}{\sigma_Y}.
+\]
+Thus,
+\[
+Z_Y \big| Z_X \sim \text{Normal}\left( \frac{\beta_1 \sigma_X}{\sigma_Y} Z_X, \frac{\sigma_\epsilon^2}{\sigma_Y^2} \right).
+\]
+This is a simple linear regression of standardized response \(Z_Y\) on standardized predictor \(Z_X\) with slope 
+\[
+b = \frac{\beta_1 \sigma_X}{\sigma_Y}.
+\]
+ The slope \(b\) represents the expected change in standard deviations of \(Y\) associated with a one standard deviation change in \(X\).
+
+Motivated by this, we define the \dfn{correlation coefficient} \(\rho\) as this regression slope:
+\[
+\rho := b = \frac{\beta_1 \sigma_X}{\sigma_Y}.
+\]
+Using the earlier result that 
+\[
+\mathrm{cov}(X,Y) = \beta_1 \sigma_X^2,
+\]
+we can write
+\[
+\rho = \frac{\beta_1 \sigma_X}{\sigma_Y} = \frac{\mathrm{cov}(X,Y)}{\sigma_X \sigma_Y}.
+\]
+Usually it is the last equation that is used to define covariance, because this can be defined for any two random variables and doesn't require an underlying regression model (which is where the $\beta_1$ comes from). 
+Notice that if we begin with two random variables which have standard deviations $1$, then $\rho$ and covariance are the same thing. There is a very import result in math called the Cauchy-Schwarz inequality, which tells us $-1 \le \rho\le 1$. 
+
+Now to show that this is indeed the same as $\rho^2$. To do so, we recall that $\sigma_Y = \beta_1^2\sigma_X^2 + \sigma_{\epsilon}^2$. Therefore, 
+\begin{equation}
+\rho^2 = \frac{\beta_1^2 \sigma_X^2}{\sigma_Y^2} =  \frac{\sigma_Y^2 -\sigma_{\epsilon}^2 }{\sigma_Y^2}
+\end{equation}
+Thus, the approach of standardizing and computing a unitless regression slope ultimately leads to the same metric for the strength of association as comparing the variance conditioned on the predictor to the overall variance. 
+
+
+
+
+
+%
 
 
 
@@ -755,12 +832,7 @@ Show (using math OR simulations) that it is possible to conduct two experiments 
 
 
  \bibliographystyle{unsrt}
-\bibliography{./../refs.bib}
-
-\end{document}
-
-
-% WHAT IS THIS? 
+\bibliography{./../refs.bib} 
 \subsection{A simple example}
 \begin{itemize}
 \item Now let's consider the general regression model
