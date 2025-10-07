@@ -815,12 +815,28 @@ In this exercises, you will study the association between earnings and gender. I
 \end{enumerate}
 \end{exercise}
 
+\begin{exercise}[Estimating slope \ding{111}]
+\begin{enumerate}
+\item  Estimate the regression slope of the following dataset by hand 
+\[
+\begin{array}{c|c}
+X & Y \\\hline
+1 & 2 \\
+2 & 3 \\
+3 & 5 \\
+4 & 6 \\
+5 & 8 \\
+\end{array}
+\]
+\item What happens when you add a new data point at $(X_6,Y_6) = (100,3)$? The numbers don't work out as nicely, so you can using Python or LLM. Now try changing the $X$ and $Y$ of the new datapoint. How does the slope change? 
+\end{enumerate}
+
+\end{exercise} 
+
  % ------------------------------------------------------------------------------------------------------------------------------------------
-\begin{exercise}[Quiz practice]
-Answer the questions on the practice quiz. You are welcome to provide some feedback on the quiz regarding difficultly level, clarity of problems, relevance to course material etc. 
+\begin{exercise}[Linear regression model parameters \ding{111}]
+Suppose that for a given linear regression model it is found that $\hat{\beta}_1 = 1/2$, $\hat{\sigma}_{\epsilon} = 1$ and $\sigma_X^2 = 4$. What is your estimate of $R^2$? 
 \end{exercise}
-
-
 
  % ------------------------------------------------------------------------------------------------------------------------------------------
 \begin{exercise}[Statistical significance -- {\bf optional challenge}]
@@ -833,68 +849,5 @@ Show (using math OR simulations) that it is possible to conduct two experiments 
 
  \bibliographystyle{unsrt}
 \bibliography{./../refs.bib} 
-\subsection{A simple example}
-\begin{itemize}
-\item Now let's consider the general regression model
-\begin{equation}
-Y = aX + b + \epsilon 
-\end{equation}
-where $X$ may be a continuous variable. 
-{\bf How would we estimate $a$? }
-\item Let's look at a simple example: 
-Consider the example of a clinical trial conducted as follows. Suppose $N$ people participate in the trial, and are randomly assigned to the the control group (C) and treatment group (T) with probability $1/2$. People in T are given a drug whose effects is measure by a percent.  
-\item We can model the distribution of blood pressure before and after treatment as 
-\begin{equation}
-Y_C \sim {\rm Normal}(\mu_C,\sigma)
-\end{equation}
-and 
-\begin{equation}
-Y_T \sim {\rm Normal}(\mu_T,\sigma).
-\end{equation}
-\item Our model for an individuals response can be framed as a regression model 
-\begin{equation}\label{eq:clinical}
-Y  = (\mu_T-\mu_C)X + \mu_C + \epsilon
-\end{equation}
-where $X=1$ if someone is in the treatment group and 
-\begin{equation}
-\epsilon \sim {\rm Normal}(0,\sigma_{\epsilon}). 
-\end{equation}
-\item How would we estimate $\mu_T$, $\mu_C$ and $\sigma$ from a sample? Assuming we know the group each patient has been assigned to, we observe that 
-\begin{equation}
-\E[Y|X=1] = \mu_T,\quad  \sqrt{{\rm var}(Y|X=1)} = \sigma_{\epsilon}. 
-\end{equation}
-This means we can estimate these from sample averages of $Y$ and $X$ (and similar for $X=0$).
-%\begin{boxA}{$\sigma_{\epsilon}$ vs. $\sigma$}
-% You might be tempted to say that the variance of $Y$ is also $\sigma_{\epsilon}$ -- but this is false! Why? (think back to the previous note when we looked at the marginal distribution of $Y$)
-\item The sample distribution of the mean of the treatment group is
-\begin{equation*}
-\hat{\mu}_T \sim {\rm Normal}\left(\mu_T,\sigma/\sqrt{N}\right)
-\end{equation*}
-If  $\Delta \mu = \mu_T-\mu_C$, then as estimator $\Delta \mu$ is 
-\begin{equation*}
-\Delta \hat{\mu} =  \hat{\mu}_T-\hat{\mu}_C
-\end{equation*}
-which is really the slope of the regression line. 
-The sample distribution of $\Delta \hat{\mu}$ is also Normal:
-\begin{equation*}
-\Delta \hat{\mu} \sim {\rm Normal}\left(\Delta \mu, \sqrt{2}\sigma/\sqrt{N}\right)
-\end{equation*}
-
-
-
-
-
-%\end{boxA}
-\end{itemize}
-
-
-
-
-
-
-
- \bibliographystyle{unsrt}
-\bibliography{./../refs.bib}
-
 
 \end{document}

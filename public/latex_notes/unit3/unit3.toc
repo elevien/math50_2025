@@ -12,4 +12,3 @@
 \contentsline {subsection}{\numberline {3.4.1}Coefficient of determination}{8}{subsection.4.1}%
 \contentsline {subsection}{\numberline {3.4.2}Correlation}{9}{subsection.4.2}%
 \contentsline {section}{\numberline {3.5}Hypothesis testing}{10}{section.5}%
-\contentsline {subsection}{\numberline {3.5.1}A simple example}{14}{subsection.5.1}%
