@@ -9,7 +9,7 @@ bibliography:
 # Statistical inference for linear regression models
 
 
-This unit introduces statistical inference for **single‑predictor linear regression**. Building on the examples from last week, we will learn about **estimators** and their properties, such as **standard errors** and **confidence intervals**. We will then apply these concepts to linear regression modeling, deriving an unbiased estimator of the regression slope and understanding how **hypothesis tests** work for single-predictor regression models. Regression to the mean will also be covered.
+This unit introduces statistical inference for **single‑predictor linear regression**. Building on the examples from last week, we will learn about **estimators** and their properties, such as **standard errors** and **confidence intervals**. We will then derive unbiased estimators of the paramaters in a **linear regression model**. We will learn about **coefficient of determination** and **correlations** -- two key quantities we use to access the relationship between variables in a linear regression model. Regression to the mean will also be covered.
 
 Material: 
 - [Notes and exercises](/public/latex_notes/unit3/unit3.pdf)
