@@ -1,0 +1,13 @@
+\begin{thebibliography}{1}
+
+\bibitem{gelman2020regression}
+Andrew Gelman, Jennifer Hill, and Aki Vehtari.
+\newblock {\em Regression and other stories}.
+\newblock Cambridge University Press, 2020.
+
+\bibitem{demidenko2019advanced}
+Eugene Demidenko.
+\newblock {\em Advanced statistics with applications in R}, volume 392.
+\newblock John Wiley \& Sons, 2019.
+
+\end{thebibliography}
