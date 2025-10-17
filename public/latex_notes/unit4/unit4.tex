@@ -13,7 +13,7 @@
 
 %----------------------------------------------------------------------------------------------------------------
 \section*{Introduction}
-Now we are ready to study linear regression with multiple predictors. Much of the concepts carry over from the single predictor case and the Python code is nearly the same. There are some subtle aspects though when it comes to how we interpret the predictors. In particular, we have to remember that these represent average differences in the response variable when all other predictors are fixed. This is the idea of controlling for another variable. We will also understand what happens when we add regression coefficients to the model. 
+Now we are ready to study linear regression with multiple predictors. Much of the concepts carry over from the single predictor case and the Python code is nearly the same. There are some new aspects though when it comes to how we interpret the predictors. In particular, we have to remember that these represent average differences in the response variable when all other predictors are fixed. This is the idea of controlling for another variable. We will also understand what happens when we add regression coefficients to the model. 
 
 \section{Multiple predictor linear regression}
 The real power of regression comes when we work with models of the form 
@@ -34,15 +34,40 @@ In these notes, our goal is to answer the following questions
 \begin{enumerate}
 \item What are estimators of the parameters in this model?
 \item How do we interpret the \dfn{regression coefficients} $\beta_i$? 
-\item Precisely what are the assumptions we are making when we use a linear regression model? 
-\item How do we determine if the model assumptions are valid? 
+\item What is the sample distribution of the regression coefficients? 
+\item How do the correlations between predictors influence the answers to these questions? 
 \end{enumerate}
 
 
 
-%\subsection{Multiple predictors in python}
-\begin{example}[Simulating and fitting a regression with two predictors]
-See \href{https://colab.research.google.com/drive/1oIRgP_7-c5DGV1D2iz5nj406mZfJxUIG?usp=sharing}{colab notebook}. 
+\begin{example}[Two-predictor linear regression in \texttt{statsmodels}]
+\noindent\underline{Question:} Generate data from the two-predictor model
+\[
+Y \;=\; \beta_0 \;+\; \beta_1 X_1 \;+\; \beta_2 X_2 \;+\; \varepsilon,\qquad \varepsilon\sim\mathcal N(0,\sigma^2),
+\]
+and fit the linear regression \(Y\sim X_1+X_2\) using \texttt{statsmodels}.
+
+\medskip
+\noindent\underline{Solution:}
+\begin{lstlisting}[language=Python]
+import numpy as np
+import statsmodels.api as sm
+
+# --- simulate data ---
+n = 300
+rng = np.random.default_rng(0)
+
+beta0, beta1, beta2, sigma = 1.0, 2.0, -1.0, 0.5
+X1 = rng.normal(size=n)
+X2 = rng.normal(size=n)
+eps = rng.normal(scale=sigma, size=n)
+Y = beta0 + beta1*X1 + beta2*X2 + eps
+
+# --- fit OLS: Y ~ X1 + X2 ---
+X = sm.add_constant(np.column_stack([X1, X2]))
+model = sm.OLS(Y, X)
+results = model.fit()
+\end{lstlisting}
 \end{example}
 
 The output from the regression with multiple predictors is basically the same as for single-predictor, except now we have multiple rows for the difference regression coefficients. In each case, the interpretation of the $p$-value and confidence intervals are nearly the same as they were for the single predictor case. However, for the $p$-value, we need to remember that this is the $p$-value testing the hypothesis that a particular predictor is zero. The $F$-statistic is used to test the hypothesis that all predictors are zero, although I won't go into much more detail because I don't place a big emphasis on hypothesis testing in this course. 
@@ -90,7 +115,7 @@ A drawing of $y$ is shown in \ref{fig:plane}.
  $\beta_1$ is the slope of $E[Y|X]$ vs. $X_1$ for fixed $X_2$. 
  \end{center}
 Notice that in the statement above, even though we are conditioning on both variables, the slope $\beta_1$ is independent of which value of $X_2$ we condition on. We can obtain the interpretation of $\beta_2$ by flipping the role of $X_1$ and $X_2$. 
-The fact that is doesn't matter which value of $X_2$ (respectively $X_1$) we have conditioned on is one of the core model assumption of linear regression with multiple predictors, which we do not encounter in the single predictor case. Another way of articulating it is to say: the ``effect'' of $X_1$ and $X_2$ are not dependent on the other predictor's value.
+The fact that is doesn't matter which value of $X_2$ (respectively $X_1$) we have conditioned on is a consequence of linearity, and thus one of the core model assumption of linear regression with multiple predictors, which we do not encounter in the single predictor case. Another way of articulating it is to say: the ``effect'' of $X_1$ and $X_2$ are not dependent on the other predictor's value.
 
 
 
@@ -149,8 +174,19 @@ The association between IQ and scores is actually larger. Note that the comparis
 \end{enumerate}
 \end{example}
 
+The interpretation can of course be generalized to the situation where we have many predictors. The general formula for the regression coefficient in terms of expectation is 
+\begin{align*}
+\begin{split}
+\beta_i &= E[Y|X_1,\dots,X_{i-1},X_i=x_i+1,X_{i+1},\dots,X_K]\\
+&\quad\quad - E[Y|X_1,\dots,X_{i-1},X_i=x_i,X_{i+1},\dots,X_K]
+\end{split}
+\end{align*}
+Note how this is a very natural extension of Equation \ref{eq:beta1exp}. 
+We get a more complex expression for the coefficients but the idea is the same. 
 
-\subsection{Interpretation of regression coefficient: a deeper look}
+
+\subsection{Relationship between single and two predictor regression coefficients}
+
  We can express the regression coefficients explicitly in terms of conditional averages as
  \begin{equation}\label{eq:beta1exp}
  \beta_1 = E[Y|X_1 = (x+1),X_2] -  E[Y|X_1 = x,X_2].
@@ -226,25 +262,55 @@ We can compute $\overline{X}_{{\rm iq}|{\rm hs}}-\overline{X}_{{\rm iq}|{\rm no-
 %\end{example}
   
 The important thing is that the two predictors are not independent. If they were, then $\overline{X}_{{\rm iq}|{\rm hs}}-\overline{X}_{{\rm iq}|{\rm no-hs}}$ would be zero, and it would have to be that the coefficient of $X_{\rm hs}$ is the same in both cases. We can generalize this to any model where $X_1$ is a binary predictor to obtain a relationship between the regression coefficient for $\beta_1$ with and without the second predictor; that is, 
-\begin{equation*}
+\begin{equation}\label{eq:beta-single-multiA}
 \beta_1' = \beta_1 + \beta_2(E[X_2|X_1=1]-E[X_2|X_1=0])
-\end{equation*}
+\end{equation}
 where $\beta_1'$ is the regression coefficient without using $X_2$ as a predictor in our model. 
- Now we will dig deeper into the underlying, math, with the goal of better understanding how the relationship between predictors shapes the regression coefficients. A byproduct of this exploration will be formulas for the regression coefficients in terms of covariances between the predictors, and covariance between the predictors and the response variable. These formulas generalize the relationship ${\rm cov}(X,Y) = \beta_1\sigma_x^2$, which we discovered to hold in the single predictors case. 
+ 
+ \subsection{Effect of adding predictors on $R^2$}
+
+Adding a new predictor to a regression model can never decrease the coefficient of determination $R^2$.  
+Let $R_{1\,{\rm pred}}^2$ denote the $R^2$ from the single-predictor model
+\[
+Y = \beta_1 X_1 + \epsilon',
+\]
+and $R_{2\,{\rm pred}}^2$ the $R^2$ from the two-predictor model
+\[
+Y = \beta_1 X_1 + \beta_2 X_2 + \epsilon.
+\]
+By definition, $R^2 = 1 - {\rm Var}(\text{residual})/{\rm Var}(Y)$, so $R^2$ increases whenever the residual variance decreases.
+
+The key point is that the new error term $\epsilon'$ in the reduced model is \emph{not} the same as $\beta_2 X_2 + \epsilon$.  
+Instead, $\epsilon'$ absorbs the variation in $Y$ that is correlated with $X_2$ but unaccounted for by $X_1$.  
+Because $X_1$ and $X_2$ are generally correlated, part of the systematic variation explained by $X_2$ is treated as noise in the single-predictor model. Rather we have
+\begin{equation}
+{\rm var}(\epsilon') = {\rm var}(Y|X_1) = {\rm var}(\beta_1 X_1 + \beta_2 X_2 + \epsilon|X_1) = \beta_1^2{\rm var}(X_2|X_1) + \sigma_{\epsilon}^2 > \sigma_{\epsilon^2}
+\end{equation}
+hence
+\[
+R_{2\,{\rm pred}}^2 \;\ge\; R_{1\,{\rm pred}}^2,
+\]
+with equality only if $X_2$ is orthogonal to both $X_1$ and $Y$ (i.e.\ it provides no additional explanatory power).  
+Thus, adding predictors either improves the fit or leaves it unchanged, but never worsens it.
+
+ \section{Covariance matrix and estimation of regression coefficients}
+ 
+ \subsection{Regression coefficients in terms of the covariance matrix}
+Here we will derive formulas for the regression coefficients in terms of covariances between the predictors, and covariance between the predictors and the response variable. This will (1) allow us to better understand the relationship between single and multiple predictor regression coefficients and (2) lead to an estimator the regression coefficients in the multiple predictor case. In particular, we obtain formulas that generalize the relationship ${\rm cov}(X,Y) = \beta_1\sigma_x^2$, which we discovered to hold in the single predictors case. 
 
 
 \begin{figure}[h]
     \centering
     \includegraphics[width=0.8\textwidth]{./../figures/correlated_predictors}
-    \caption{Here I'm illustrated the difference between the marginal regression slope (the slope of $E[Y|X_1]$ vs. $X_1$) and the regression coefficient $\beta_1$ in the two predictor model.  I use the notation of Example \ref{ex:normal_pred}, although the idea applies more generally. When we increase $x_1$ by $1$ without fixing $X_2$, then on average $X_2$ changes by $b$ (which is the slope between $x_1$ and $x_2$ here, not the intercept.) Therefore, in order to relate this marginal slope to the regression slooe $\beta_1$, subtract the increase in $Y$ that is caused by the increase in $X_2$ (corresponding to the vertical blue arrow).   }
+    \caption{Here I'm illustrated the difference between the marginal regression slope (the slope of $E[Y|X_1]$ vs. $X_1$) and the regression coefficient $\beta_1$ in the two predictor model. Here I use $b$ to denote the regression coefficient of $X_1$ with $X_2$ as a predictor. I use the notation of Example \ref{ex:normal_pred}, although the idea applies more generally. When we increase $x_1$ by $1$ without fixing $X_2$, then on average $X_2$ changes by $b$ (which is the slope between $x_1$ and $x_2$ here, not the intercept.) Therefore, in order to relate this marginal slope to the regression slope $\beta_1$, subtract the increase in $Y$ that is caused by the increase in $X_2$ (corresponding to the vertical blue arrow).   }
     \label{fig:plane}
 \end{figure}
 
- Consider a generic linear regression model with two predictors. We will set $\beta_0=E[X_1]=E[X_2]=0$ for simplicity, since these cancels out in the end. We start by computing ${\rm cov}(X_1,Y)$, which is simply $E[X_1Y]$ since $E[X_1]=E[Y] = 0$. 
+ Consider a linear regression model with two predictors. The formulas we derive will generalize to many predictors. We will set $\beta_0=E[X_1]=E[X_2]=0$ for simplicity, since these cancels out in the end. An practice, I recommend checking that everything works out when this are not zero! We start by computing ${\rm cov}(X_1,Y)$, which is simply $E[X_1Y]$ since $E[X_1]=E[Y] = 0$. 
 %\begin{equation*}
 %E[Y] = \beta_0 + \beta_1E[X_1]+\beta_2E[X_2]=0. 
 %\end{equation*}
-Just as we did for the single-predictor case (week 3), we write
+Just as we did for the single-predictor case in Unit 2, we write
 \begin{align*}
 {\rm cov}(X_1,Y) &= E[X_1Y] = E[X_1E[Y|X_1]] \\
 &= E[X_1(\beta_1 X_1 + \beta_2 X_2)] = \beta_1 E[X_1^2] + \beta_2 E[X_1X_2]\\
@@ -256,29 +322,39 @@ where we have used that, since $E[X_1]=E[X_2]=0$, ${\rm var}(X_1) = E[X_1^2]$ an
  {\rm cov}(X_1,Y)  &= \beta_1 \sigma_{x_1}^2  + \beta_2 {\rm cov}(X_1,X_2)\\
 {\rm cov}(X_2,Y) &=   \beta_2 \sigma_{x_2}^2  + \beta_1 {\rm cov}(X_1,X_2)
  \end{align*}
-As with the single-predictor case, it is very useful to represent $\beta_1$ and $\beta_2$ as expectations which can be computed as averages over our data points. In addition to providing some insight into the meaning of the regression coefficients, this will yield candidates for our estimators of these quantities. 
-Since everything in the equation can be represented as a some sort of expectation except the coefficients $\beta_1$ and $\beta_2$, we just need to solve for these coefficients. Solving the linear system  
-\begin{align*}
+Notice that as with the single-predictor case, it is useful to represent $\beta_1$ and $\beta_2$ as expectations which can be computed as averages over our data points. In addition to providing some insight into the meaning of the regression coefficients, this will yield candidates for our estimators of these quantities. This formulas can be rewritten in terms of a matrix, known as the \dfn{covariance matrix}
+\begin{equation}
+\Sigma =  \left[\begin{array}{cc}
+\sigma_{x_1}^2 & {\rm cov}(X_1,X_2)\\
+ {\rm cov}(X_1,X_2) & \sigma_{x_2}^2
+ \end{array} \right].
+\end{equation}
+We then have 
+\begin{align}\label{eq:betacov1}
 \left[\begin{array}{c}
 {\rm cov}(X_1,Y) \\
 {\rm cov}(X_2,Y)  
-\end{array}\right] &= \left[\begin{array}{cc}
-\sigma_{x_1}^2 & {\rm cov}(X_1,X_2)\\
- {\rm cov}(X_1,X_2) & \sigma_{x_2}^2
- \end{array} \right]\left[ \begin{array}{c}
+\end{array}\right] &= \Sigma \left[ \begin{array}{c}
 \beta_1\\
   \beta_2\\
   \end{array}\right]
-\end{align*}
-yields 
+\end{align}
+This is consistent with Eq. \ref{eq:beta-single-multiA}. In particular, by taking the first equation in this system and dividing by ${\rm var}(X_1)$, we can rewrite Eq. \ref{eq:beta-single-multiA} as
+\begin{equation}
+\beta_1' = \beta_1  + \beta_2 \beta_{1,2}
+\end{equation}
+where $\beta_{1,2} = {\rm cov}(X_1,X_2)/{\rm var}(X_1)$ is the (single-predictor) regression coefficient of $X_1$ with $X_2$ as the response variable. Eq. \ref{eq:betacov1} can easily be generalized to many predictors. In the general case, the covariance matrix $\Sigma$ is a $K \times K$ matrix with entries $\Sigma_{i,j} = {\rm cov}(X_i,X_j)$. 
+
+Letting $\Sigma^{-1}$ be the inverse of $\Sigma$, meaning 
+\begin{equation}
+\Sigma^{-1}\Sigma = I = \begin{bmatrix} 1 & 0 \\ 0 & 1 \end{bmatrix}
+\end{equation}
+we then have 
 \begin{align*}
 \left[\begin{array}{c}
 \beta_1 \\
 \beta_2 
-\end{array}\right] &= \left[\begin{array}{cc}
-\sigma_{x_1}^2 & {\rm cov}(X_1,X_2)\\
- {\rm cov}(X_1,X_2) & \sigma_{x_2}^2
- \end{array} \right]^{-1}\left[ \begin{array}{c}
+\end{array}\right] &= \Sigma^{-1}\left[ \begin{array}{c}
  {\rm cov}(X_1,Y)\\
   {\rm cov}(X_2,Y)\\
   \end{array}\right]\\
@@ -290,7 +366,10 @@ yields
   {\rm cov}(X_2,Y)\\
   \end{array}\right]
 \end{align*}
-After using the formula for the inverse of $2\times 2$ matrix, we obtain 
+ You should notice the similarity between this formula and the single predictor formula $\beta_1' = {\rm cov}(X,Y)/{\rm var}(X)$. Here, $\Sigma^{-1}$ is playing the role of $1/{\rm var}(X)$, while the vector of $\beta$s and $Y$-$X$ covariances play the roles of $\beta_1$ and ${\rm cov}(X,Y)$ respectively. Notice that if $\Sigma = I$, then we can solve for each $\beta_i$ separately and we obtain the same formulas as the single predictor case. 
+ 
+ 
+We don't usually worry about the closed form solutions for the $\beta$ because they become impossibly complicated as the number of predictors grows. However, for two predictors we can derive a formula for $\beta_1$, which is 
 \begin{align}\label{eq:beta1cov}
 \beta_1 =     \frac{ {\rm cov}(X_1,Y)\sigma_{x_2}^2 - {\rm cov}(X_2,Y){\rm cov}(X_1,X_2)}{\sigma_{x_2}^2\sigma_{x_1}^2 -{\rm cov}(X_1,X_2)^2}
 %&= \frac{ {\rm cov}(X_1,Y)- {\rm cov}(X_2,Y){\rm cov}(X_1,X_2)/\sigma_{x_2}^2 }{\sigma_{x_1}^2 -{\rm cov}(X_1,X_2)^2/\sigma_{x_2}^2 }
@@ -299,7 +378,6 @@ After using the formula for the inverse of $2\times 2$ matrix, we obtain
 %\begin{align*}
 %\beta_1 =    \frac{ {\rm cov}(X_1,Y)\sigma_{x_2}^2 - {\rm cov}(X_2,Y){\rm cov}(X_1,X_2)}{\sigma_{x_2}^2\sigma_{x_1}^2 -{\rm cov}(X_1,X_2)^2}
 %\end{align*}\
-
 The formula is particularly revealing if all the variances are set to one
 \begin{equation*}
 \beta_1 = \frac{1}{1-\rho_{1,2}^2}(\rho_1 - \rho_{1,2}\rho_2)
@@ -313,6 +391,7 @@ X_1 &\sim {\rm Normal}(0,1)\\
 X_2|X_1 &\sim {\rm Normal}(bX_1,1-b^2)\\
 Y|(X_1,X_2) & \sim {\rm Normal}(\beta_1X_1 + \beta_2X_2,\sigma^2). 
 \end{align*}
+where $b \in [0,1]$. Note that $b$ is just $\beta_{1,2}$ -- the regression coefficient of $X_1$ on $X_2$, which in this case is the same as the correlation coefficient (see below). 
 
 
 \noindent
@@ -320,7 +399,7 @@ Y|(X_1,X_2) & \sim {\rm Normal}(\beta_1X_1 + \beta_2X_2,\sigma^2).
 \begin{enumerate}[label=(\alph*)]
 \item Show that ${\rm var}(X_1) = {\rm var}(X_2) = 1$ and ${\rm cov}(X_1,X_2)=b$
 \item Expression $\beta_1$ as a function of $b$. 
-\item Test Equation \ref{eq:beta1cov} with simulations. \\
+\item Obtain the single predictor regression coefficient $\beta_1'$ when only $X_1$ is the predictor. 
 \end{enumerate}
 
 
@@ -337,7 +416,7 @@ Y|(X_1,X_2) & \sim {\rm Normal}(\beta_1X_1 + \beta_2X_2,\sigma^2).
 \begin{equation*}
 \beta_1 =  \frac{ {\rm cov}(X_1,Y)- {\rm cov}(X_2,Y)b}{1 -b^2}
 \end{equation*}
-\item See \href{https://colab.research.google.com/drive/1oIRgP_7-c5DGV1D2iz5nj406mZfJxUIG?usp=sharing}{colab notebook}.
+\item The single-predictor slope of $Y$ on $X_1$ is $\beta_1 + b \beta_2$. 
 \end{enumerate}
 
 %\noindent
@@ -350,21 +429,97 @@ Y|(X_1,X_2) & \sim {\rm Normal}(\beta_1X_1 + \beta_2X_2,\sigma^2).
 
 \end{example}
 
- This can all be generalized to the situation where we have many predictors. The general formula for the regression coefficient in terms of expectation is 
+
+\subsection{Simpson's paradox}
+In the example above we can see that $\beta_1'$ and $\beta_1$ can have different signs depending on $b$. This effect is called \dfn{Simpson's ``paradox''}. This is not really a paradox, but a simple consequence of the fact that the correlation between predictors influences the single-predictor regression coefficient as illustrated in Figure \ref{fig:plane}. Let's look at a another example. 
+
+\begin{example}
+Consider two binary predictors \(X_1, X_2 \in \{0,1\}\) with joint distribution given by the table of probabilities:
+
+\[
+\begin{array}{c|cc}
+P(X_1, X_2) & X_2=0 & X_2=1 \\ \hline
+X_1=0 & 0.4 & 0.1 \\
+X_1=1 & 0.1 & 0.4
+\end{array}
+\]
+
+Suppose the outcome \(Y\) satisfies the linear model
+
+\[
+Y \mid (X_1, X_2) = X_1 -2 X_2 + \epsilon 
+\]
+
+
+\noindent
+\underline{Question:} Compute the single-predictor regression coefficient $\beta_1'$ of $X_1$ on $Y$. 
+
+
+\noindent
+\underline{Solution:}
+First compute the difference in conditional means of \(X_2\) across \(X_1\):
 \begin{align*}
-\begin{split}
-\beta_i &= E[Y|X_1,\dots,X_{i-1},X_i=x_i+1,X_{i+1},\dots,X_K]\\
-&\quad\quad - E[Y|X_1,\dots,X_{i-1},X_i=x_i,X_{i+1},\dots,X_K]
-\end{split}
+\mathbb P(X_2=1\mid X_1=1) &= \frac{0.4}{0.1+0.4}=0.8,\qquad
+\mathbb P(X_2=1\mid X_1=0) = \frac{0.1}{0.4+0.1}=0.2, \\
+\beta_{1,2} &\equiv \mathbb E[X_2\mid X_1=1]-\mathbb E[X_2\mid X_1=0] = 0.8-0.2=0.6
 \end{align*}
-Note how this is a very natural extension of Equation \ref{eq:beta1exp}. 
-We get a more complex expression for the coefficients but the idea is the same. 
+With the true model \(Y=X_1+(-2)X_2+\varepsilon\) (so \(\beta_1=1,\ \beta_2=-2\)), the single-predictor slope satisfies
+\begin{equation*}
+\beta_1' \;=\; \beta_1 + \beta_2\beta_{1,2}. 
+\end{equation*}
+Substituting \(\Delta_{2\mid 1}=0.6\) yields
+\begin{equation*}
+\beta_1' \;=\; 1 + (-2)\cdot 0.6 \;=\; 1-1.2 \;=\; -0.2. 
+\end{equation*}
+
+\end{example}
 
 
 
-\section{Collinearity}
- {\bf The sample distribution of coefficients}
-Just as before, we want to understand what the sample distribution of the coefficients looks like. In the multiple predictor case, we need to think about the joint distribution  of $(\hat{\beta}_1,\hat{\beta}_2,\dots,\hat{\beta}_M)$. We will start by focusing on the two predictor case.  
+
+\subsection{Estimating regression coefficients}
+Now suppose we have data points $\{(X_{i,1},\dots,X_{i,K},Y_i)\}_{i=1}^N$. 
+We form the \dfn{design matrix} with \emph{samples in rows} and \emph{predictors in columns}:
+\begin{equation}
+X \;=\;
+\begin{bmatrix}
+X_{1,1} & \cdots & X_{1,K}\\
+\vdots  & \ddots & \vdots \\
+X_{N,1} & \cdots & X_{N,K}
+\end{bmatrix}
+\in\mathbb{R}^{N\times K},
+\qquad
+Y \;=\; \begin{bmatrix} Y_1 \\ \vdots \\ Y_N \end{bmatrix}\in\mathbb{R}^{N}.
+\label{eq:design-nk}
+\end{equation}
+Assume $X$ and $Y$ are centered (no intercept). The empirical covariance quantities are
+\begin{equation}
+\hat{\Sigma} \;=\; \frac{1}{N}X^\top X \in \mathbb{R}^{K\times K},
+\qquad
+\hat{c} \;=\; \frac{1}{N}X^\top Y \in \mathbb{R}^{K}.
+\label{eq:emp-cov}
+\end{equation}
+When $\hat{\Sigma}$ is invertible,
+\begin{equation}
+\hat{\beta} \;=\; \hat{\Sigma}^{-1}\hat{c}
+\;=\; (X^\top X)^{-1}X^\top Y.
+\label{eq:beta-inv}
+\end{equation}
+
+\paragraph{Moore--Penrose pseudoinverse.}
+If $\hat{\Sigma}$ is singular (e.g.\ collinearity or $K>N$), use the Moore--Penrose pseudoinverse:
+\begin{equation}
+\hat{\beta} \;=\; X^{+}Y,
+\qquad
+X^{+} \;=\; V\Sigma^{+}U^\top\quad\text{for }X=U\Sigma V^\top\text{ (SVD)},
+\label{eq:beta-pinv-nk}
+\end{equation}
+where $\Sigma^{+}$ inverts nonzero singular values and leaves zeros unchanged.
+
+
+\section{Sample distribution and collinearity}
+
+Just as before, we want to understand what the sample distribution of the coefficients looks like. In the multiple predictor case, we need to think about the joint distribution  of $(\hat{\beta}_1,\hat{\beta}_2,\dots,\hat{\beta}_K)$. We will start by focusing on the two predictor case.  
 
 
 
@@ -391,7 +546,9 @@ See \href{https://colab.research.google.com/drive/1oIRgP_7-c5DGV1D2iz5nj406mZfJx
 
 \end{example}
 
-To better understand what is going on, imagine $X_1$ and $X_2$ are very highly correlated (if they are perfectly correlated we say they are \dfn {colinear}). We can then write 
+\subsection{The sample distribution}
+
+To understand more intuitively what is going on, imagine $X_1$ and $X_2$ are very highly correlated (if they are perfectly correlated we say they are \dfn {colinear}). We can then write 
 \begin{align*}
 Y &= \beta_1X_1 + \beta_2X_2 + \epsilon  \approx \beta_1X_1 + \beta_2X_1 + \epsilon\\
  &\approx (\beta_1+\beta_2)X_1 + \epsilon
@@ -404,6 +561,14 @@ There are many ways to select $\beta_1$ and $\beta_2$ so that the surface $\beta
     \caption{Different views of the data in the case when $X_1$ and $X_2$ are correlated. If we look at the data from the side, or along the $X_1=X_2$ direction, then all our regression planes appear similar; however, when looked at from the ``front" as shown in the right panel, we see that the places actually have very different slopes in the other direction.  }
     \label{fig:sample_dist2}
 \end{figure}
+
+\subsection{Sample distribution formula}
+
+It can be shown that (assuming the covariance matrix $\Sigma$ is know), 
+\begin{equation}
+\hat{\beta} \sim {\rm MvNormal}(\sigma_{\epsilon}^2 \Sigma^{-1}/N)
+\end{equation}
+In particular, if $\Sigma =I$ we obtain the sample distribution for the single-predictor case. 
 
 
 
