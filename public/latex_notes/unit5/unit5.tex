@@ -7,7 +7,7 @@
 
 
 
-\title{Unit 5: Interactions and other feature maps}
+\title{Unit 5: Nonlinear models and overparamaterized linear regression }
 \author{Ethan Levien}
 \maketitle
 \tableofcontents
@@ -38,34 +38,34 @@ The important assumption of the multiple predictor regression models we have see
 \end{itemize}
 We call the dependencies described above \dfn{interactions}. 
 It turns out it is possible to include interactions within the regression modeling framework we have already introduced, as is illustrated by the following example. 
- Let's work in the case of two predictors. If you'd like, you can refer to Example \ref{ex:testscores} to make this math more concrete and always replace $X_1$ with $X_{\rm hs}$ and $X_2$ with $X_{\rm iq}$.   In each of the cases above, what is going on is that the slope of $\E[Y|X_1,X_2]$ vs. $X_1$ for fixed $X_2$ is not a constant, $\beta_1$, but rather something that depends on $X_2$. The simplest way to account for this is to let effect of $X_2$ on the slope be linear in $X_2$, so instead of $\beta_1$ being the slope of $\E[Y|X_1,X_2]$ vs. $X_1$ we would have $\beta_1 + \beta_{1,2}X_2$ be this slope, but this leads to a regression model with a nonlinear term: 
+ Let's work in the case of two predictors. If you'd like, you can refer to Example \ref{ex:testscores} to make this math more concrete and always replace $X_1$ with $X_{\rm hs}$ and $X_2$ with $X_{\rm iq}$.   In each of the cases above, what is going on is that the slope of $\E[Y|X_1,X_2]$ vs. $X_1$ for fixed $X_2$ is not a constant, $\beta_1$, but rather something that depends on $X_2$. The simplest way to account for this is to let effect of $X_2$ on the slope be linear in $X_2$, so instead of $\beta_1$ being the slope of $\E[Y|X_1,X_2]$ vs. $X_1$ we would have $\beta_1 +J_{1,2}X_2$ be this slope, but this leads to a regression model with a nonlinear term: 
 \begin{equation*}
-Y = \beta_0 +(\beta_1 + \beta_{1,2}X_2) X_1  + \beta_2 X_2 = \beta_0 + \beta_1 X_1 + \beta_2 X_2 + \beta_{1,2}X_1 X_2 + \epsilon 
+Y = \beta_0 +(\beta_1 + J_{1,2}X_2) X_1  + \beta_2 X_2 = \beta_0 + \beta_1 X_1 + \beta_2 X_2 + J_{1,2}X_1 X_2 + \epsilon 
 \end{equation*}
-We call $X_1X_2$ an \dfn{interaction} term, but Yuck! This isn't linear anymore and the regression coefficients are also don't have the same interpretation. How do we deal with this? 
+We call $X_1X_2$ an \dfn{interaction} term, but this isn't linear anymore and the regression coefficients are also don't have the same interpretation. How do we deal with this? 
  The idea is that we can create a new predictor from our already existing predictors which accounts for the interactions. To this end, consider the two predictor regression model written now as 
 \begin{equation*}
 Y = \beta_0' + \beta_1' X_1 + \beta_2' X_2 + \epsilon.
 \end{equation*} 
 I'm again using the $'$ to distinguish this model from an expanded model with a new predictor. The new predictor which accounts for the interaction will be $X_3 = X_1X_2$! Note that $X_3$ is going to be correlated with both $X_1$ and $X_2$, but crucially it will not be perfectly correlated unless $X_1$ and $X_2$ are with each other. The new mode is 
 \begin{equation*}
-Y = \beta_0 + \beta_1 X_1 + \beta_2 X_2 + \beta_{1,2}X_3 + \epsilon
+Y = \beta_0 + \beta_1 X_1 + \beta_2 X_2 + J_{1,2}X_3 + \epsilon
 \end{equation*} 
 Or written as a conditional distribution 
 \begin{equation*}
-Y|X \sim {\rm Normal}( \beta_0 + \beta_1 X_1 + \beta_2 X_2 + \beta_{1,2} X_3, \sigma^2). 
+Y|X \sim {\rm Normal}( \beta_0 + \beta_1 X_1 + \beta_2 X_2 + J_{1,2} X_3, \sigma^2). 
 \end{equation*} 
  Now how do we interpret the regression coefficients in the new model? 
 If we write out the usual formula for the regression coefficient with no interactions, we get 
 \begin{align*}
  &\E[Y|X_1 = x+1,X_2] -\E[Y|X_1 = x,X_2]\\
- &  =  \left(\beta_1 (x+1)+ \beta_2 X_2 + \beta_3 (x+1)X_2\right)- \left(\beta_1 x + \beta_2 X_2 + \beta_{1,2} x X_2\right)\\
- &= \beta_1 + \beta_{1,2}X_2
+ &  =  \left(\beta_1 (x+1)+ \beta_2 X_2 + \beta_3 (x+1)X_2\right)- \left(\beta_1 x + \beta_2 X_2 + J_{1,2} x X_2\right)\\
+ &= \beta_1 + J_{1,2}X_2
 \end{align*}
-Here I've replaced $X_3$ with $X_1X_2$. I words, $\beta_{1,2}$ is the additional difference in the regression slope between $Y$ and $X_1$ with all other predictors fixed when $X_2$ is changed by one unit. 
-If $\beta_{1,2}$ is positive (resp. negative) then increasing $X_2$ has a tendency to increase (resp. decrease) the difference between the conditional averages of $Y$, thus, the additional predictor $X_3 = X_1X_2$ allows us to capture an interaction wherein the association between $X_1$ and $Y$ depends on $X_2$. We can do the same calculation with $X_1$ fixed and $X_2$ changed to obtain 
+Here I've replaced $X_3$ with $X_1X_2$. I words, $J_{1,2}$ is the additional difference in the regression slope between $Y$ and $X_1$ with all other predictors fixed when $X_2$ is changed by one unit. 
+If $J_{1,2}$ is positive (resp. negative) then increasing $X_2$ has a tendency to increase (resp. decrease) the difference between the conditional averages of $Y$, thus, the additional predictor $X_3 = X_1X_2$ allows us to capture an interaction wherein the association between $X_1$ and $Y$ depends on $X_2$. We can do the same calculation with $X_1$ fixed and $X_2$ changed to obtain 
 \begin{equation*}
- \E[Y|X_1 = x+1,X_2] - \E[Y|X_1 = x,X_2] = \beta_2 + \beta_3X_2
+ \E[Y|X_1 = x+1,X_2] - \E[Y|X_1 = x,X_2] = \beta_2 + J_{1,2}X_2
 \end{equation*}
 Now as always, let's make sure we understand how this translates into code and also I think the visualizations in this example are helpful. 
 
@@ -88,7 +88,7 @@ Assume $\beta_1 = 1.2,\beta_2 = 0$ and $\beta_3 =-1$. \\
 \begin{example}[Interaction in test score model]\label{ex:testscores}
 Here we once again consider the test score data with high school education and IQ as predictors. In particular, we will fit the model
 \begin{equation*}
-Y = \beta_0 + \beta_{\rm hs}X_{\rm hs} + \beta_{\rm iq}X_{\rm iq} + \beta_{\rm iq,hs}X_{\rm iq}X_{\rm hs}
+Y = \beta_0 + \beta_{\rm hs}X_{\rm hs} + \beta_{\rm iq}X_{\rm iq} + J_{\rm iq,hs}X_{\rm iq}X_{\rm hs}
 \end{equation*}
 
 
@@ -121,7 +121,7 @@ hs_iq         -0.4843      0.162     -2.985      0.003      -0.803      -0.165
 \item $\beta_0 \approx -11$ does not have a clear interpretation since it doesn't make sense to have $0$ IQ. 
 \item $\beta_{\rm iq}\approx 1$ is the expected signed difference in scores between students whose IQ differs by $1$ point and whose mothers did not go to high school. 
 \item $\beta_{\rm hs} \approx 51$ is the expected difference between scores of students whose mothers did and did not go to high school when IQ is zero -- {\bf much like $\beta_0$, this doesn't really make sense, so we don't have a clear interpretation of $\beta_{\rm hs}$}
-\item $\beta_{\rm hs,iq}\approx -0.5$ is the expected increase between the group of students whose mothers attended high school and those that did not in the difference between test scores of students whose mothers iq differs by one point. In other words, it is the increase in regression slope of scores vs. iq between the two high school groups. It is easier to interpret $\beta_{\rm iq}  + \beta_{\rm hs,iq}$ which is the expected signed difference in scores between students whose IQ differs by $1$ point and whose mothers did attend high school (this is the same as the interpretation of $\beta_{\rm iq}$ for student's whose mothers attended high school. 
+\item $J_{\rm hs,iq}\approx -0.5$ is the expected increase between the group of students whose mothers attended high school and those that did not in the difference between test scores of students whose mothers iq differs by one point. In other words, it is the increase in regression slope of scores vs. iq between the two high school groups. It is easier to interpret $\beta_{\rm iq}  + J_{\rm hs,iq}$ which is the expected signed difference in scores between students whose IQ differs by $1$ point and whose mothers did attend high school (this is the same as the interpretation of $\beta_{\rm iq}$ for student's whose mothers attended high school. 
 \item It appears that the association between IQ and test scores is weaker among students whose mother's attended high school. This makes intuitive sense. If someone attended high school the subtle differences in cognitive ability that IQ is supposed to measure are not as relevant. 
 \end{itemize}
 \end{enumerate}
@@ -136,7 +136,7 @@ In the example above we saw that adding an interaction term can make the interpr
 \end{equation*}
 and now we fit the model 
 \begin{equation*}
-Y =  \beta_0 +  \beta_{\rm hs} X_{\rm hs} + \beta_{\rm iq}\Delta_{\rm iq} +  \beta_{\rm hs-iq}X_{\rm hs}\Delta_{\rm iq} + \epsilon 
+Y =  \beta_0 +  \beta_{\rm hs} X_{\rm hs} + \beta_{\rm iq}\Delta_{\rm iq} +  J_{\rm hs,iq}X_{\rm hs}\Delta_{\rm iq} + \epsilon 
 \end{equation*}
 Now $\beta_1$ has the interpretation as the average difference in scores among students whose mothers have the average iq. You can also standardize the predictor to get around the awkward interpretation of the regression coefficients. 
 
@@ -547,7 +547,7 @@ Consider the probability model
 \begin{align*}
 X_1 &\sim {\rm Normal}(0,\sigma_1^2)\\
 X_2 &\sim {\rm Normal}(0,\sigma_2^2)\\
-Y|(X_1,X_2) &\sim {\rm Normal}(\beta_1 X_1 + \beta_2 X_2 + \beta_{1,2}X_1X_2,\sigma^2)
+Y|(X_1,X_2) &\sim {\rm Normal}(\beta_1 X_1 + \beta_2 X_2 + J_{1,2}X_1X_2,\sigma^2)
 \end{align*}
 \begin{enumerate}[label=(\alph*)]
 \item Derive the distributions of $Y|X_1$ and $Y|X_2$. Hint: These conditional distributions are both normal, so you only need to determine the mean and variance to find the distributions. 
@@ -578,18 +578,18 @@ where $\sigma = 0.2$, $x_1$ is continuous predictor which is uniformly distribut
 \begin{exercise}[Drug interactions]
 When treating microbial infections and cancer, combinations of drugs can perform better than individual drugs. However, it can be difficult to identify which combinations are optimal for the reason that identifying very ``high order'' interactions is difficult.  In order to understand the best way to combine $M$ drugs, we construct a regression where $Y$ is the ``effect'' of the drug and $X_i$ is a Bernoulli random variable representing whether or not the $i$th drug is present or not. We want to consider the possibility 
 \begin{equation*}
-Y = \sum_{i=1}^M \beta_iX_i + \sum_{i=1}^M\left(\sum_{j>i}^M \beta_{i,j}X_iX_j \right)+  \sum_{i=1}^M\left(\sum_{j>i}^M\sum_{k>j}^M  \beta_{i,j}X_iX_jX_k\right) + X_1X_2\cdots X_M + \epsilon 
+Y = \sum_{i=1}^M \beta_iX_i + \sum_{i=1}^M\left(\sum_{j>i}^M J_{i,j}X_iX_j \right)+  \sum_{i=1}^M\left(\sum_{j>i}^M\sum_{k>j}^M  J_{i,j,k}X_iX_jX_k\right) + J_{1,2,\ldots,M}X_1X_2\cdots X_M + \epsilon 
 \end{equation*}
 For example, with $M=3$, we would have 
 \begin{equation*}
-Y = \beta_1X_1+\beta_2X_2 + \beta_3X_3 + \beta_{1,2}X_1X_2 + \beta_{1,3}X_1X_3 +\beta_{2,3}X_2X_3+ \beta_{1,2,3}X_1X_2X_3 + \epsilon 
+Y = \beta_1X_1+\beta_2X_2 + \beta_3X_3 + J_{1,2}X_1X_2 + J_{1,3}X_1X_3 +J_{2,3}X_2X_3+ J_{1,2,3}X_1X_2X_3 + \epsilon 
 \end{equation*}
 \begin{enumerate}[label=(\alph*)]
 %\item Suppose $K\le M$ and $i_1,i_2,\dots,i_K$ are distinct integers between $1$ and $M$. What is an interpretation of  $\beta_{i_1,i_2,\dots,i_K}$ in terms of the average difference between to values of $Y$? 
 \item Suppose $M=3$ and 
 \begin{equation*}
 \left[\begin{array}{c}
-\beta_1\\\beta_2\\\beta_3\\\beta_{1,2}\\ \beta_{1,3}\\\beta_{2,3}\\ \beta_{1,2,3}
+\beta_1\\\beta_2\\\beta_3\\J_{1,2}\\ J_{1,3}\\J_{2,3}\\ J_{1,2,3}
 \end{array}\right]=\left[\begin{array}{c} 
 1.2\\ -0.8\\ -0.11\\ 3.48\\ -2.62\\1.03\\  1.66
 \end{array}\right]
