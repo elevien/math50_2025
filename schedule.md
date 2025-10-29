@@ -38,7 +38,7 @@ Before going through Unit 1, please review [Unit 0](../unit0/index.html). This m
 | Fri Oct 24  | | Work on project  |  | [project]({{ '/project/' | relative_url }}) progress (on canvas)
 | Week 7 || | | 
 | Mon Oct 27  | [Unit 5](../unit5/index.html) | Unit 5 (interactions, residual plots)   |  |
-| Wed Oct 29  | [Unit 5](../unit5/index.html) | Unit 5 (feature maps, fourier models,bias-variance trafeoff revisited )  |  |
+| Wed Oct 29  | [Unit 5](../unit5/index.html) | Unit 5 (feature maps, fourier models)  |  |
 | Fri Oct 31  | [Unit 6](../unit6/index.html) | Unit 6.3  (overparamaterized models, ridge and lasso regression) |  |
 | Week 8 || | | 
 | Mon Nov 3   | [Unit 6](../unit6/index.html) | Unit 6 (bayesian inference for bernoulli model, beta distribution laplace rule of succession) |  |

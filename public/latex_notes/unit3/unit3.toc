@@ -1,5 +1,5 @@
 \contentsline {section}{\numberline {3.1}Introduction}{1}{section.1}%
-\contentsline {section}{\numberline {3.2}Estimators}{1}{section.2}%
+\contentsline {section}{\numberline {3.2}Estimators}{2}{section.2}%
 \contentsline {subsection}{\numberline {3.2.1}Sample distribution and standard errors}{2}{subsection.2.1}%
 \contentsline {subsection}{\numberline {3.2.2}Bias and consistency}{3}{subsection.2.2}%
 \contentsline {subsection}{\numberline {3.2.3}Confidence intervals}{4}{subsection.2.3}%
@@ -11,4 +11,5 @@
 \contentsline {section}{\numberline {3.4}Coefficient of determination and correlation}{8}{section.4}%
 \contentsline {subsection}{\numberline {3.4.1}Coefficient of determination}{8}{subsection.4.1}%
 \contentsline {subsection}{\numberline {3.4.2}Correlation}{9}{subsection.4.2}%
+\contentsline {subsection}{\numberline {3.4.3}Regression to the Mean}{10}{subsection.4.3}%
 \contentsline {section}{\numberline {3.5}Hypothesis testing (optional)}{10}{section.5}%
