@@ -271,7 +271,7 @@ Next we will  understand that within the linear regression framework we can fit 
 
 
 %----------------------------------------------------------------------------------------------------------------
-\section{Overfitting}
+\section{Data partitioning and bias variance tradeoff}
 
 We saw from the previous example that $R^2$ is not very helpful if we want to decide how complex we'd like to make our model, since it is possible to explain all the variation in the $Y$ values with a model which is too complex. In order to address this, we take the approach of \dfn{cross validation}. The basic idea of cross validation is to break our data up into two subsets: \dfn{training set}, which we use to fit the model, and a \dfn{testing set}, which we compare to the predictions of the fitted model. 
  {\bf Some Notation}
@@ -524,7 +524,7 @@ The power spectrum density is a fundamental object in signal processing, and it 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \newpage
-\section{Exercises}
+\section*{Exercises}
 \begin{exercise}[Car brands and mpg]
 In this exercise we will consider the data set containing information about cars and their miles per gallon. This can by loaded by 
 \begin{Verbatim}
@@ -536,9 +536,9 @@ The second line takes the original names (which are the specific models -- e.g. 
 \begin{enumerate}[label=(\alph*)]
 \item Using all the columns {\bf except} \verb!origin! and \verb!displacement! (since it's not obvious what the units are), write down the regression model which you want to fit to this data to address the question posed in the problem instruction. Assume there are no interactions. Provide an interpretation of each regression coefficient.  
 \item Fit the regression model to the data. 
-\item What are the $5$ best brands for mpg within the same type of car (weight, horsepower etc.). 
+\item What are the $5$ best brands for mpg within the same type of car (weight, horsepower etc.).
+\item Now try to improve the model by adding interaction terms. Do you find any interactions which are statistically significant? 
 \end{enumerate}
-
 
 \end{exercise}
 %---------------------------------------------------------------------------------
@@ -600,6 +600,25 @@ What is the optimal treatment, meaning which combination of drugs $1$, $2$ and $
 \item Now additional suppose that $\sigma^2 = 1$. 
 By generating simulated $Y$ values with these parameters for different values of $N$, determine how many data points are needed to reliably find that all interactions coefficients have $p$-values below $0.05$
 \item Perform the same experiment as in (c) but fit the data to a model with no interactions. What do you find? How does adding the interaction terms influence the $p$-values. 
+\end{enumerate}
+\end{exercise}
+
+
+\begin{exercise}
+Consider two binary predictors \(X_1, X_2 \in \{0,1\}\) with joint distribution given by the table of probabilities:
+
+\[
+\begin{array}{c|cc}
+P(X_1, X_2) & X_2=0 & X_2=1 \\ \hline
+X_1=0 & 0.2 & 0.3 \\
+X_1=1 & 0.1 & 0.4
+\end{array}
+\]
+
+\begin{enumerate}[label=(\alph*)]
+\item Are $X_1$ and $X_2$ independent? 
+\item If a interaction term is added be creating a predictor $X_3 = X_1X_2$, then find the correlation coefficient between $X_3$ and $X_1$ and $X_3$ and $X_2$? 
+\item Now generate data from a model (with the interaction term) and fit it to a regression model (also with the interaction term). Looking at the correlation of $\hat{\beta}_1$ with $\hat{J}_{1,2}$, is it consistent with your calculation in part (b)? 
 \end{enumerate}
 \end{exercise}
 

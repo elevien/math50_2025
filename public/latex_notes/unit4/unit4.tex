@@ -652,7 +652,7 @@ X_2|X_1 &\sim {\rm Normal}(bX_1,s^2)
 \item Explain how the formula you derived in part (b) is related to the equation for ${\rm cov}(Y,X_1)$ in the single predictor regression model (page 4 on week 3 notes). In particular, for what parameter values do the two formulas coincide? Your conclusion will be a particular case of what we saw to be true more generally in class concerning the relationship between $\beta_1$ and the covariances in a regression model with two predictions. 
 \item Now derive the formula
 \begin{equation*}
-{\rm var}(Y) = q(1-q)\left(\beta_1^2 + \beta_2^2b^2 + 2 b \right) + \beta_2^2s^2
+{\rm var}(Y) = q(1-q)\left(\beta_1^2 + \beta_2^2b^2 + 2 \textcolor{orange}{\beta_1\beta_2} b \right) + \beta_2^2s^2
 + \sigma^2
 \end{equation*}
 You will need to use the formula for the variance of the sum of two (not-necessarily independent) random variables, which is given on the midterm practice problems.  
@@ -741,7 +741,7 @@ Y \mid (X_1, X_2) = X_1 + c X_2 + \epsilon
 \begin{exercise}[\ding{111}]
 Let \(X = (X_1, X_2)^T\) be a bivariate normal vector with mean zero and covariance matrix
 \[
-\Sigma = \begin{bmatrix} 1 & 2 \\ 2 & 10 \end{bmatrix}.
+\Sigma = \begin{bmatrix} 10 & 2 \\ 2 & 10 \end{bmatrix}.
 \]
 
 Suppose the response satisfies

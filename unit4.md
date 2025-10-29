@@ -13,6 +13,7 @@ This unit covers linear regression with **multiple predictors**. Many new ideas 
 Material:
 - [Notes and exercises](/public/latex_notes/unit4/unit4.pdf)
 - [Colab notebook (2024)](https://colab.research.google.com/drive/1oIRgP_7-c5DGV1D2iz5nj406mZfJxUIG?usp=sharing)
+- [Colab notebook (2025)](https://colab.research.google.com/drive/10G3DKAsKcxk33l3OO_hfPTyrWetTxdaS?usp=sharing)
 
 # Concepts
 
@@ -23,8 +24,8 @@ Regression with multiple predictors, covariance matrix, Simpson's paradox, colli
 - Derive a linear system involving the regression coefficients for the covariances (generalizing what I do in class)
 - Interpret the output of a fitted model with multiple predictors (including with qualitative predictors) 
 - Predict how adding a predictor to a model will change the regression coefficient of an existing predictor (given knowledge about predictors).
-- Identify symptoms of colinearity
-- Translate ANOVA to regression language
+- Identify colinearity and understand it's effects on the sample distribution
+- include catagorical predictors in a regression model
 
 # Wikipedia References
 - [Multiple linear regression](https://en.wikipedia.org/wiki/Multiple_linear_regression)

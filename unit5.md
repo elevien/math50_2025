@@ -12,16 +12,17 @@ As I say many times in class, the linear regression model is the basis for many 
 
 Material: 
 - [Notes and exercises](/public/latex_notes/unit5/unit5.pdf)
-- [Colab notebook]()
+- [Colab notebook](https://colab.research.google.com/drive/1JVq9VHAbpSlGlngfMmf9N4NJuSKM8lKR?usp=sharing)
 
 # Concepts
 Interactions, Residual plots and diagnostics (interaction detection), Nonlinear models within the linear framework/(focusing on polynomials), Cross validation, test/training data and overfitting. 
 
 # Things to practice
-- Write Python codes that determines whether you can detect a given interaction with a given amount of data. 
-- Make residual plots and identify what might be wrong with a model. 
+- Using residual plots to identify nonlinearities in a model 
+- Extend calculations we have done (e.g. marginal response variable variance, regression coefficients in terms of covariances) to simple nonlinear models. 
 - Be able to convert nonlinear modeling goals into a linear‑in‑parameters form using basis functions. Fit in Python. 
-- Exploratory data analysis: Find a dataset and try to answer some questions about it. 
+- Understand the distinction between training and test error
+- Explain intuitively the idea behind bias variance tradeoff
 - Basic model‑building workflow
 
 # Wikipedia References

@@ -30,15 +30,15 @@ Before going through Unit 1, please review [Unit 0](../unit0/index.html). This m
 | Fri Oct 10  | Work on project |  |  |
 | Week 5 || | | 
 | Mon Oct 13  | [Unit 4](../unit4/index.html) | Unit 4.1 (Multiple predictor regression examples, interpreting regression coefficients) |  |
-| Wed Oct 15  | [Unit 4](../unit4/index.html)| Unit 4.2 (Simpsons paradox, effects of adding predictors)  |  |
+| Wed Oct 15  | [Unit 4](../unit4/index.html) | Unit 4.2 (Simpsons paradox, effects of adding predictors)  |  |
 | Fri Oct 17  | [Unit 4](../unit4/index.html) | Unit 4 (colinearity, the joint sample distribution) |  |
 | Week 6 || | | 
 | Mon Oct 20  | [Unit 4](../unit4/index.html) | Unit 4 (models with catagorical predictors) |  |
 | Wed Oct 22  | [Unit 4](../unit4/index.html) | Unit 4 (analysis of variance)  |  |
-| Fri Oct 24  | [Unit 5](../unit5/index.html) | Unit 5 (interactions, residual plots)  |  | [project]({{ '/project/' | relative_url }}) progress (on canvas)
+| Fri Oct 24  | | Work on project  |  | [project]({{ '/project/' | relative_url }}) progress (on canvas)
 | Week 7 || | | 
-| Mon Oct 27  | [Unit 5](../unit5/index.html) | Unit 5 (polynomial regression, linear regression view of fourier series )  |  |
-| Wed Oct 29  | [Unit 5](../unit5/index.html) | Unit 5(bias-variance trafeoff revisited and overfitting)  |  |
+| Mon Oct 27  | [Unit 5](../unit5/index.html) | Unit 5 (interactions, residual plots)   |  |
+| Wed Oct 29  | [Unit 5](../unit5/index.html) | Unit 5 (feature maps, fourier models,bias-variance trafeoff revisited )  |  |
 | Fri Oct 31  | [Unit 6](../unit6/index.html) | Unit 6.3  (overparamaterized models, ridge and lasso regression) |  |
 | Week 8 || | | 
 | Mon Nov 3   | [Unit 6](../unit6/index.html) | Unit 6 (bayesian inference for bernoulli model, beta distribution laplace rule of succession) |  |
