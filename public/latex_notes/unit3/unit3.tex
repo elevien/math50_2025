@@ -458,7 +458,28 @@ Now to show that this is indeed the same as $\rho^2$. To do so, we recall that $
 Thus, the approach of standardizing and computing a unitless regression slope ultimately leads to the same metric for the strength of association as comparing the variance conditioned on the predictor to the overall variance. 
 
 
+\section{Regression to the Mean}
 
+Consider two standardized random variables $X$ and $Y$, both with mean zero and variance one. Suppose the conditional distribution of $Y$ given $X$ follows a Normal distribution
+\[
+Y \mid X \sim \mathcal{N}(\rho X, \, 1 - \rho^2),
+\]
+where the correlation coefficient $\rho$ satisfies $-1 \leq \rho \leq 1$.
+
+Because $X$ and $Y$ share the same marginal distribution (both standardized with mean zero and variance one), the conditional expectation is
+\[
+\mathbb{E}[Y \mid X] = \rho X.
+\]
+
+This implies a phenomenon known as \textbf{regression to the mean}: if $X$ takes an unusually high (positive) value, then the expected value of $Y$ given $X$ is closer to zero (the mean) than $X$ itself, provided $|\rho| < 1$. In other words, when the correlation is not perfect, extreme values of $X$ tend to be associated with less extreme values of $Y$ on average.
+
+The interpretation can be generalized as:
+\begin{itemize}
+    \item When $X$ is above its mean (zero), $\mathbb{E}[Y|X]$ is also above zero but shrunk towards zero by factor $\rho$.
+    \item When $X$ is below its mean, $\mathbb{E}[Y|X]$ is below zero but again closer to zero than $X$.
+\end{itemize}
+
+This regression effect arises naturally in linear regression models and is a central concept in understanding the relationship between two correlated variables in standardized units. As discussed in class, regression to the mean can also be understood in a way where once everything is standardized, if things are up, they are likely go down. On the other hand, if things are down, they are likely to go up, thus leading us to the general idea of regression.
 
 
 %
