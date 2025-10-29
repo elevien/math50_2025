@@ -274,8 +274,8 @@ Next we will  understand that within the linear regression framework we can fit 
 \section{Data partitioning and bias variance tradeoff}
 
 We saw from the previous example that $R^2$ is not very helpful if we want to decide how complex we'd like to make our model, since it is possible to explain all the variation in the $Y$ values with a model which is too complex. In order to address this, we take the approach of \dfn{cross validation}. The basic idea of cross validation is to break our data up into two subsets: \dfn{training set}, which we use to fit the model, and a \dfn{testing set}, which we compare to the predictions of the fitted model. 
- {\bf Some Notation}
 
+Let's introduce some new notation. 
  I will use $D$ to refer to our entire data set:
 \begin{equation*}
 D = (Y,X) = \{(X_1,Y_1),\dots,(X_N,Y_N)\}
@@ -296,16 +296,18 @@ where $\hat{\beta}$ are the (usually least squares) fitted coefficients using th
 
 Now let us define the \dfn{training error}
 \begin{equation*}
-\epsilon_{\rm train}^2=  \frac{1}{N_{\rm train}}\sum_{i=1}^{N_{\rm train}}(\hat{y}(X_i^{\rm train},D^{\rm train}) - Y_i^{\rm train})^2
+\hat{\sigma}_{\rm train}^2=  \frac{1}{N_{\rm train}}\sum_{i=1}^{N_{\rm train}}(\hat{y}(X_i^{\rm train},D^{\rm train}) - Y_i^{\rm train})^2
 \end{equation*}
 where the average is taken over different replicates of our data and $\hat{Y}_i$ is our prediction of $E[Y|X]$. Not that the training error tells us about how well our model does at predicting the same data we used to fit it, and therefore not surpisingly, it is closely related to $R^2$:
 \begin{equation*}
-R^2 \approx 1 - \frac{\epsilon_{\rm train}^2}{{\rm var}(Y_{{\rm train},i})}.
+R^2 \approx 1 - \frac{\hat{\sigma}_{\rm train}^2}{\sigma_Y^2}.
 \end{equation*}
+In particular, if we replace $\sigma_Y$ with its approximation we get the $R^2$ for the training data. With enough training data this should just be $R^2$ for the model since $\hat{\sigma}_{\rm train}^2 \approx \sigma_{\epsilon}^2$. 
+
 
 In order to see how well our model does at predicting the points we did NOT use to fit it, we introduce the test error: 
 \begin{equation*}
-\epsilon_{\rm test}^2=  \frac{1}{N_{\rm test}}\sum_{i=1}^{N_{\rm test}}(\hat{y}(X_i^{\rm test},D^{\rm train}) - Y_i^{\rm test})^2
+\hat{\sigma}_{\rm test}^2=  \frac{1}{N_{\rm test}}\sum_{i=1}^{N_{\rm test}}(\hat{y}(X_i^{\rm test},D^{\rm train}) - Y_i^{\rm test})^2
 \end{equation*}
 Note that the fitted coefficients used to compute $\hat{y}_i(X^{\rm test})$ come from fitting the model to the training data, even though we are evaluating $\hat{y}$ at the test points. 
 
@@ -357,7 +359,7 @@ where $Y$ is a sample from $Y|(X=x)$. You can show (see Exercise) that
 The new term, $\sigma^2$, captures the fact that, unlike the deterministic term $f$, we can NEVER predict the \emph{random} variable $Y$ exactly. 
 You should be able to justify that
 \begin{equation*}
-\epsilon_{\rm test}^2 \approx E\left[\widetilde{{\rm MSE}}_{\hat{y}(X,D^{\rm train})}\right]
+\hat{\sigma}_{\rm test}^2 \approx E\left[\widetilde{{\rm MSE}}_{\hat{y}(X,D^{\rm train})}\right]
 \end{equation*}
  The important thing to recognize is that a complicated model will tend to have a higher variance, since it will be able to change more in response to data. Meanwhile, a very simple model will tend to have a higher bias. 
 
@@ -622,6 +624,78 @@ X_1=1 & 0.1 & 0.4
 \end{enumerate}
 \end{exercise}
 
+
+%----------------------------------------------------------------------------------------------------------------
+\begin{exercise}[Mean-squared error]
+Prove that 
+\begin{equation*}
+\widetilde{{\rm MSE}}_{\hat{y}(x,D)} = \sigma^2 +{\rm var}(\hat{y}(x,D)) + E\left[\hat{y}(x,D)-f(x)\right]^2
+\end{equation*}
+where $\widetilde{{\rm MSE}}_{\hat{y}(x,D)}$ is defined in Equation 3 in the class notes. 
+\end{exercise}
+%----------------------------------------------------------------------------------------------------------------
+\begin{exercise}[Laplace's rule]
+Consider a Bernoulli random variable 
+\begin{equation*}
+X \sim {\rm Bernoulli}(q).
+\end{equation*}
+(You can assume this means $P(X=1)=q$). 
+If we have samples $X_1,\dots,X_N$ for $X$ then we have seen that a consistent and unbiased estimator of $q$ is 
+\begin{equation*}
+\hat{q} = \frac{Y}{N}, \text{ where }Y = \sum_{i=1}^NX_i.
+\end{equation*}
+An alternative estimator, called Laplace's rule of succession, is 
+\begin{equation*}
+\hat{q}_L = \frac{Y+1}{N+2}.
+\end{equation*}
+The motivation of for defining $\hat{q}_L$ is as follows: Think of $X$ as a biased coin. If we know that it is possible for to roll a heads or a tails, then we should include this information in our estimator. However, using the original estimator, if we roll a sequence of only heads (or tails), we will estimate that $q=1$ (or $q=0$). To correct for this, we pretend we have two additional observations (hence the $N+2$ in the denominator) and that one is heads and one is tails (hence $Y+1$ in the numerator). This is a simple example where we are incorporating \emph{prior} information  into our estimator -- that is, information beyond what is present in the data and our model. In this case, that prior information is that the coin has two sides and could land on either one, however unlikely that might be. 
+
+\begin{enumerate}[label=(\alph*)]
+\item Derive formula for the mean-squared error,
+\begin{equation*}
+{\rm MSE}_{\hat{q}_L} = E\left[(\hat{q}-q)^2 \right]
+\end{equation*}
+and decompose it into the variance and the squared bias. Your formulas should be in terms of $q$ and $N$.
+\item Is $\hat{q}_L$ unbiased and consistent? 
+\item Now compute ${\rm MSE}_{\hat{q}}$. Not that in this case the bias is zero, so it should be straightforward to derive from the standard error.  Surprisingly, ${\rm MSE}_{\hat{q}}>{\rm MSE}_{\hat{q}_L}$ for some values of $N$ and $q$. For which values is this the case? Note that this is quite surprising, since it seems like $\hat{q}$ should be the best guess of $q$!  \end{enumerate}
+
+
+\end{exercise}
+
+
+%----------------------------------------------------------------------------------------------------------------
+\begin{exercise}[Impulse function features]
+Consider the model
+\begin{equation*}
+Y|X \sim {\rm Normal}\left(\sum_{i=1}^K\beta_i\phi_i(X),\sigma^2 \right)
+\end{equation*}
+Suppose that $X \in [0,1)$ and define the intervals 
+\begin{equation*}
+I_i = \left[\frac{i-1}{K},\frac{i}{K} \right)
+\end{equation*}
+Notice that 
+\begin{equation*}
+[0,1) = I_1\cup I_2 \cup \cdots \cup I_K.
+\end{equation*}
+That is, each $x$ in $[0,1)$ is in one of these disjoint intervals. 
+Now introduce the features
+\begin{equation*}
+\phi_i(x) = \left\{\begin{array}{cc}
+1 & x \in [(i-1)/K,i/K)\\
+0 & x \notin [(i-1)/K,i/K)
+\end{array}\right.
+\end{equation*}
+
+\begin{enumerate}[label=(\alph*)]
+\item Are $\phi_i$ orthogonal with respect to a random variable $X$ taking values in $[0,1)$? Does it depend on the distribution of the random variable? 
+\item Using \verb!statsmodels!, implement fitting the model with these features. You can make up your simulated data set to fit, or copy the code I used in class to fit the fourier and polynomial models. I recommend writing a function \verb!phi(x,i)! which takes the array of predictors and outputs an array $[\phi_j(X_1),\dots,\phi_j(X_N)]$. Use $K=10$ and $N=100$. 
+\item As usual let $\hat{\beta}_j$ be the fitted value of $\beta_j$ using least squares, meaning the value that minimizes the squared residuals. Show that in this model $\hat{\beta}_j$ is simply the average value of $Y_i$ among data points where $X_i \in I_j$; that is, 
+\begin{equation*}
+\hat{\beta}_j = \frac{1}{N_j}\sum_{i:X_i \in I_j}Y_i
+\end{equation*}
+where $N_j$ is the number of points in $I_j$. 
+\end{enumerate}
+\end{exercise}
 
 
 
