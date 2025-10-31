@@ -4,4 +4,4 @@
 \contentsline {section}{\numberline {5.2}Other feature maps}{5}{section.2}%
 \contentsline {section}{\numberline {5.3}Data partitioning and bias variance tradeoff}{6}{section.3}%
 \contentsline {section}{\numberline {5.4}Overfitting}{7}{section.4}%
-\contentsline {section}{\numberline {5.5}Orthogonality and Fourier analysis}{8}{section.5}%
+\contentsline {section}{\numberline {5.5}Orthogonality and Fourier analysis}{9}{section.5}%

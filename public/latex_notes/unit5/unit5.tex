@@ -329,9 +329,7 @@ Recall from Unit 3 that the \dfn{mean-squared error} of an estimator $\hat{\thet
 {\rm MSE}_{\hat{\theta}}= E\left[(\hat{\theta}- \theta)^2\right]
 \end{equation}
 Remember, $\theta$ could be a parameter, or it could be a value of a function, such as $f(x)$, that we would like to predict. 
-For now, let's just think of $\hat{\theta}$ as any estimator. 
-
-Remember that we proved the bias variance tradeoff: 
+For now, let's just think of $\hat{\theta}$ as any estimator. Also, remember that we proved the bias variance decomposition:
 \begin{equation}\label{eq:biasvar}
 {\rm MSE}_{\hat{\theta}} = {\rm var}(\hat{\theta}) + E\left[\hat{\theta}-\theta\right]^2
 \end{equation}
@@ -343,25 +341,38 @@ where $f(X)$ can be written as a linear combination of features
 \begin{equation*}
 f(X) = \sum_{i=1}^N\beta_i \phi_i(X). 
 \end{equation*}
-Letting $\hat{\theta} = \hat{y}(x,D)$, applying Equation \ref{eq:mse} yields
+We will study the MSE in our predictions of the $f(x)$ given a dataset $D$, and hence we set $\hat{\theta} = \hat{y}(x,D)$ so that Equation \ref{eq:mse} becomes
 \begin{equation*}
-{\rm MSE}_{\hat{y}(x,D)} = E\left[(\hat{y}(x,D)- f(x))^2\right]
+{\rm MSE}_{\hat{y}(x,D)} = E_D\left[(\hat{y}(x,D)- f(x))^2|x\right]
 \end{equation*}
-where the average is taken over replicates of our data $D$. This is a measurement of our ability to predict $f(x)$, which is exactly what the test error seeks to measure. 
-  To more closely relate the bias-variance tradeoff to the test error, we will use a slightly different definition of MSE, which is 
-\begin{equation}\label{eq:tilMSE}
-\widetilde{{\rm MSE}}_{\hat{y}(x,D)} = E\left[(\hat{y}(x,D)- Y(x))^2\right]
+where the notation $E_D$ is to remind us that the expectation is taken over the distribution of our data set $D$, while the predictor value is being conditioned on (I slightly abused notation and wrote $x$ instead of $X=x$). The bias variance tradeoff is related to the test error $\hat{\sigma}_{\rm test}^2$; however there are two differences between what the MSE is measuring and the test error: (1) In the test error the average is over different $X$ points and (2) the test error measures the differences between the observed points not the true function.  If $N^{\rm test}$ is sufficiently large, then 
+\begin{equation}
+\hat{\sigma}_{\rm test}^2 \approx  E_X[(\hat{y}(x,D)- Y)^2|D],\quad Y= f(x) + \epsilon. 
 \end{equation}
-where $Y$ is a sample from $Y|(X=x)$. You can show (see Exercise) that
-\begin{equation*}
-\widetilde{{\rm MSE}}_{\hat{y}(x,D)} = \sigma^2 +{\rm var}(\hat{y}(x,D)) + E\left[\hat{y}(x,D)-f(x)\right]^2
-\end{equation*}
-The new term, $\sigma^2$, captures the fact that, unlike the deterministic term $f$, we can NEVER predict the \emph{random} variable $Y$ exactly. 
-You should be able to justify that
-\begin{equation*}
-\hat{\sigma}_{\rm test}^2 \approx E\left[\widetilde{{\rm MSE}}_{\hat{y}(X,D^{\rm train})}\right]
-\end{equation*}
- The important thing to recognize is that a complicated model will tend to have a higher variance, since it will be able to change more in response to data. Meanwhile, a very simple model will tend to have a higher bias. 
+Here $E_X$ represents the expectation with respect to the distribution of our predictor, and it is assumed that $X$ is sampled independently from our data $D$. 
+Note that I use $D$ on the right hand side, when really the test error is obtained from $D^{\rm train}$ only, but since the total data $D$ and the test error have the same distribution, we can simply write $D$. 
+It can be shown that 
+\begin{equation}
+E_X[(\hat{y}(x,D)- Y)^2|D] = E_X[(\hat{y}(x,D)- f(x))^2|D] + \sigma_{\epsilon}^2
+\end{equation}
+The second term $\sigma_{\epsilon}^2$ does not depend on $x$ or $D$, or the model we are using to fit the data. It only depends on the true  data distribution. 
+We can then relate the first term 
+\begin{equation}
+E_D[E_X[(\hat{y}(x,D)- f(x))^2|D]] = E_X[{\rm MSE}_{\hat{y}(X,D)}]
+\end{equation}
+and therefore 
+\begin{equation}
+E_D[\hat{\sigma}_{\rm test}^2] = E_X[{\rm MSE}_{\hat{y}(X,D)}] + \sigma_{\epsilon}^2.
+\end{equation}
+In practice, we only observe on a single dataset, but we can, but resampling the training data, effectively average over $D$ to obtain an approximation of  $E_D[\hat{\sigma}_{\rm test}^2]$. Due to the bias variance decomposition, 
+\begin{equation}
+E_D[\hat{\sigma}_{\rm test}^2] = E_X[{\rm var}(\hat{y}(X,D))] + E_X[(E_D[\hat{y}(X,D)] - f(X))^2] + \sigma_{\epsilon}^2.
+\end{equation}
+In the next example we see what this looks like in practice.  
+
+
+
+
 
 
 
