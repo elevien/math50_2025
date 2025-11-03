@@ -349,10 +349,12 @@ where the notation $E_D$ is to remind us that the expectation is taken over the 
 \begin{equation}
 \hat{\sigma}_{\rm test}^2 \approx  E_X[(\hat{y}(x,D)- Y)^2|D],\quad Y= f(x) + \epsilon. 
 \end{equation}
-Here $E_X$ represents the expectation with respect to the distribution of our predictor, and it is assumed that $X$ is sampled independently from our data $D$. 
-Note that I use $D$ on the right hand side, when really the test error is obtained from $D^{\rm train}$ only, but since the total data $D$ and the test error have the same distribution, we can simply write $D$. 
-It can be shown that 
-\begin{equation}
+Hence the test error is the MSE for a fixed data set with the average being taken over $D$.  For this reason we use $E_X$ to remind us that the expectation with respect to the distribution of our predictor, and it is assumed that $X$ is sampled independently from our data $D$. 
+Note that I use $D$ on the right hand side, when really the test error is obtained from $D^{\rm train}$ only, but since the total data $D$ and the test error have the same distribution, we can simply write $D$ and that makes the notation easier. 
+
+
+It can be shown that (see exercise)
+\begin{equation}\label{eq:EXhaty}
 E_X[(\hat{y}(x,D)- Y)^2|D] = E_X[(\hat{y}(x,D)- f(x))^2|D] + \sigma_{\epsilon}^2
 \end{equation}
 The second term $\sigma_{\epsilon}^2$ does not depend on $x$ or $D$, or the model we are using to fit the data. It only depends on the true  data distribution. 
@@ -366,10 +368,9 @@ E_D[\hat{\sigma}_{\rm test}^2] = E_X[{\rm MSE}_{\hat{y}(X,D)}] + \sigma_{\epsilo
 \end{equation}
 In practice, we only observe on a single dataset, but we can, but resampling the training data, effectively average over $D$ to obtain an approximation of  $E_D[\hat{\sigma}_{\rm test}^2]$. Due to the bias variance decomposition, 
 \begin{equation}
-E_D[\hat{\sigma}_{\rm test}^2] = E_X[{\rm var}(\hat{y}(X,D))] + E_X[(E_D[\hat{y}(X,D)] - f(X))^2] + \sigma_{\epsilon}^2.
+E_D[\hat{\sigma}_{\rm test}^2] \approx E_X[{\rm var}(\hat{y}(X,D))] + E_X[(E_D[\hat{y}(X,D)] - f(X))^2] + \sigma_{\epsilon}^2.
 \end{equation}
-In the next example we see what this looks like in practice.  
-
+In the next example we see what this looks like in practice.  The point here is that up to a constant shift by $\sigma_{\epsilon}^2$ will on average obey the same bias variance decomposition as we are used to from the MSE of any estimator. The variance is bias terms have more complex interpretation because they involve both averages over the data distribution and the predictor, but nonetheless reveals the same underlying idea. This is illustrated in the next example. 
 
 
 
@@ -412,7 +413,7 @@ Let's continue with Example \ref{ex:polycrossval} and try to illustrate the bias
 
 Throughout our discussion, we will assume that $E[\phi_i(X)]=0$. We can easily make this so by subtracting the means of our features. Therefore, we would like to find $\phi_i$ such that 
 \begin{equation}\label{eq:orth}
-E[\phi_i(X)\phi_j(X)] = 0 \quad i\ne j.
+{\rm cov}(\phi_i(X)\phi_j(X)) = 0 \quad i\ne j.
 \end{equation}
 We this holds for some distribution of $X$, we say that $\phi_i$ and $\phi_j$ are \dfn{orthogonal} with respect to this distribution.
 
@@ -638,11 +639,7 @@ X_1=1 & 0.1 & 0.4
 
 %----------------------------------------------------------------------------------------------------------------
 \begin{exercise}[Mean-squared error]
-Prove that 
-\begin{equation*}
-\widetilde{{\rm MSE}}_{\hat{y}(x,D)} = \sigma^2 +{\rm var}(\hat{y}(x,D)) + E\left[\hat{y}(x,D)-f(x)\right]^2
-\end{equation*}
-where $\widetilde{{\rm MSE}}_{\hat{y}(x,D)}$ is defined in Equation 3 in the class notes. 
+Prove formula Eq. \ref{eq:EXhaty}. 
 \end{exercise}
 %----------------------------------------------------------------------------------------------------------------
 \begin{exercise}[Laplace's rule]

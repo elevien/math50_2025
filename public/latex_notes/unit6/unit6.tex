@@ -16,74 +16,150 @@
 
 \section{Introduction to Bayesian inference: some simple examples}
 
+So far, we think of models encode our assumptions about how data was generate. Our models depend on parameters for which the true values are fixed. When use data to \dfn{fit} or \dfn{infer} parameters, obtain a sample distribution which roughly speaking quantifies uncertainty in our estimates. This way of performing statistics, where the uncertainty is thought of as a distribution over repeated experiments, is \dfn{frequentist} approach to statistics.  In this formulation of statistical inference we are pretending to have complete ignorance of the parameters before we see the data, but in reality, this is never true. For example, if we flip a coin $N=3$ times and get $Y=3$ heads, our estimate of the probability this coin will land on heads in the next flip is $\hat{q} = 1$, which is clearly not in line with out understanding that both sides are at least possible. It is also worth noting that the usual estimate standard error, ${\rm se}(\hat{q}) = \sqrt{q(1-q)/N} \approx  \sqrt{\hat{q} (1-\hat{q} )/N}$ gives zero, but this is obviously not a good estimate of the uncertainty. 
 
-\begin{itemize}
-\item Models encode our assumptions about how data was generate. Sometimes we want to incorporate vague information, such as ``the function describing my data is very smooth and changes roughly on a time-scale of 5 hours". Or, we might want to include many predictors, but to avoid overfitting penalize high values of the predictors. For example, we might believe there is an interaction term, but suspect it is much smaller than the additive terms. This motivates a different approach to statistics, one which treats parameters as themselves random variables.  
+Similar issues emerge in the context of more machine learning-style data analysis, sometimes we want to incorporate vague information, such as ``the function describing my data is very smooth and changes roughly on a time-scale of 5 hours". Or, we might want to include many predictors, but to avoid overfitting penalize high values of the predictors. For example, we might believe there is an interaction term, but suspect it is much smaller than the additive terms. 
 
-\begin{example}[Bernoulli with priors]\label{ex:beta}
+ While there are ways handle these problems within the frequentist framework, they are handled more naturally by taking an entirely different treatment of parameters and statistical inference. This is called \dfn{Bayesian statistics}. In the Bayesian formulation of statistics, we will think of parameters as themselves random variables which are given a distribution before we have seen the data. Mathematically, this means instead of having a model with fixed parameter: 
+ \begin{equation}
+X \sim {\rm ModelDistribution}(\theta)
+ \end{equation}
+ we think of our model as a conditional on $\theta$
+  \begin{equation}
+X|\theta \sim {\rm ModelDistribution}(\theta). 
+ \end{equation}
+We call $X|\theta$ the \dfn{likelihood} (this term is used in both frequentists and Bayesian approaches). 
+Then, we add a new distribution for $\theta$, called the prior. The goal is then to condition on the observed data $X_1,\dots,X_N$ to find a new distribution $\theta|X_1,\dots,X_N$, called the posterior. The posterior plays a similar role to the sample distribution, and naturally we often use its mean as an estimate of $\theta$. However, there are both philosophical and mathematical differences between these two approaches which make the comparison imperfect. We will focus less on the philosophical aspect and see what is practically different about the approaches. This is best illustrated with the following example. 
+ 
+ 
+
+\subsection{Bayesian inference for Bernoulli trails}
+
 Consider the model 
 \begin{equation*}
 X \sim {\rm Bernoullli}(q)
 \end{equation*}
-An implicit assumption we have made when we fit this model, is that before we see any data, each value of $q$ is equally likely. To make this more explicit, we can write
+for the outcome of a coin flip. If we perform $N$ flips, then recall $Y = \sum_{i=1}^NX_i$ is binomial. 
+In a Bayesian model, we would specify the prior distribution of $q$. This should reflect what we know about the coin, which in reality is that it is very likely to be fair. 
+However, to make calculations simpler and better compare the frequentist approach we will take a prior where any value of $q$ is equally likely. This seems to be more similar to what we are doing in the frequentist approach. Our Bayesian model would then me
 \begin{align*}
-X|q &\sim {\rm Bernoullli}(q)\\
-q &\sim {\rm Uniform}(0,1)
+q &\sim {\rm Uniform}(0,1)\\
+X|q &\sim {\rm Bernoullli}(q)
 \end{align*}
-Another way to think about constructing an estimator of $q$, is that given data points $X_1,\dots,X_N$, we would like to know 
-\begin{equation}
-\hat{q}_b = E[q|X_1,\dots,X_N]\label{eq:qhatb}
-\end{equation}
-We can in principle solve this problem using Bayes' theorem. In fact, we would also take it a step further and ask: What is the distribution of
+%Another way to think about constructing an estimator of $q$, is that given data points $X_1,\dots,X_N$, we would like to know 
+%\begin{equation}
+%\hat{q}_b = E[q|X_1,\dots,X_N]\label{eq:qhatb}
+%\end{equation}
+%We can in principle solve this problem using Bayes' theorem. In fact, we would also take it a step further and ask: What is the distribution of
+Our goal is to find the posterior distribution 
 \begin{equation*}
 q|X_1,\dots,X_N
 \end{equation*}
-Is turns out that this has a relatively simple form, called a $\beta$-distribution. We say 
-\begin{equation*}
+Since the flips out independent, this distribution depends only on $Y$, so we can alternative obtain the posterior as the distribution of $q|Y$. 
+Recall that the density of the uniform is simply $f(q) = 1$ (I'll use $f$ for a density and $P$ for probabilities, but sometimes we have to mix them). Using Bayes' theorem (or simply using the definition of conditional probability twice), we have 
+\begin{equation}
+f(q|Y=y) = \frac{f(q,\{Y=y\})}{P(Y=y)} = \frac{P(Y=y|q)f(q)}{P(Y=y)} 
+\end{equation}
+where $f(q,\{Y=y\})$ means the joint density/probability of $q$ and $Y$. 
+Recall the binomial distribution is 
+\begin{equation}
+P(Y=y|q) = {N \choose y}q^y(1-q)^{N-y}
+\end{equation}
+The important thing to realize is that all the $q$ dependence comes from $P(Y=y|q)$ and since our goal is to find a distribution of $q$, we can write
+\begin{equation}
+f(q|Y=y) = C(N,y)q^y(1-q)^{N-y}
+\end{equation}
+where $C(N,y)$ is a constant which ensures $\int f(q|Y=y)dq = 1$. That is, 
+\begin{equation}
+C(N,y)^{-1} = \int_0^1 q^y(1-q)^{N-y} dq
+\end{equation} 
+$f(q|Y=y)$ is an example of \dfn{Beta distribution}. More generally, we say a variable $q$ is
+\begin{equation}
 q \sim {\rm Beta}(a,b)
-\end{equation*}
-if $q$ is a random variable on $[0,1]$ which has density 
-\begin{equation*}
-f(q) = Bq^{a-1}(1-q)^{b-1}
-\end{equation*}
-The constant $B$ ensures the area under this curve between $q=0$ and $q=1$ is indeed one, as it must be for a random density. \\
+\end{equation}
+if $q$ has the density 
+\begin{equation}
+f(q) = q^{a-1}(1-q)^{b-1}
+\end{equation}
+hence $q|Y \sim {\rm Beta}(y+1,N-y+1)$. 
+ You don't need to memorize this, but you should look on Wikipedia or in the colab notebook to get a sense of what this function looks like. 
+
+
+
+
+\begin{example}[Laplace Rule of Succession of Bayesian view]\label{ex:beta}
+
+Consider Bayesian inference for Bernoulli trials with uniform priors as described above. Recall that Laplace's Rule of Succession gives the estimator 
+\begin{equation}
+\hat{q}_L = \frac{Y+1}{N+2}
+\end{equation}
 
 
 \noindent
-\underline{Question}: Show that 
+\underline{Question}: Show that when $Y=N$
 \begin{equation*}
-q|X_1,\dots,X_N \sim {\rm Beta}(Y+1,N-Y+1)
+E[q|Y] = \frac{N+1}{N+2} = \hat{q}_L
 \end{equation*}
-
 
 \noindent
-\underline{Solution}: Using Bayes' theorem 
-\begin{align*}
-f(q|Y) &= \frac{P(Y|q)f(q)}{P(Y)}\\
-&=  \frac{1}{P(Y)}{N \choose Y}q^{Y}(1-q)^{N-Y}
-\end{align*}
-Since we are thinking of this as a probability density in $q$, we don't actually need to compute $P(Y)$ explicitly (even though we could), instead, we can simply notice that 
-\begin{equation*}
-f(q|Y)  = Cq^{Y}(1-q)^{N-Y}
-\end{equation*}
-for some constant of proportionality $C$ which will depend on $Y$, but is uniquely determined by the fact that the area under this curve must be $1$.  In the colab notebook we plot this curve. 
+\underline{Solution}: 
+In this case 
+\begin{equation}
+C(N,y)^{-1} =C(N,N)^{-1} = \int_0^1 q^N dq = \frac{1}{N+1}
+\end{equation} 
+and 
+\begin{equation}
+E[q|Y]  = (N+1) \int_0^1 q \times q^{N}dq = (N+1) \int_0^1 q^{N+1}dq  = \frac{N+1}{N+2}. 
+\end{equation}
+
+
+%It turns out that this has a relatively simple form, called a $\beta$-distribution. We say 
+%\begin{equation*}
+%q \sim {\rm Beta}(a,b)
+%\end{equation*}
+%if $q$ is a random variable on $[0,1]$ which has density 
+%\begin{equation*}
+%f(q) = Bq^{a-1}(1-q)^{b-1}
+%\end{equation*}
+%The constant $B$ ensures the area under this curve between $q=0$ and $q=1$ is indeed one, as it must be for a random density. \\
+%
+
+
+
+%\noindent
+%\underline{Solution}: Using Bayes' theorem 
+%\begin{align*}
+%f(q|Y) &= \frac{P(Y|q)f(q)}{P(Y)}\\
+%&=  \frac{1}{P(Y)}{N \choose Y}q^{Y}(1-q)^{N-Y}
+%\end{align*}
+%Since we are thinking of this as a probability density in $q$, we don't actually need to compute $P(Y)$ explicitly (even though we could), instead, we can simply notice that 
+%\begin{equation*}
+%f(q|Y)  = Cq^{Y}(1-q)^{N-Y}
+%\end{equation*}
+%for some constant of proportionality $C$ which will depend on $Y$, but is uniquely determined by the fact that the area under this curve must be $1$.  In the colab notebook we plot this curve. 
 \end{example}
-\item To summarize the idea of Bayesian inference, If $D$ is a our data and $\theta$ is our parameter(s) Bayes' theorem tells us that 
+
+
+ To summarize the idea of Bayesian inference, If $Y$ is a our data and $\theta$ is our parameter(s) Bayes' theorem tells us that 
 \begin{equation}\label{eq:bayes}
-P(\theta|D) = \frac{P(D|\theta)P(\theta)}{P(D)}
+P(\theta|Y) = \frac{P(Y|\theta)P(\theta)}{P(Y)}
 \end{equation}
 
 
 
-\item The distributions appearing in Equation \eqref{eq:bayes} have the following names and interpretations:
+ The distributions appearing in Equation \eqref{eq:bayes} have the following names and interpretations:
 \begin{itemize}
-\item $P(\theta|D)$ is the \dfn{posterior} (a beta distribution in Example \ref{ex:beta}).
-\item $P(D|\theta)$ is the \dfn{likelihood} (Binomial distribution in Example \ref{ex:beta}).
+\item $P(\theta|Y)$ is the \dfn{posterior} (a beta distribution in Example \ref{ex:beta}).
+\item $P(Y|\theta)$ is the \dfn{likelihood} (Binomial distribution in Example \ref{ex:beta}).
 \item $P(\theta)$ is the prior distribution (Uniform distribution in Example \ref{ex:beta})
-\item $P(D)$ is the evidence. It represents the chance we observe the data \emph{unconditional} on the parameters. This can be obtained by marginalizing over the priors.
+\item $P(Y)$ is the evidence. It represents the chance we observe the data \emph{unconditional} on the parameters. This can be obtained by marginalizing over the priors.
 \end{itemize}
-While in classical statistics, the objective is to determine (estimate) a parameter $\theta$, in Bayesian statistics our objective is to compute the posteior distribution. Once we have this, we can obtain so-called \dfn {point estimates}, for example, by taking the average of $\theta$ or maximum of $P(\theta|D)$ (maximum likelihood). 
-\item The beta distribution will play an important role in what follows, so we note that if 
+
+
+While in classical statistics, the objective is to determine (estimate) a parameter $\theta$ and measure its uncertainty (with the sample distribution), in Bayesian statistics our objective is to compute the posteior distribution. Once we have this, we can obtain so-called \dfn {point estimates}, for example, by taking the average of $\theta$ or maximum of $P(\theta|Y)$ (maximum likelihood).  The point estimates are however less central in Bayesian inference than the posterior. 
+
+\subsection{Selecting priors with a beta distribution (optional)}
+ The beta distribution will play an important role in what follows, so we note that if 
 \begin{equation*}
 q \sim {\rm Beta}(a,b)
 \end{equation*}
@@ -98,16 +174,14 @@ Notice that this implies the estimator $\hat{q}_b$ in Equation \ref{eq:qhatb} be
 \end{equation*}
 This is in-fact the estimator $\hat{q}_L$ from the week 7 exercise set!
 
-\item The \dfn{mode} -- the value which maximizes the probability density -- for the $\beta$-distribution is 
+ The \dfn{mode} -- the value which maximizes the probability density -- for the $\beta$-distribution is 
 \begin{equation*}
 \frac{a-1}{a+b-2}
 \end{equation*}
  We can see that  the estimator $\hat{q} = Y/N$ comes comes from the mode $f(q|Y)$ -- recall that such an estimator is called the maximum likelihood estimator.  
 
-\item A very important observation, which is what the problem on the week 7 exercise set is all about, is that adding priors often has the effect of introducing a bias while reducing the variance. 
-
-\item 
-Another important feature of the $\beta$ distribution is that when $a$ and $b$ are very large, it is approximately Normal with this mean and variance. This means we can get a rough idea of the probabilities for a $\beta$ random variable. Equipped with this knowledge, we can try to go beyond the case where our prior assumption about the distribution of $q$, before fitting the model, is Uniform. 
+ A very important observation is that adding priors often has the effect of introducing a bias while reducing the variance. 
+%Another important feature of the $\beta$ distribution is that when $a$ and $b$ are very large, it is approximately Normal with this mean and variance. This means we can get a rough idea of the probabilities for a $\beta$ random variable. Equipped with this knowledge, we can try to go beyond the case where our prior assumption about the distribution of $q$, before fitting the model, is Uniform. 
 
 \begin{example}[Selecting priors]\label{ex:beta2}
 Suppose we are given a coin. We are trying to determine whether it is biased based on the outcome of $N$ flips. We are pretty sure that, like most coins, it is not biased. To be precise, let's say you are $95\%$ confident that the bias of the coin is less than $10\%$ biased towards heads or tails.\\
@@ -156,12 +230,9 @@ Note that if we used usual estimator we would have found $\hat{q} = 1$, while if
 
 \end{example}
 
-\item Something quite nice about using $\beta$-distribution priors for the Bernoulli model is that BOTH the prior and the posterior have a $\beta$-distribution, albeit with difference parameters. In general, when this is the case we say that the priors are \dfn{conjugate}. 
+ Something quite nice about using $\beta$-distribution priors for the Bernoulli model is that BOTH the prior and the posterior have a $\beta$-distribution, albeit with difference parameters. In general, when this is the case we say that the priors are \dfn{conjugate}. 
 
 
-
-
-\begin{example}[Bayesian inference with a Normal distribution]\label{ex:normal}
 
 Suppose we have a Normal model for $Y$
 \begin{equation*}
@@ -171,14 +242,10 @@ Assume that $\sigma$ is known and take our priors on $\mu$ to be
 \begin{equation*}
 \mu \sim {\rm Normal}(\mu_0,\sigma_{\mu})\\
 \end{equation*}
-
-
-\noindent
-\underline{Question:} What is the posterior distribution of $\mu$? \\
-
-
-\noindent
-\underline{Solution:}   The likelihood is 
+ What is the posterior distribution of $\mu$? 
+ 
+ 
+   The likelihood is 
 \begin{align*}
 p(D|\theta) &= \prod_i \frac{1}{\sqrt{2 \sigma^2 \pi}}e^{-(Y_i - \mu)^2/2\sigma^2}\\
 &=  \frac{1}{(2 \sigma^2 \pi)^{N/2}}e^{-\sum_i (Y_i - \mu)^2/2\sigma^2}
@@ -220,20 +287,12 @@ In particular, we can deduce that
 \mu|D \sim {\rm Normal}\left( \mu_b,\sigma_b \right)
 \end{equation*}
 where $\mu_b$ and $\sigma_b^2$ defined above are the mean and variance of the posterior distribution. 
-%
-%Despite all the messiness, these actually have very clear interpretations which will give us an intuition above how Bayesian statistics really works. To understand these, think about the following questions: 
-%\begin{enumerate}
-%\item What happens as $N \to \infty$? 
-%\item What happens as $\sigma^2 \to 0$ or $\infty$? 
-%\item What happens as $\sigma_{\mu} \to 0$ or $\infty$? 
-%\end{enumerate}
 
 
-\end{example}
 
-\item Importantly, for the Normal distribution the mean and mode are the same, so there is really only one choice for the point estimate of a parameter which has a Normal posterior. 
+ Importantly, for the Normal distribution the mean and mode are the same, so there is really only one choice for the point estimate of a parameter which has a Normal posterior. 
 
-\end{itemize}
+
 
 
 %\subsection{Priors for regression model}
@@ -328,9 +387,7 @@ where $\mu_b$ and $\sigma_b^2$ defined above are the mean and variance of the po
 
 %----------------------------------------------------------------------------------------------------------------
 \section{Bayesian inference for linear regression models}
-\begin{itemize}
-
-\item  We now discuss Bayesian inference for the general linear regression model with features. Let
+  We now discuss Bayesian inference for the general linear regression model with features. Let
 \begin{equation*}
 f(x) = \sum_{i=1}^K\beta_i\phi_i(x)
 \end{equation*}
@@ -340,7 +397,7 @@ and suppose that our priors are
 \end{equation*}
 We will assume that $E[\phi_i(X)]=0$. We will also assume, for simplicity, that {\bf $\sigma$ is known. Hence, we do not need to consider estimating it.} This simplifies the conceptual picture considerably. 
 
-\item In this case, the Posterior distribution of the $\beta_i$ can be understood analytically. It turns out that the marginal posterior distribution of each $\beta_i$ is again Normal -- thus Normal priors on $\beta_i$ are conjugate priors!. The marginal mean of each $\beta_i$ are determined by the system of questions given in the following Theorem. 
+ In this case, the Posterior distribution of the $\beta_i$ can be understood analytically. It turns out that the marginal posterior distribution of each $\beta_i$ is again Normal -- thus Normal priors on $\beta_i$ are conjugate priors!. The marginal mean of each $\beta_i$ are determined by the system of questions given in the following Theorem. 
 
 
 \begin{thm}[Posterior mean for regression coefficients]\label{thm:regpostmean}
@@ -379,7 +436,7 @@ In the limit $N \to \infty$ and with $K=2$, we obtain a system of equations reco
 \end{itemize}
 
 
-\item Theorem \ref{thm:regpostmean} can be elegantly stated using matrices (see Linear algebra review note for intro to matrix multiplication).  This is import if we want to implement these computations in Python. Observe that one way to construct $\Omega_{i,j}$ is to define the matrices
+ Theorem \ref{thm:regpostmean} can be elegantly stated using matrices (see Linear algebra review note for intro to matrix multiplication).  This is import if we want to implement these computations in Python. Observe that one way to construct $\Omega_{i,j}$ is to define the matrices
 \begin{align*}
 A &= \left[ 
 \begin{array}{cccc}
@@ -437,15 +494,14 @@ f(x) = \beta_1X_1 + \beta_2X_2\\
 \underline{Solution}: See  \href{https://colab.research.google.com/drive/1sFlY0nvo7hrsNYGRdx8C4tKPihyOSmbx?usp=sharing}{colab notebook}. 
 
 \end{example}
-\end{itemize}
+
 
 
 
 \subsection{Posterior prediction}
-\begin{itemize}
 
 
-\item We will mostly focus on how we can use the posterior estimates to make predictions, although there is an entirely different set of questions we could ask concerning model assessment and hypothesis testing.Recall that $\hat{y}(x,D)$ is defined as our prediction, using the regression model fitted to the data $D$, of $E[Y|X=x]$. In the Bayesian context, we can define the posterior predictive variable $Y|X,D$ as the random representing the distribution of our response variable conditioned on the data. We can obtain this distribution by replacing the $\beta_i$s in 
+ We will mostly focus on how we can use the posterior estimates to make predictions, although there is an entirely different set of questions we could ask concerning model assessment and hypothesis testing.Recall that $\hat{y}(x,D)$ is defined as our prediction, using the regression model fitted to the data $D$, of $E[Y|X=x]$. In the Bayesian context, we can define the posterior predictive variable $Y|X,D$ as the random representing the distribution of our response variable conditioned on the data. We can obtain this distribution by replacing the $\beta_i$s in 
 \begin{equation*}
 Y = \sum_{i=1}^{K}\beta_i\phi_i(X)
 \end{equation*}
@@ -502,7 +558,7 @@ In each case, experiment with different choices of $\tau_0$ and pay attention to
  
 \end{example}
 
-\end{itemize}
+
 
 
 %------------------------------------------------------------------------------------------------------------------------
