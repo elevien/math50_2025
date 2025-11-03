@@ -178,9 +178,7 @@ This is in-fact the estimator $\hat{q}_L$ from the week 7 exercise set!
 \begin{equation*}
 \frac{a-1}{a+b-2}
 \end{equation*}
- We can see that  the estimator $\hat{q} = Y/N$ comes comes from the mode $f(q|Y)$ -- recall that such an estimator is called the maximum likelihood estimator.  
-
- A very important observation is that adding priors often has the effect of introducing a bias while reducing the variance. 
+ We can see that  the estimator $\hat{q} = Y/N$ comes comes from the mode $f(q|Y)$ -- recall that such an estimator is called the maximum likelihood estimator.   Adding priors usually has the effect of introducing a bias while reducing the variance. 
 %Another important feature of the $\beta$ distribution is that when $a$ and $b$ are very large, it is approximately Normal with this mean and variance. This means we can get a rough idea of the probabilities for a $\beta$ random variable. Equipped with this knowledge, we can try to go beyond the case where our prior assumption about the distribution of $q$, before fitting the model, is Uniform. 
 
 \begin{example}[Selecting priors]\label{ex:beta2}
@@ -230,94 +228,59 @@ Note that if we used usual estimator we would have found $\hat{q} = 1$, while if
 
 \end{example}
 
- Something quite nice about using $\beta$-distribution priors for the Bernoulli model is that BOTH the prior and the posterior have a $\beta$-distribution, albeit with difference parameters. In general, when this is the case we say that the priors are \dfn{conjugate}. 
+% Something quite nice about using $\beta$-distribution priors for the Bernoulli model is that BOTH the prior and the posterior have a $\beta$-distribution, albeit with difference parameters. In general, when this is the case we say that the priors are \dfn{conjugate}. 
 
+\subsection{Bayesian inference for Normal mean}
 
-
-Suppose we have a Normal model for $Y$
+Suppose we have a Normal model for $Y$, but treat the noise variance as a constant and focus on Bayesian inference of $\mu$. 
 \begin{equation*}
-Y|(\mu,\sigma) \sim {\rm Normal}(\mu,\sigma).
+Y|\mu \sim {\rm Normal}(\mu,\sigma^2/N).
 \end{equation*}
-Assume that $\sigma$ is known and take our priors on $\mu$ to be 
+It is natural to take Normal priors on $\mu$, since then the marginal of $Y$ is Normal (you should check this!) making our calculations much easier. Hence we set 
 \begin{equation*}
-\mu \sim {\rm Normal}(\mu_0,\sigma_{\mu})\\
+\mu \sim {\rm Normal}(m,s^2)
 \end{equation*}
- What is the posterior distribution of $\mu$? 
- 
- 
-   The likelihood is 
+Notice that this is nothing but a linear regression model for $Y$ with $\mu$ as a predictor (and regression slope $\beta =1$). Therefore, the computation of the posterior $\mu|Y$ amounts to ``inverting'' a linear regression model, something we are familiar with from a number of examples and exercises in previous units. 
+
+In particular, since $\mu|Y$ is Normal, we only need to calculate the mean and variance.  
+\begin{align}
+m &= E[\mu] =  b_1 E[Y] + b_0\\
+s^2 &= {\rm var}(\mu) =b_1^2 {\rm var}(Y) + {\rm var}(\mu|Y)
+\end{align}
+where $b_1$ and $b_0$ are the regression slope and intercept when $Y$ is treated as the predictor. In particular, $b_0 = E[\mu|Y=0]$. 
+
+The variance and expected value of $Y$ are
+\begin{equation}
+E[Y] = m,\quad {\rm var}(Y) = s^2 + \sigma^2/N. 
+\end{equation} 
+The regression slope $b$ appearing in the above formula can be found from the covariance. Using the relation ${\rm cov}(X,Y) = \beta_1 \sigma_X^2/Users/elevien/Dartmouth College Dropbox/Ethan Levien/TEACHING/Dartmouth/math50_2024/course_documents_2024/Math50-w8W_CLASS.pdf$ (here $X$ is $\mu$ and $\beta_1=1$), we have
+\begin{equation}
+{\rm cov}(\mu,Y) = s^2
+\end{equation}
+hence the ``inverse'' regression slope is 
+\begin{equation}
+{\rm cov}(\mu,Y) = b_1(s^2 + \sigma^2/N) \implies b_1= \frac{1}{1 + \left(\frac{\sigma}{s}\right)^2\frac{1}{N}}
+\end{equation}
+Coming these facts yields 
+\begin{equation}
+b_0 = m\left(1 -   \frac{1}{1 + \left(\frac{\sigma}{s}\right)^2\frac{1}{N}}\right) = m \frac{ \left(\frac{\sigma}{s}\right)^2\frac{1}{N}}{1 + \left(\frac{\sigma}{s}\right)^2\frac{1}{N}}.
+\end{equation}
+Finally 
 \begin{align*}
-p(D|\theta) &= \prod_i \frac{1}{\sqrt{2 \sigma^2 \pi}}e^{-(Y_i - \mu)^2/2\sigma^2}\\
-&=  \frac{1}{(2 \sigma^2 \pi)^{N/2}}e^{-\sum_i (Y_i - \mu)^2/2\sigma^2}
+{\rm var}(\mu|Y) &= \frac{s^2}{N}  - b_1^2 {\rm var}(Y) = \frac{s^2}{N} -  \frac{ s^2 + \sigma^2/N}{(1 + \left(\frac{\sigma}{s}\right)^2\frac{1}{N})^2}\\
+&\quad \vdots \quad (\text{some algebra})\\
+&= \frac{s^2\sigma^2}{s^2N + \sigma^2}
 \end{align*}
-The posterior is \emph{proportional to} 
-\begin{align*}\label{eq:post_normal}
- p(D|\theta)p(\theta) &= \frac{1}{(2 \sigma^2 \pi)^{N/2}}e^{-\sum_i (Y_i - \mu)^2/2\sigma^2}\frac{1}{\sqrt{2\pi \sigma_{\mu}^2}}e^{-(\mu-\mu_0)^2/2\sigma_{\mu}^2}\\
-&=  \frac{1}{(2 \sigma^2 \pi)^{N/2}}\frac{1}{\sqrt{2\pi \sigma_{\mu}^2}}e^{-\sum_i (Y_i - \mu)^2/2\sigma^2 - (\mu-\mu_0)^2/2\sigma_{\mu}^2}
-\end{align*}
-On this surface this looks a bit complicated as a function of $\mu$, but there is a trick: Notice that all the dependence on $\mu$ comes from the exponent. 
-%Let's simplify the exponent to get something that looks more recognizable. 
-%\begin{align}
-%-  \mu \left( \sum_i Y_i\right)/\sigma^2   + \mu^2/2\sigma^2  + \mu\mu_0/\sigma_{\mu}^2 - \mu^2/2\sigma_{\mu}^2
-%\end{align}
-We can rewrite this as 
-\begin{equation*}
-A\mu^2 + B \mu  + C 
-\end{equation*}
-where
-\begin{align*}
-A &= \frac{1}{2}\left(\frac{N}{\sigma^2} + \frac{1}{\sigma_{\mu}^2}\right)\\
-B &= -\frac{\sum_i Y_i}{\sigma^2} - \frac{\mu_0}{\sigma_{\mu}^2}\\
-C &= \frac{\sum_i Y_i^2}{2\sigma^2} + \frac{\mu_0^2}{\sigma_{\mu}^2}
-\end{align*}
-If we factor this quadratic equation, we find that is can be written 
-\begin{equation*}
-A(\mu - B/2A)^2 + {\rm const.}
-\end{equation*} 
-We don't care what the constant terms is, since the it is the first term which tells us the mean and standard deviation of $\mu$. Now observe that 
-\begin{equation*}
--\frac{B}{2A} = \bar{Y} \frac{\sigma_{\mu}^2}{\sigma_{\mu}^2 + \sigma^2/N} + \mu_0 \frac{\sigma^2/N}{\sigma_{\mu}^2 + \sigma^2/N}  \equiv \mu_b
-\end{equation*}
-and 
-\begin{equation*}
-\frac{1}{A} =2\frac{\sigma_{\mu}^2\sigma^2/N}{\sigma_{\mu}^2+\sigma^2/N} \equiv 2\sigma_b^2
-\end{equation*}
-In particular, we can deduce that 
-\begin{equation*}
-\mu|D \sim {\rm Normal}\left( \mu_b,\sigma_b \right)
-\end{equation*}
-where $\mu_b$ and $\sigma_b^2$ defined above are the mean and variance of the posterior distribution. 
+In summary, the posterior distribution 
+\begin{equation}
+\mu|Y \sim {\rm Normal}\left(b_1Y + (1-b_1), \frac{s^2\sigma^2}{s^2N + \sigma^2}\right).
+\end{equation}
+Take note of what happens when $\sigma/s$ is very large/small. 
 
 
-
- Importantly, for the Normal distribution the mean and mode are the same, so there is really only one choice for the point estimate of a parameter which has a Normal posterior. 
-
+ 
 
 
-
-%\subsection{Priors for regression model}
-%\begin{itemize}
-%\item To see what these means, let's consider our linear regression model with a single-predictor: 
-%\begin{equation}
-%Y|X \sim {\rm Normal}(aX + b,\sigma_{\epsilon}).
-%\end{equation}
-%This is how we would specify our model previously. $a$, $b$ and $\sigma_{\epsilon}$ are a fixed numbers, which is ``classical" statistics, we pretend we know absolutely nothing about. In general, for a linear regression model we can write 
-%\begin{align*}
-%Y|X,a,b,\sigma_{\epsilon} &\sim {\rm Normal}(aX + b,\sigma_{\epsilon})\\
-%a,b,\sigma_{\epsilon} &\sim {\text{Prior-Distribution}}({\rm hyperparameters})
-%\end{align*}
-%The prior distribution can in principle be anything, and we might impose priors on some parameters and not other. The \dfn {hyperparameters} are the parameters in the prior distribution. With priors, we can make predictions BEFORE we see the data. These are called \dfn {prior predictions}. 
-%
-%At this point there are a couple of questions we need to answer: 
-%\begin{itemize}
-%\item How do we select the prior distribution? 
-%\item How do we incorporate priors into our inference? 
-%\end{itemize}
-%
-%The answer to the first question is context dependent, but the following exercise will illustrate how this might play out in a concrete example. 
-%
-%
-%
 
 
 %----------------------------------------------------------------------------------------------------------------
