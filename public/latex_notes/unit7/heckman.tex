@@ -1,0 +1,91 @@
+\include{./../latex/notes_style.tex}
+
+
+\setcounter{unit}{1}
+\setcounter{section}{0}
+
+
+\begin{document}
+
+
+
+\title{Selection Bias}
+\author{Ethan Levien}
+\maketitle
+
+
+\section{Heckman model}
+
+Consider a standard linear regression model
+\begin{equation}
+Y = \sum_{j=1}^K\beta_j X_j  + \epsilon. 
+\end{equation}
+Given observed values ${\bf Y}$ and design matrix $X$, we obtain the usual estimate $\hat{\beta} = \hat{\Sigma}^{-1}X^T{\bf Y}$. 
+When fitting a regression model, the predictor values can be sampled in any way and it will not change our estimator of $\hat{\beta}$, it being defined by expectations conditioned on $X$. What concerns is situations where the response variable is filtered for censured in some way. 
+
+Heckman proposed a famous model for this. This idea is that there is an axuilary variable $W$ defined by 
+\begin{align}
+W = \sum_{j=1}^K\alpha_j X_j + \eta
+\end{align}
+We assume the covariance matrix of the noise terms is 
+\begin{equation}
+%\begin{bmatrix} 
+%{\rm var}(\epsilon} & {\rm cov}(\epsilon,\eta)\\
+%{\rm cov}(\epsilon,\eta) & {\rm var}(\eta)
+%\end{bmatrix} = 
+\begin{bmatrix} 
+\sigma_{\epsilon}^2 & \rho\\
+\rho & \sigma_{\eta}^2
+\end{bmatrix}
+\end{equation}
+The observed $Y$ are then selected based on the auxililary process. We consider data points to be randomly selected based on $W$ (in Heckman's formulation there is a sharp cutoff). We therefore introduce a new variable  $S$ which indicate whether data point $i$ is selected and take 
+\begin{equation}
+S \sim {\rm Bernoulli}(h(W))
+\end{equation}
+for $h:\reals \to \reals_{>0}$. 
+Combing everything, 
+\begin{align}
+Y|X  &\sim {\rm Normal}\left( \sum_{j=1}^K\beta_j X_j,\sigma_{\epsilon}^2\right)\\
+W|X &= {\rm Normal}\left(\sum_{j=1}^K\alpha_j X_j, \sigma_{\eta}^2\right)\\
+S|W &\sim {\rm Bernoulli}(h(W))
+\end{align}
+Also note that 
+\begin{equation}
+{\rm cov}(Y,W|X) = \rho
+\end{equation}
+in fact the covariance matrix of $Y|X$ and $W|X$ are the same as $\epsilon$ and $\eta$. We then define the selected sample as
+What if we have observations of $Y_s$. Let's assume we have an estimate $\hat{h}(W)$ of the conditional probability of being selected conditioned on the auxiliary variable $W$. 
+The idea is to define a regression model for $Y$ among the selected samples. That is, for $Y|X,W\{S=1\}$. We note that
+\begin{equation}
+Y = \sum_{j=1}^K\beta_j X_j  + \epsilon =  \sum_{j=1}^K\beta_j X_j 
+\end{equation}
+\begin{equation}
+W = \sum_{j=1}^K\alpha_j
+\end{equation}
+
+ 
+
+
+
+%\begin{example}[]\label{ex:beta}
+%
+%
+%
+%
+%\end{example}
+
+
+
+
+
+ \bibliographystyle{unsrt}
+\bibliography{./../refs.bib}
+\end{document}
+
+
+
+
+
+
+
+
