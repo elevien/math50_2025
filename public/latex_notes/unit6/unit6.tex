@@ -14,7 +14,7 @@
 \maketitle
 
 
-\section{Introduction to Bayesian inference: some simple examples}
+\section{Introduction to Bayesian inference: Simple examples}
 
 So far, we think of models encode our assumptions about how data was generate. Our models depend on parameters for which the true values are fixed. When use data to \dfn{fit} or \dfn{infer} parameters, obtain a sample distribution which roughly speaking quantifies uncertainty in our estimates. This way of performing statistics, where the uncertainty is thought of as a distribution over repeated experiments, is \dfn{frequentist} approach to statistics.  In this formulation of statistical inference we are pretending to have complete ignorance of the parameters before we see the data, but in reality, this is never true. For example, if we flip a coin $N=3$ times and get $Y=3$ heads, our estimate of the probability this coin will land on heads in the next flip is $\hat{q} = 1$, which is clearly not in line with out understanding that both sides are at least possible. It is also worth noting that the usual estimate standard error, ${\rm se}(\hat{q}) = \sqrt{q(1-q)/N} \approx  \sqrt{\hat{q} (1-\hat{q} )/N}$ gives zero, but this is obviously not a good estimate of the uncertainty. 
 
@@ -140,7 +140,7 @@ E[q|Y]  = (N+1) \int_0^1 q \times q^{N}dq = (N+1) \int_0^1 q^{N+1}dq  = \frac{N+
 \end{example}
 
 
- To summarize the idea of Bayesian inference, If $Y$ is a our data and $\theta$ is our parameter(s) Bayes' theorem tells us that 
+ To summarize the idea of Bayesian inference, If $Y$ is a our data and $\theta$ is our parameter(s) ($q$ in the example above) Bayes' theorem tells us that 
 \begin{equation}\label{eq:bayes}
 P(\theta|Y) = \frac{P(Y|\theta)P(\theta)}{P(Y)}
 \end{equation}
@@ -159,27 +159,17 @@ P(\theta|Y) = \frac{P(Y|\theta)P(\theta)}{P(Y)}
 While in classical statistics, the objective is to determine (estimate) a parameter $\theta$ and measure its uncertainty (with the sample distribution), in Bayesian statistics our objective is to compute the posteior distribution. Once we have this, we can obtain so-called \dfn {point estimates}, for example, by taking the average of $\theta$ or maximum of $P(\theta|Y)$ (maximum likelihood).  The point estimates are however less central in Bayesian inference than the posterior. 
 
 \subsection{Selecting priors with a beta distribution (optional)}
- The beta distribution will play an important role in what follows, so we note that if 
+If
 \begin{equation*}
 q \sim {\rm Beta}(a,b)
 \end{equation*}
 then (using calculus) it can be shown that 
-\begin{align*}
+\begin{align}\label{eq:betameanvar}
 E[q] &= \frac{a}{a+b}\\
 {\rm var}(q) &= \frac{ab}{(a+b)^2(a+b+1)}.
-\end{align*}
-Notice that this implies the estimator $\hat{q}_b$ in Equation \ref{eq:qhatb} becomes 
-\begin{equation*}
-\hat{q}_b = \frac{Y+1}{Y+1+N-Y+1} = \frac{Y+1}{N+2}
-\end{equation*}
-This is in-fact the estimator $\hat{q}_L$ from the week 7 exercise set!
+\end{align}
+Moreover, you can check (by plotting the density in Python -- see exercises) that when $a$ and $b$ become large the beta distribution approaches a Normal distribution. 
 
- The \dfn{mode} -- the value which maximizes the probability density -- for the $\beta$-distribution is 
-\begin{equation*}
-\frac{a-1}{a+b-2}
-\end{equation*}
- We can see that  the estimator $\hat{q} = Y/N$ comes comes from the mode $f(q|Y)$ -- recall that such an estimator is called the maximum likelihood estimator.   Adding priors usually has the effect of introducing a bias while reducing the variance. 
-%Another important feature of the $\beta$ distribution is that when $a$ and $b$ are very large, it is approximately Normal with this mean and variance. This means we can get a rough idea of the probabilities for a $\beta$ random variable. Equipped with this knowledge, we can try to go beyond the case where our prior assumption about the distribution of $q$, before fitting the model, is Uniform. 
 
 \begin{example}[Selecting priors]\label{ex:beta2}
 Suppose we are given a coin. We are trying to determine whether it is biased based on the outcome of $N$ flips. We are pretty sure that, like most coins, it is not biased. To be precise, let's say you are $95\%$ confident that the bias of the coin is less than $10\%$ biased towards heads or tails.\\
@@ -284,76 +274,45 @@ Take note of what happens when $\sigma/s$ is very large/small.
 
  
 
+%----------------------------------------------------------------------------------------------------------------
+\section{Bayesian inference for linear regression model with a single-predictor}\label{sec:bayeslr}
+Now we consider a linear regression model with a single predictor. To make things simpler, we assume $\sigma_{\epsilon}^2$, $\mu_X = \mu_Y =0$ (that is, zero marginal expectations for the predictor and response variables). We will take mean zero Normal priors on the regression coefficient, so the model is 
+\begin{align}
+\beta &\sim {\rm Normal}(0,\tau^2)\\
+Y|X,\beta &\sim {\rm Normal}(\beta X,\sigma_{\epsilon}^2)
+\end{align}
+The assumption that the mean of the prior distribution is zero can be relaxed without too much effort, but it will make the calculations a bit simpler. 
+The motivation for taking Normal priors on $\beta$ is that the posterior will be Normal, and therefore we only need to calculate the mean and variance. In this case, the posterior distribution is obtained by conditioning $\beta$ on all the $X$ and $Y$ points 
+\begin{equation}
+\beta|(X_1,Y_1),\dots,(X_N,Y_N)
+\end{equation}
+but under the assumption we have made, this is the same as conditioning on the OLS estimator $\hat{\beta}$ and the $X$ points. 
+
+Note that because we have assumed $X$ and $Y$ are mean zero, $\beta = {\rm cov}(X,Y)/{\rm var}(X) = E[XY]/E[X^2]$ and hence
+\begin{equation}
+\hat{\beta} = \frac{\sum_{i=1}^NX_iY_i}{\sum_{i=1}X_i^2}. 
+\end{equation}
+Since the $Y_i$ are Normal, $\hat{\beta}|(\beta,X_1,\dots,X_N)$ is Normal and has mean and variance
+\begin{align}
+E[\hat{\beta}|\beta X_1,\dots,X_N]&= E\left[\frac{\sum_{i=1}^NX_iY_i}{\sum_{i=1}X_i^2}  \right] =\frac{\sum_{i=1}^NX_i E[Y_i|\beta,X_i]}{\sum_{i=1}X_i^2}\\
+&= \frac{\sum_{i=1}^NX_i E[Y_i|\beta,X_i]}{\sum_{i=1}X_i^2} =  \frac{\sum_{i=1}^NX_i^2 \beta}{\sum_{i=1}X_i^2} = \beta\\
+{\rm var}(\hat{\beta}|\beta X_1,\dots,X_N) &= \frac{\sum_{i=1}^NX_i^2 {\rm var}(Y_i|\beta,X_i)}{\left(\sum_{i=1}X_i^2\right)^2}\\
+&=  \frac{{\rm var}(Y_i|\beta,X_i)}{\sum_{i=1}X_i^2} = \frac{\sigma_{\epsilon}^2}{N\hat{\sigma}_X^2}
+\end{align}
+Therefore, 
+\begin{equation}
+\hat{\beta}|\beta,X_1,\dots,X_N \sim {\rm Normal}(\beta,\sigma_{\epsilon}^2/(N\hat{\sigma}_X^2)). 
+\end{equation}
+You might recognize the mean and variance from the sample distribution of the OLS estimator. Indeed, they are the same! But now we can use this to find the posterior distribution of $\beta$ conditioned on the OLS estimator $\hat{\beta}$. 
+The key is that this is a linear regression model with $\beta$ as the predictor and $\hat{\beta}$ as the response variable!  If we ``invert'' the linear regression model as we have done before (you should fill in the details for yourself -- see exercises), we get
+\begin{equation}\label{eq:bayes_lr_posterior}
+\beta|(\hat{\beta},X_1,\dots,X_N) \sim {\rm Normal}\left( \hat{\beta}\frac{\tau^2}{\tau^2 + \sigma_{\epsilon}^2/(N\hat{\sigma}_X^2)},\frac{\sigma_{\epsilon}^2/(N\hat{\sigma}_X^2)\tau^2}{\tau^2 + \sigma_{\epsilon}^2/(N\hat{\sigma}_X^2)}\right)
+\end{equation}
 
 
 
 %----------------------------------------------------------------------------------------------------------------
-%\section{Bayesian inference for regression with single predictor}
-%\subsection{An analytically tractable example}
-%\begin{itemize}
-%\item In the general, the posterior is difficult or impossible to find a formula for. Instead, we need to relay on numerical methods. However, for the linear regression it turns out we can select the priors so that the posterior is analytically tractable, must like we did  
-%To see how this works, we start with the inference for a Normal distribution
-%\begin{equation}
-%Y \sim {\rm Normal}(\mu,\sigma)
-%\end{equation}
-% (we can think of this as a linear regression model with $a = 0$ and $\mu = b$). 
-% Recall that the distribution of the data $D = \{(Y_1,X_1),\dots,(Y_N,X_N)\}$ is 
-%\begin{align}
-%p(D|\theta) &= \prod_i \frac{1}{\sqrt{2 \sigma^2 \pi}}e^{-(Y_i - \mu)^2/2\sigma^2}\\
-%&=  \frac{1}{(2 \sigma^2 \pi)^{N/2}}e^{-\sum_i (Y_i - \mu)^2/2\sigma^2}
-%\end{align}
-%We can notice that if the priors are very flat, then this is also proportional to the posterior distribution. Let's start by pretending that $\sigma_{\epsilon}^2$ is known and take our priors on $\mu$ to be Normal as well
-%\begin{equation}
-%\mu \sim {\rm Normal}(\mu_0,\sigma_{\mu})
-%\end{equation}
-%Then the posterior is \emph{proportional to} 
-%\begin{align}\label{eq:post_normal}
-% p(D|\theta)p(\theta) &= \frac{1}{(2 \sigma^2 \pi)^{N/2}}e^{-\sum_i (Y_i - \mu)^2/2\sigma^2}\frac{1}{\sqrt{2\pi \sigma_{\mu}^2}}e^{-(\mu-\mu_0)^2/2\sigma_{\mu}^2}\\
-%&=  \frac{1}{(2 \sigma^2 \pi)^{N/2}}\frac{1}{\sqrt{2\pi \sigma_{\mu}^2}}e^{-\sum_i (Y_i - \mu)^2/2\sigma^2 - (\mu-\mu_0)^2/2\sigma_{\mu}^2}
-%\end{align}
-%On this surface this looks a bit complicated as a function of $\mu$, but there is a trick: Notice that all the dependence on $\mu$ comes from the exponent. 
-%%Let's simplify the exponent to get something that looks more recognizable. 
-%%\begin{align}
-%%-  \mu \left( \sum_i Y_i\right)/\sigma^2   + \mu^2/2\sigma^2  + \mu\mu_0/\sigma_{\mu}^2 - \mu^2/2\sigma_{\mu}^2
-%%\end{align}
-%We can rewrite this as 
-%\begin{equation}
-%A\mu^2 + B \mu  + C 
-%\end{equation}
-%where
-%\begin{align}
-%A &= \frac{1}{2}\left(\frac{N}{\sigma^2} + \frac{1}{\sigma_{\mu}^2}\right)\\
-%B &= -\frac{\sum_i Y_i}{\sigma^2} - \frac{\mu_0}{\sigma_{\mu}^2}\\
-%C &= \frac{\sum_i Y_i^2}{2\sigma^2} + \frac{\mu_0^2}{\sigma_{\mu}^2}
-%\end{align}
-%If we factor this quadratic equation, we find that is can be written 
-%\begin{equation}
-%A(\mu - B/2A)^2 + {\rm const.}
-%\end{equation} 
-%We don't care what the constant terms is, since the it is the first term which tells us the mean and standard deviation of $\mu$. Now observe that 
-%\begin{equation}
-%-\frac{B}{2A} = \bar{Y} \frac{\sigma_{\mu}^2}{\sigma_{\mu}^2 + \sigma^2/N} + \mu_0 \frac{\sigma^2/N}{\sigma_{\mu}^2 + \sigma^2/N}  \equiv \mu_b
-%\end{equation}
-%and 
-%\begin{equation}
-%\frac{1}{A} =2\frac{\sigma_{\mu}^2\sigma^2/N}{\sigma_{\mu}^2+\sigma^2/N} \equiv 2\sigma_b^2
-%\end{equation}
-%In particular, we can deduce that 
-%\begin{equation}
-%\mu|D \sim {\rm Normal}\left( \mu_b,\sigma_b \right)
-%\end{equation}
-%where $\mu_b$ and $\sigma_b^2$ defined above are the mean and variance of the posterior distribution. Despite all the messiness, these actually have very clear interpretations which will give us an intuition above how Bayesian statistics really works. To understand these, think about the following questions: 
-%\begin{enumerate}
-%\item What happens as $N \to \infty$? 
-%\item What happens as $\sigma^2 \to 0$ or $\infty$? 
-%\item What happens as $\sigma_{\mu} \to 0$ or $\infty$? 
-%\end{enumerate}
-%\end{itemize}
-
-
-
-%----------------------------------------------------------------------------------------------------------------
-\section{Bayesian inference for linear regression models}
+\section{Bayesian inference for nonlinear model}
   We now discuss Bayesian inference for the general linear regression model with features. Let
 \begin{equation*}
 f(x) = \sum_{i=1}^K\beta_i\phi_i(x)
@@ -561,6 +520,70 @@ L(\beta) = \sum_{j=1}^N(\hat{y}(X_j,D)- Y_j)^2 +  \sum_{j=1}^K\left( \frac{\sigm
 we would obtain exactly Equation \ref{eq:barbeta}.
 \end{itemize}
 
+
+
+\newpage
+
+\begin{exercise}[Bayesian linear regression for Bernoulli model]
+ Suppose you are doing a poll of Dartmouth students political party affiliation and for simplicity suppose there are only two options, democrat or republican.  
+\begin{enumerate}[label=(\alph*)]
+\item Select a prior distribution for $q$ is in Example \ref{ex:beta2}. You will need to use Equations \ref{eq:betameanvar} (but you don't need to memorize these). This step is subjective and the goal is to see how your own prior knowledge interacts with the data. Plot the prior distribution in Python. 
+\item Now assume $N$ students are surveyed. They are all democrats. Compute and plot the posterior distribution for different values of $N$ on the same plot as the prior distribution. Also plot the posterior mean and standard deviation as a function of $N$.
+\item How large does $N$ need to be in order for you to be $95\%$ confident that $95\%$ of Dartmouth students are democrats? You can either estimate this by hand (using Equations \ref{eq:betameanvar} again) or with simulations (by sampling the posterior). 
+\end{enumerate}
+\end{exercise}
+
+\begin{exercise}[Normal model and MSE]
+Consider the Bayesian Normal model with known $\sigma$. Suppose that the true value of $\mu$ is $\mu_0$. We we say, Bayesian inference gives rise to the posterior mean 
+\begin{equation}
+\hat{\mu}_P = E[\mu|\bar{X}] = m(1-b_1) + \bar{X}b_1
+\end{equation}
+
+In class we calculated the MSE which was defined by treating $\hat{\mu}_P$ as an estimator and averaging over the data:  
+\begin{equation}
+{\rm MSE}_{\hat{\mu}_P} = E[(\hat{\mu}_P- \mu_0)^2]
+\end{equation}
+Now suppose that MSE is defined as the expected squared difference between the true value and a sample $\mu$ from the posterior averaged over all $\bar{X}$; that is
+\begin{equation}
+{\rm MSE}_{\hat{\mu}_P}' = E[E[(\mu- \mu_0)^2|\bar{X}]]. 
+\end{equation}
+Compute this quantity and interpret the terms. Compare the bias and variance to what we found for the other case. 
+
+\end{exercise}
+
+
+\begin{exercise}[Bayesian linear regression \ding{111}]
+Finish the calculation leading to Eq. \ref{eq:bayes_lr_posterior}. 
+\end{exercise}
+
+
+\begin{exercise}[Normal model with unknown variance \ding{111} ]
+Consider a Bayesian model of a Normal distribution with unknown variance. In this case we place priors on $\sigma^2$ as well, but we cannot use a Normal distribution since $\sigma$ needs to be positive. A common approach is to take $\ln \sigma$ be Normal,  leading to the Bayesian model 
+\begin{align}
+\ln \sigma &\sim {\rm Normal}(l,\gamma^2)\\
+\mu &\sim {\rm Normal}(m,s^2)\\
+\bar{X}|\mu,\sigma &\sim {\rm Normal}(\mu,\sigma^2)
+\end{align}
+where $\ln \sigma$ and $\mu$ are independent under the prior distribution.
+Pick some values for $v$ and $\gamma^2$ and write code to generate samples from the marginal distribution of $\bar{X}$. Is this a Normal distribution? Compare the to a Normal density with the same mean and variance.  
+\end{exercise}
+
+
+
+
+
+
+
+
+
+ \bibliographystyle{unsrt}
+\bibliography{./../refs.bib}
+
+
+\end{document}
+
+
+
 \section{The kernel trick}
 \begin{itemize}
 \item The problem of computing $\hat{y}(x,D)$ is an example of smoothing, or interpolating. Smoothing refers to the situation where we are given noisy measurements of a function $f(x)$ and want to ``smooth out the noise''. One way to do this is take the weighted averaging of neighboring values of $y$. This following examples illustrates how regression modeling is related to smoothing. 
@@ -627,8 +650,6 @@ and the fact that $\cos(x-y) = \cos(y-x)$, we get can rewrite this as
 
 
 
-\end{document}
-
 
 
 
@@ -660,12 +681,6 @@ and the fact that $\cos(x-y) = \cos(y-x)$, we get can rewrite this as
 %The idea of regularization is to 
 %\end{itemize}
 
-
-
-
-
- \bibliographystyle{unsrt}
-\bibliography{./../refs.bib}
 
 
 
