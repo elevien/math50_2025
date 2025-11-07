@@ -534,27 +534,35 @@ we would obtain exactly Equation \ref{eq:barbeta}.
 \end{exercise}
 
 \begin{exercise}[Normal model and MSE]
-Consider the Bayesian Normal model with known $\sigma$. Suppose that the true value of $\mu$ is $\mu_0$. We we say, Bayesian inference gives rise to the posterior mean 
+Consider the Bayesian Normal model with known $\sigma$. Suppose that the true value of $\mu$ is $\mu_0$. Bayesian inference leads to the posterior mean 
 \begin{equation}
-\hat{\mu}_P = E[\mu|\bar{X}] = m(1-b_1) + \bar{X}b_1
+\hat{\mu}_P = E[\mu|\bar{X}] =  m(1-b_1) +\bar{X} b_1= m(1-b_1) +\hat{\mu}b_1
 \end{equation}
+which can be seen as an estimator of $\mu$. 
 
-In class we calculated the MSE which was defined by treating $\hat{\mu}_P$ as an estimator and averaging over the data:  
+In class we calculated the MSE in the usual sense, meaning 
 \begin{equation}
 {\rm MSE}_{\hat{\mu}_P} = E[(\hat{\mu}_P- \mu_0)^2]
 \end{equation}
-Now suppose that MSE is defined as the expected squared difference between the true value and a sample $\mu$ from the posterior averaged over all $\bar{X}$; that is
+where the expectation is taken over the distribution of our data. 
+
+An alternative way to defined MSE is as the expected squared difference between the true value and a sample $\mu$ from the posterior averaged over all $\bar{X}$; that is
 \begin{equation}
 {\rm MSE}_{\hat{\mu}_P}' = E[E[(\mu- \mu_0)^2|\bar{X}]]. 
 \end{equation}
+In particular, the first expectation is over $\mu|\bar{X}$ ($\mu_0$ is fixed) and the second is over the data distribution. 
 Compute this quantity and interpret the terms. Compare the bias and variance to what we found for the other case. 
 
 \end{exercise}
 
 
 \begin{exercise}[Bayesian linear regression \ding{111}]
-Finish the calculation leading to Eq. \ref{eq:bayes_lr_posterior}. 
+
+\begin{enumerate}[label=(\alph*)]
+\item Finish the calculation leading to Eq. \ref{eq:bayes_lr_posterior}. 
+\item Generalize Eq. \ref{eq:bayes_lr_posterior} to the case when the posterior mean is not zero \end{enumerate}
 \end{exercise}
+
 
 
 \begin{exercise}[Normal model with unknown variance \ding{111} ]
