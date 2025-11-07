@@ -262,7 +262,7 @@ b_0 = m\left(1 -  \frac{s^2}{s^2 +\sigma^2/N}\right) = m \frac{\sigma^2/N}{s^2 +
 Finally 
 \begin{align*}
 {\rm var}(\mu|\bar{X}) &= \frac{s^2}{N}  - b_1^2 {\rm var}(Y) = \frac{s^2}{N} -  \frac{ s^2 + \sigma^2/N}{(1 + \left(\frac{\sigma}{s}\right)^2\frac{1}{N})^2}\\
-&\quad \vdots \quad (\text{some algebra})\\
+&\quad \vdots \quad (\text{simplify})\\
 &= \frac{s^2\sigma^2}{s^2N + \sigma^2}
 \end{align*}
 In summary, the posterior distribution is 
@@ -313,7 +313,7 @@ The key is that this is a linear regression model with $\beta$ as the predictor 
 
 %----------------------------------------------------------------------------------------------------------------
 \section{Bayesian inference for nonlinear model}
-  We now discuss Bayesian inference for the general linear regression model with features. Let
+  We now discuss Bayesian inference for the general linear regression model with features (Or simply many predictors, the difference for most of this section is only in notation). Let
 \begin{equation*}
 f(x) = \sum_{i=1}^K\beta_i\phi_i(x)
 \end{equation*}
@@ -327,7 +327,7 @@ We will assume that $E[\phi_i(X)]=0$. We will also assume, for simplicity, that 
 
 
 \begin{thm}[Posterior mean for regression coefficients]\label{thm:regpostmean}
-Define a $K\times K$ matrix $\Omega$ called the \dfn{empirical covariance matrix} which has entries
+Define a $K\times K$ matrix $\Omega$ by 
 \begin{equation*}
 \Omega_{i,j} = N\overline{\phi_i(X)\phi_j(X)} = \sum_{k=1}^N\sum_{z=1}^N\phi_i(X_k)\phi_j(X_z) 
 \end{equation*}
