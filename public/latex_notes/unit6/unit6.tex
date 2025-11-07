@@ -220,7 +220,7 @@ Note that if we used usual estimator we would have found $\hat{q} = 1$, while if
 
 % Something quite nice about using $\beta$-distribution priors for the Bernoulli model is that BOTH the prior and the posterior have a $\beta$-distribution, albeit with difference parameters. In general, when this is the case we say that the priors are \dfn{conjugate}. 
 
-\subsection{Bayesian inference for Normal mean}
+\subsection{Bayesian inference for Normal mean}\label{eq:bayesnormal}
 
 Suppose we have a Normal model for $X$, but treat the noise variance as a constant and focus on Bayesian inference of $\mu$. 
 \begin{equation*}
@@ -563,6 +563,17 @@ Compute this quantity and interpret the terms. Compare the bias and variance to 
 \item Generalize Eq. \ref{eq:bayes_lr_posterior} to the case when the posterior mean is not zero \end{enumerate}
 \end{exercise}
 
+
+\begin{exercise}[Bayesian updating \ding{111}]
+Consider Bayesian inference for a Normal model with known variance as described in Section \ref{eq:bayesnormal}. 
+Suppose we have $N$ data points and perform Bayesian inference to obtain a posterior distribution $\mu|\bar{X}$ (we could also write this as $\mu|\hat{\mu}$ since $\hat{\mu}  = 1/N\sum_{i=1}^NX_i= \bar{X}$). Now obtain $K$ new data points $X_{N+1},\dots,X_{N+K}$ and we want update our posterior. We could either: 
+\begin{itemize}
+\item Compute the sample average $\bar{X}_{N+k} =1/(N+K) \sum_{i=1}^{N+K}X_i$ of all $N+K$ data points and compute the posterior distribution $\mu|\bar{X}_{N+K}$, OR
+\item We could use the posterior distribution from the first $N$ samples as a new prior and then find a new posterior distribution based on the new samples. 
+\end{itemize}
+Determine if these are the same or different. 
+
+\end{exercise}
 
 
 \begin{exercise}[Normal model with unknown variance \ding{111} ]
