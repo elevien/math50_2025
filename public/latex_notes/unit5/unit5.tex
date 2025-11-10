@@ -695,7 +695,7 @@ Now introduce the features
 \end{equation*}
 
 \begin{enumerate}[label=(\alph*)]
-\item Are $\phi_i$ orthogonal with respect to a random variable $X$ taking values in $[0,1)$? Does it depend on the distribution of the random variable? 
+\item Are $\phi_i$ orthogonal with respect to a random variable $X$ taking values in $[0,1)$? Does it depend on the distribution of $X$? 
 \item Using \verb!statsmodels!, implement fitting the model with these features. You can make up your simulated data set to fit, or copy the code I used in class to fit the fourier and polynomial models. I recommend writing a function \verb!phi(x,i)! which takes the array of predictors and outputs an array $[\phi_j(X_1),\dots,\phi_j(X_N)]$. Use $K=10$ and $N=100$. 
 \item As usual let $\hat{\beta}_j$ be the fitted value of $\beta_j$ using least squares, meaning the value that minimizes the squared residuals. Show that in this model $\hat{\beta}_j$ is simply the average value of $Y_i$ among data points where $X_i \in I_j$; that is, 
 \begin{equation*}
