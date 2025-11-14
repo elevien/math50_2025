@@ -60,3 +60,4 @@ There may be some extra credit questions from Unit 7, depending on how much time
 ### Practice exam
 - [Final from 2024]({{ '/public/exam_practice/final_2024C.pdf' | relative_url }}) (ignore the red text in the instructions. Do all problems).
 - [Practice Final]({{ '/public/exam_practice/final_practice.pdf' | relative_url }})
+- [Practice Problems]({{ '/public/exam_practice/final_additional_practice_problems.pdf' | relative_url }})
