@@ -65,7 +65,7 @@ If we write out the usual formula for the regression coefficient with no interac
 Here I've replaced $X_3$ with $X_1X_2$. In other words, $J_{1,2}$ is the additional difference in the regression slope between $Y$ and $X_1$ with all other predictors fixed when $X_2$ is changed by one unit. 
 If $J_{1,2}$ is positive (resp. negative) then increasing $X_2$ has a tendency to increase (resp. decrease) the difference between the conditional averages of $Y$, thus, the additional predictor $X_3 = X_1X_2$ allows us to capture an interaction wherein the association between $X_1$ and $Y$ depends on $X_2$. We can do the same calculation with $X_1$ fixed and $X_2$ changed to obtain 
 \begin{equation*}
- \E[Y|X_1 = x+1,X_2] - \E[Y|X_1 = x,X_2] = \beta_2 + J_{1,2}X_1
+ \E[Y|X_1 = x+1,X_2] - \E[Y|X_1 = x,X_2] = \beta_2 + J_{1,2}X_2
 \end{equation*}
 Now as always, let's make sure we understand how this translates into code and also I think the visualizations in this example are helpful. 
 
