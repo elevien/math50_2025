@@ -241,9 +241,9 @@ In particular, since $\mu|\bar{X}$ is Normal, we only need to calculate the mean
 m &= E[\mu] =  b_1 E[\bar{X}] + b_0\\
 s^2 &= {\rm var}(\mu) =b_1^2 {\rm var}(\bar{X}) + {\rm var}(\mu|\bar{X})
 \end{align}
-where $b_1$ and $b_0$ are the regression slope and intercept when $Y$ is treated as the predictor. In particular, $b_0 = E[\mu|\bar{X}=0]$. 
+where $b_1$ and $b_0$ are the regression slope and intercept when $\bar{X}$ is treated as the predictor. In particular, $b_0 = E[\mu|\bar{X}=0]$. 
 
-The variance and expected value of $Y$ are
+The variance and expected value of $\bar{X}$ are
 \begin{equation}
 E[\bar{X}] = m,\quad {\rm var}(\bar{X}) = s^2 + \sigma^2/N. 
 \end{equation} 
@@ -255,7 +255,7 @@ hence the ``inverse'' regression slope is obtained by the usual regression slope
 \begin{equation}
 s^2 = {\rm cov}(\mu,\bar{X}) = b_1(s^2 + \sigma^2/N) \implies b_1= \frac{s^2}{s^2 +\sigma^2/N}
 \end{equation}
-Coming these facts yields 
+Combining these facts yields 
 \begin{equation}
 b_0 = m\left(1 -  \frac{s^2}{s^2 +\sigma^2/N}\right) = m \frac{\sigma^2/N}{s^2 +\sigma^2/N}
 \end{equation}
