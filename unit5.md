@@ -12,6 +12,7 @@ As I say many times in class, the linear regression model is the basis for many 
 
 Material: 
 - [Notes and exercises](/public/latex_notes/unit5/unit5.pdf)
+- [Colab exercise solutions](https://colab.research.google.com/drive/1StwGhDHL4BFMx4_y1LY3B5BVUUpuwqjl?usp=sharing)
 - [Colab notebook: interactions](https://colab.research.google.com/drive/1JVq9VHAbpSlGlngfMmf9N4NJuSKM8lKR?usp=sharing)
 - [Colab notebook: Polynomial regression and bias-variance](https://colab.research.google.com/drive/1UuydrSV7Q7-O-ZyjBUGT-mOzo9NUFD3P?usp=sharing)
 - [Colab notebook: Fourier models](https://colab.research.google.com/drive/1jIuaN8kWyb9Wp08yhatmWmetq3LwaJMH?usp=sharing)

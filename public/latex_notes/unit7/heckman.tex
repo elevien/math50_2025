@@ -23,49 +23,46 @@ Y = \sum_{j=1}^K\beta_j X_j  + \epsilon.
 Given observed values ${\bf Y}$ and design matrix $X$, we obtain the usual estimate $\hat{\beta} = \hat{\Sigma}^{-1}X^T{\bf Y}$. 
 When fitting a regression model, the predictor values can be sampled in any way and it will not change our estimator of $\hat{\beta}$, it being defined by expectations conditioned on $X$. What concerns is situations where the response variable is filtered for censured in some way. 
 
-Heckman proposed a famous model for this. This idea is that there is an axuilary variable $W$ defined by 
+Let $S$ denote whether in the data is selected for. Heckman's model $S = 1_{\{W>0\}}$ where $W$ is the auxility variable 
 \begin{align}
 W = \sum_{j=1}^K\alpha_j X_j + \eta
 \end{align}
-We assume the covariance matrix of the noise terms is 
+and the noise terms are correlated  
 \begin{equation}
-%\begin{bmatrix} 
-%{\rm var}(\epsilon} & {\rm cov}(\epsilon,\eta)\\
-%{\rm cov}(\epsilon,\eta) & {\rm var}(\eta)
-%\end{bmatrix} = 
 \begin{bmatrix} 
-\sigma_{\epsilon}^2 & \rho\\
-\rho & \sigma_{\eta}^2
+{\rm var}(\epsilon) & {\rm cov}(\epsilon,\eta)\\
+{\rm cov}(\epsilon,\eta) & {\rm var}(\eta)
+\end{bmatrix} = 
+\begin{bmatrix} 
+\sigma_{\epsilon}^2 & \sigma_{\epsilon,\eta}\\
+ \sigma_{\epsilon,\eta} & \sigma_{\eta}^2
 \end{bmatrix}
 \end{equation}
-The observed $Y$ are then selected based on the auxililary process. We consider data points to be randomly selected based on $W$ (in Heckman's formulation there is a sharp cutoff). We therefore introduce a new variable  $S$ which indicate whether data point $i$ is selected and take 
-\begin{equation}
-S \sim {\rm Bernoulli}(h(W))
-\end{equation}
-for $h:\reals \to \reals_{>0}$. 
-Combing everything, 
+This is also the covariance matrix of $(Y|X,W|X)$. 
+ This we may write 
 \begin{align}
-Y|X  &\sim {\rm Normal}\left( \sum_{j=1}^K\beta_j X_j,\sigma_{\epsilon}^2\right)\\
-W|X &= {\rm Normal}\left(\sum_{j=1}^K\alpha_j X_j, \sigma_{\eta}^2\right)\\
-S|W &\sim {\rm Bernoulli}(h(W))
+Y &= \sum_{j=1}^K\beta_j X_j + \frac{ \sigma_{\epsilon,\eta}}{\sigma_{\eta}^2}\eta +\epsilon',\quad \epsilon' \sim {\rm Normal}(0, \sigma_{\epsilon}^2 -  \sigma_{\epsilon,\eta}^2/\sigma_{\eta}^2)
+%&= \sum_{j=1}^K\beta_j X_j +  \frac{\sigma_{\epsilon,\eta}}{\sigma_{\eta}^2}\left(W - \sum_{j=1}^K\alpha_j X_j  \right) + \epsilon'\\
+%&= \sum_{j=1}^K\left(\beta_j -  \frac{\sigma_{\epsilon,\eta}}{\sigma_{\eta}^2}\alpha_j \right) X_j +  \frac{\sigma_{\epsilon,\eta}}{\sigma_{\eta}^2}W +  \epsilon'
 \end{align}
-Also note that 
+This gives our regression model with $\eta$ as a predictor, but we want to condition on the event $W>0$, which is obtained by averaging the regression model above:
+\begin{align}
+E[Y|\{X_j\}_{j=1}^K,W>0] &=E[Y|\{X_j\}_{j=1}^K, \sum_{j=1}^K\alpha_j X_j > \eta]\\
+&=E[E[Y|\{X_j\}_{j=1}^K, \eta]|\{X_j\}_{j=1}^K,\sum_{j=1}^K\alpha_j X_j > \eta]\\
+&= \sum_{j=1}^K\beta_j X_j  + \frac{ \sigma_{\epsilon,\eta}}{\sigma_{\eta}^2}E[\eta|\sum_{j=1}^K\alpha_j X_j > \eta]
+\end{align}
+We write  $\tilde{\beta} = \sigma_{\epsilon,\eta}/\sigma_{\eta}^2$ and $\tilde{X} = E[\eta|\sum_{j=1}^K\alpha_j X_j > \eta]$ so we now have the regression model with $K+1$ predictors
 \begin{equation}
-{\rm cov}(Y,W|X) = \rho
-\end{equation}
-in fact the covariance matrix of $Y|X$ and $W|X$ are the same as $\epsilon$ and $\eta$. We then define the selected sample as
-What if we have observations of $Y_s$. Let's assume we have an estimate $\hat{h}(W)$ of the conditional probability of being selected conditioned on the auxiliary variable $W$. 
-The idea is to define a regression model for $Y$ among the selected samples. That is, for $Y|X,W\{S=1\}$. We note that
-\begin{equation}
-Y = \sum_{j=1}^K\beta_j X_j  + \epsilon =  \sum_{j=1}^K\beta_j X_j 
-\end{equation}
-\begin{equation}
-W = \sum_{j=1}^K\alpha_j
-\end{equation}
-
- 
+Y = \sum_{j=1}^K\beta_j X_j  + \epsilon =  \sum_{j=1}^K\beta_j X_j  + \tilde{\beta}\tilde{X} + \epsilon'
+\end{equation} 
 
 
+
+
+
+
+\section{Alternating iteration}
+We can consider the approach of finding the latent variable 
 
 %\begin{example}[]\label{ex:beta}
 %

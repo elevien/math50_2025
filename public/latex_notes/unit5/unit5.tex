@@ -408,14 +408,14 @@ Let's continue with Example \ref{ex:polycrossval} and try to illustrate the bias
 
 
 \section{Orthogonality and Fourier analysis}
- Sometimes we have a particularly hypothesis about what features my contribute to an signal we are analyzing -- for example, the CO2 data from last week we suspected there was a linear trend and yearly trend superimpose together. This was reasonable because we know that whether tends to follow a yearly cycle. But in general, if we don't have such knowledge how should we select the functions $\phi$?  It is often to our advantage to select basis function $\phi_i$ so that our predictors are not correlated. That is, if $\phi_i(X)$ and $\phi_j(X)$ are thought of as random variables (the randomness comes from $X$) then we want them to be uncorrelated. 
+ Sometimes we have a particularly hypothesis about what features my contribute to an signal we are analyzing -- for example, the CO2 data from last week we suspected there was a linear trend and yearly trend superimpose together. This was reasonable because we know that weather tends to follow a yearly cycle. But in general, if we don't have such knowledge how should we select the functions $\phi$?  It is often to our advantage to select basis function $\phi_i$ so that our predictors are not correlated. That is, if $\phi_i(X)$ and $\phi_j(X)$ are thought of as random variables (the randomness comes from $X$) then we want them to be uncorrelated. 
 
 
 Throughout our discussion, we will assume that $E[\phi_i(X)]=0$. We can easily make this so by subtracting the means of our features. Therefore, we would like to find $\phi_i$ such that 
 \begin{equation}\label{eq:orth}
 {\rm cov}(\phi_i(X)\phi_j(X)) = 0 \quad i\ne j.
 \end{equation}
-We this holds for some distribution of $X$, we say that $\phi_i$ and $\phi_j$ are \dfn{orthogonal} with respect to this distribution.
+We this holds for some distribution of $X$, we say that $\phi_i$ and $\phi_j$ are \dfn{orthogonal} with respect to this distribution. Thus, by orthogonal we just mean uncorrelated. 
 
 
 
@@ -695,7 +695,7 @@ Now introduce the features
 \end{equation*}
 
 \begin{enumerate}[label=(\alph*)]
-\item Are $\phi_i$ orthogonal with respect to a random variable $X$ taking values in $[0,1)$? Does it depend on the distribution of the random variable? 
+\item Are $\phi_i$ orthogonal with respect to a random variable $X$ taking values in $[0,1)$? Does it depend on the distribution of $X$? 
 \item Using \verb!statsmodels!, implement fitting the model with these features. You can make up your simulated data set to fit, or copy the code I used in class to fit the fourier and polynomial models. I recommend writing a function \verb!phi(x,i)! which takes the array of predictors and outputs an array $[\phi_j(X_1),\dots,\phi_j(X_N)]$. Use $K=10$ and $N=100$. 
 \item As usual let $\hat{\beta}_j$ be the fitted value of $\beta_j$ using least squares, meaning the value that minimizes the squared residuals. Show that in this model $\hat{\beta}_j$ is simply the average value of $Y_i$ among data points where $X_i \in I_j$; that is, 
 \begin{equation*}

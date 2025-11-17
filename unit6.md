@@ -8,7 +8,7 @@ bibliography:
 
 # Overparameterized models: Regularization, priors and Bayesian inference
 
-At this point we have seen that models can be too complicated, but thus far **complexity** has roughly meant the number of parameters (regression coefficients). Striking a balance between bias and variance means finding the right number of predictors to include, but there are ways to build highly flexibly models which do not overfit.s
+At this point we have seen that models can be too complicated, but thus far **complexity** has roughly meant the number of parameters (regression coefficients). Striking a balance between bias and variance means finding the right number of predictors to include, but there are ways to build highly flexibly models which do not overfit.
 
 Material: 
 - [Notes and exercises](/public/latex_notes/unit6/unit6.pdf)

@@ -37,20 +37,27 @@ In terms of Python, you need to know enough syntax to identify what a line or tw
 
 ## Final 
 
-The final is cummulative and includes everyhing on the midterm, plus Units 4-7 (ending with whatever material we cover on Friday Nov 7.)  
+The final is cumulative and includes everything on the midterm, plus Units 4-7 (ending with whatever material we cover on Friday Nov 7.)  
 
 You will need to: 
 
-- Given a linear regression model, state the interpretation of the regession coefficients. 
-- Be able to calculate the marginal variance (if the predictor distribution is given)
+- Given a linear regression model, state the interpretation of the regression coefficients. 
+- Understand the relationship between covariances and regression coefficients and be able to derive the marginal distribution of response variable
+- Be able to swap $X$ and $Y$ in linear regression model. 
 - Know the effects of adding a predictor to the model. For example, be able to predict how it will change another regression coefficient given the correlation with existing predictors. 
-- Know what Simpson's paradox is and when it occurs
-- Understand what happens when we flip the axes in a regression model
+- Know what Simpson's paradox is and when it occurs. 
 - Interpret the output of a fitted model: Which effects are significant, what does $R^2$ mean. 
-- Know how to include catagorical variables in a linear regression model and their inerpretation
-- Calculate regularized estimators (for example for the sample mean where this can be done by hand)
+- Know how to include categorical variables in a linear regression model and their interpretation
+- Understand the interpretation of interaction terms. Be able to identify the value of an interaction and whether there may be one from a residual plot. 
+- Understand the idea of feature maps and orthogonal features. Identify whether two features are orthogonal by plotting them. 
+- Know how to compute MSE and understand bias-variance tradeoff curves. 
+- Understand the conceptual difference between Bayesian and frequentist statistics. Understand calculation of posterior for Bernoulli model (with Uniform priors) and Normal model (with Normal prior and known variance). DON'T MEMORIZE FORMULAS. Focus on understanding derivations. I may ask about a step in the derivation or how to set it up. 
+- Calculate regularized estimators and relationship to Bayesian inference (for example for the sample mean where this can be done by hand)
   
 There may be some extra credit questions from Unit 7, depending on how much time we have at the end of the term.
 
+
 ### Practice exam
 - [Final from 2024]({{ '/public/exam_practice/final_2024C.pdf' | relative_url }}) (ignore the red text in the instructions. Do all problems).
+- [Practice Final]({{ '/public/exam_practice/final_practice.pdf' | relative_url }})
+- [Practice Problems]({{ '/public/exam_practice/final_additional_practice_problems.pdf' | relative_url }})

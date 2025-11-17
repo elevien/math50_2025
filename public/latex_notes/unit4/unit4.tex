@@ -785,6 +785,23 @@ x2             3.0020      0.011    261.492      0.000       2.979       3.025
 What is the regression coefficient $\beta_{1,2}$ of $X_1$ with $X_2$ as the predictor? 
 \end{exercise}
 
+\begin{exercise}[\ding{111}]
+A researcher creates a linear model with two predictors, $X_1$ and $X_2$, but the dataset available only contains $X_1$.
+
+\begin{itemize}
+    \item The \textbf{true} (long) model describing the data is:
+    \[ Y = 1.0 + 2.0 X_1 + 4.0 X_2 + \epsilon_1 \]
+    \item The (unobserved) relationship between the predictors is given by:
+    \[ X_2 = 0.5 + 0.5 X_1 + \epsilon_2\]
+\end{itemize}
+Assume $E[\epsilon_1]=0$ and $E[\epsilon_2]=0$.
+
+The researcher runs a regression using only $X_1$:
+\[ Y = \beta_0^ + \hat{\beta}_1 X_1 + \epsilon_1' \]
+
+\textbf{Question:} What is the expected value (approximately) for the coefficient $\hat{\beta}_1$ that the researcher will estimate when they run this regression?
+
+\end{exercise}
 
  \bibliographystyle{unsrt}
 \bibliography{./../refs.bib}
