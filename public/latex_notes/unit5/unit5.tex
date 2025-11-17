@@ -556,7 +556,7 @@ The second line takes the original names (which are the specific models -- e.g. 
 
 \end{exercise}
 %---------------------------------------------------------------------------------
-\begin{exercise}[Marginal regression in interactions model]
+\begin{exercise}[Marginal regression in interactions model \ding{111}]
 Consider the probability model 
 \begin{align*}
 X_1 &\sim {\rm Normal}(0,\sigma_1^2)\\
@@ -618,7 +618,7 @@ By generating simulated $Y$ values with these parameters for different values of
 \end{exercise}
 
 
-\begin{exercise}
+\begin{exercise}[\ding{111}]
 Consider two binary predictors \(X_1, X_2 \in \{0,1\}\) with joint distribution given by the table of probabilities:
 
 \[
@@ -638,11 +638,11 @@ X_1=1 & 0.1 & 0.4
 
 
 %----------------------------------------------------------------------------------------------------------------
-\begin{exercise}[Mean-squared error]
+\begin{exercise}[Mean-squared error \ding{111}]
 Prove formula Eq. \ref{eq:EXhaty}. 
 \end{exercise}
 %----------------------------------------------------------------------------------------------------------------
-\begin{exercise}[Laplace's rule]
+\begin{exercise}[Laplace's rule \ding{111}]
 Consider a Bernoulli random variable 
 \begin{equation*}
 X \sim {\rm Bernoulli}(q).
@@ -695,9 +695,9 @@ Now introduce the features
 \end{equation*}
 
 \begin{enumerate}[label=(\alph*)]
-\item Are $\phi_i$ orthogonal with respect to a random variable $X$ taking values in $[0,1)$? Does it depend on the distribution of $X$? 
+\item \ding{111} Are $\phi_i$ orthogonal with respect to a random variable $X$ taking values in $[0,1)$? Does it depend on the distribution of $X$? 
 \item Using \verb!statsmodels!, implement fitting the model with these features. You can make up your simulated data set to fit, or copy the code I used in class to fit the fourier and polynomial models. I recommend writing a function \verb!phi(x,i)! which takes the array of predictors and outputs an array $[\phi_j(X_1),\dots,\phi_j(X_N)]$. Use $K=10$ and $N=100$. 
-\item As usual let $\hat{\beta}_j$ be the fitted value of $\beta_j$ using least squares, meaning the value that minimizes the squared residuals. Show that in this model $\hat{\beta}_j$ is simply the average value of $Y_i$ among data points where $X_i \in I_j$; that is, 
+\item \ding{111} As usual let $\hat{\beta}_j$ be the fitted value of $\beta_j$ using least squares, meaning the value that minimizes the squared residuals. Show that in this model $\hat{\beta}_j$ is simply the average value of $Y_i$ among data points where $X_i \in I_j$; that is, 
 \begin{equation*}
 \hat{\beta}_j = \frac{1}{N_j}\sum_{i:X_i \in I_j}Y_i
 \end{equation*}
