@@ -41,7 +41,7 @@ X \sim {\rm Bernoullli}(q)
 \end{equation*}
 for the outcome of a coin flip. If we perform $N$ flips, then recall $Y = \sum_{i=1}^NX_i$ is binomial. 
 In a Bayesian model, we would specify the prior distribution of $q$. This should reflect what we know about the coin, which in reality is that it is very likely to be fair. 
-However, to make calculations simpler and better compare the frequentist approach we will take a prior where any value of $q$ is equally likely. This seems to be more similar to what we are doing in the frequentist approach. Our Bayesian model would then me
+However, to make calculations simpler and better compare the frequentist approach we will take a prior where any value of $q$ is equally likely. This seems to be more similar to what we are doing in the frequentist approach. Our Bayesian model would then be
 \begin{align*}
 q &\sim {\rm Uniform}(0,1)\\
 X|q &\sim {\rm Bernoullli}(q)
@@ -55,7 +55,7 @@ Our goal is to find the posterior distribution
 \begin{equation*}
 q|X_1,\dots,X_N
 \end{equation*}
-Since the flips out independent, this distribution depends only on $Y$, so we can alternative obtain the posterior as the distribution of $q|Y$. 
+Since the flips are independent, this distribution depends only on $Y$, so we can alternatively obtain the posterior as the distribution of $q|Y$. 
 Recall that the density of the uniform is simply $f(q) = 1$ (I'll use $f$ for a density and $P$ for probabilities, but sometimes we have to mix them). Using Bayes' theorem (or simply using the definition of conditional probability twice), we have 
 \begin{equation}
 f(q|Y=y) = \frac{f(q,\{Y=y\})}{P(Y=y)} = \frac{P(Y=y|q)f(q)}{P(Y=y)} 
