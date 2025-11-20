@@ -59,7 +59,7 @@ Y|X \sim {\rm Normal}( \beta_0 + \beta_1 X_1 + \beta_2 X_2 + J_{1,2} X_3, \sigma
 If we write out the usual formula for the regression coefficient with no interactions, we get 
 \begin{align*}
  &\E[Y|X_1 = x+1,X_2] -\E[Y|X_1 = x,X_2]\\
- &  =  \left(\beta_1 (x+1)+ \beta_2 X_2 + \J_{1,2} (x+1)X_2\right)- \left(\beta_1 x + \beta_2 X_2 + J_{1,2} x X_2\right)\\
+ &  =  \left(\beta_1 (x+1)+ \beta_2 X_2 + J_{1,2} (x+1)X_2\right)- \left(\beta_1 x + \beta_2 X_2 + J_{1,2} x X_2\right)\\
  &= \beta_1 + J_{1,2}X_2
 \end{align*}
 Here I've replaced $X_3$ with $X_1X_2$. In other words, $J_{1,2}$ is the additional difference in the regression slope between $Y$ and $X_1$ with all other predictors fixed when $X_2$ is changed by one unit. 
