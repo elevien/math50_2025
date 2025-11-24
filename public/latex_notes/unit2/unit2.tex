@@ -1427,12 +1427,106 @@ The variance of $Y$ is known to be
 \end{enumerate}
 \end{exercise}
 
+\begin{exercise}[Linear combinations of independent normal variables \ding{111}]
+Let $X$ and $Y$ be independent with
+\[
+X \sim \mathrm{Normal}(2,\,9), \qquad 
+Y \sim \mathrm{Normal}(-1,\,4).
+\]
 
+Define
+\[
+U = 3X - 2Y + 5, \qquad 
+V = X + Y.
+\]
 
-
-
+\begin{enumerate}[label=(\alph*)]
+  \item Find $E[X]$, $\operatorname{Var}(X)$, $E[Y]$, and $\operatorname{Var}(Y)$.
+  
+  \item Using linearity of expectation, compute $E[U]$ and $E[V]$.
+  
+  \item Using independence and variance rules, compute $\operatorname{Var}(U)$ and $\operatorname{Var}(V)$.
+  
+  \item State the distributions
+  \[
+  U \sim \mathrm{Normal}(\mu_U,\,\sigma_U^2), 
+  \qquad 
+  V \sim \mathrm{Normal}(\mu_V,\,\sigma_V^2).
+  \]
+  
+  \item Compute $E[XY]$.
+\end{enumerate}
 \end{exercise}
 
+\begin{exercise}[Central Limit Theorem application \ding{111}]
+
+A fair six-sided die has outcomes $\{1,2,3,4,5,6\}$, each with probability $1/6$.
+Let $X_1, \dots, X_n$ be i.i.d., and define
+\[
+S_n = \sum_{i=1}^n X_i, \qquad n = 200.
+\]
+
+\begin{enumerate}[label=(\alph*)]
+  \item Compute the mean and variance of one roll: 
+  \[
+    \mu = E[X_1], \qquad 
+    \sigma^2 = \operatorname{Var}(X_1).
+  \]
+  
+  \item Compute $E[S_n]$ and $\operatorname{Var}(S_n)$.
+  
+  \item Use the Central Limit Theorem to give an approximate distribution for $S_{200}$.
+  
+  \item Use this approximation to estimate
+  \[
+  \mathbb{P}(S_{200} > 750),
+  \]
+  showing the standardization step explicitly.
+\end{enumerate}
+\end{exercise}
+
+\begin{exercise}[Interpreting coefficients in a linear regression with a binary predictor \ding{111}]
+Consider the model:
+\[
+X \sim \mathrm{Bernoulli}\left(\tfrac{1}{2}\right), 
+\qquad 
+Y \mid X \sim \mathrm{Normal}(\beta_0 + \beta_1 X,\ \sigma^2),
+\]
+equivalently,
+\[
+Y = \beta_0 + \beta_1 X + \varepsilon,
+\qquad 
+\varepsilon \mid X \sim \mathrm{Normal}(0,\sigma^2),
+\]
+with $\varepsilon$ independent of $X$.
+
+\begin{enumerate}[label=(\alph*)]
+  \item Compute:
+  \[
+  E[Y \mid X = 0], \qquad 
+  E[Y \mid X = 1].
+  \]
+  
+  \item Show that
+  \[
+  E[Y \mid X = 1] - E[Y \mid X = 0] = \beta_1,
+  \]
+  and briefly interpret $\beta_1$.
+  
+  \item Suppose we observe i.i.d.\ pairs $(X_i, Y_i)$ for $i=1,\dots,N$.  
+  Define
+  \[
+  \bar Y_1 = \frac{1}{N_1}\!\!\sum_{i : X_i = 1} Y_i,
+  \qquad 
+  \bar Y_0 = \frac{1}{N_0}\!\!\sum_{i : X_i = 0} Y_i,
+  \]
+  and the estimator
+  \[
+  \hat{\beta}_1 = \bar Y_1 - \bar Y_0.
+  \]
+  Explain why this is a natural estimator for $\beta_1$.
+\end{enumerate}
+\end{exercise}
 
 
 

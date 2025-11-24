@@ -706,6 +706,42 @@ where $N_j$ is the number of points in $I_j$.
 \end{exercise}
 
 
+\begin{exercise}[Nonlinear basis functions]
+A physical system is modeled as
+\[
+f(x) = \theta_0 + \theta_1 e^{x} + \theta_2 \sin(3x).
+\]
+You want to fit this model using linear regression.
+
+\begin{enumerate}
+  \item Define basis functions $\phi_1(x), \phi_2(x), \phi_3(x)$ such that
+  \[
+  f(x) = \sum_{i=1}^3 \beta_i \,\phi_i(x)
+  \]
+  becomes a linear-in-parameters model.
+
+  \item Write the design matrix for data points $x_1, \dots, x_n$.
+
+  \item State whether this model is nonlinear or linear from the perspective of regression, and explain why.
+\end{enumerate}
+\end{exercise}
+
+\begin{exercise}[Bias-Variance Tradeoff Conceptual Questions]
+Consider two models for predicting $Y$ based on $X$:
+\begin{itemize}
+  \item Model A: linear model with 2 parameters.
+  \item Model B: polynomial model with 30 parameters.
+\end{itemize}
+
+\noindent Answer the following questions:
+\begin{enumerate}
+  \item Which model has higher variance? Why?
+  \item Which model likely has higher bias? Why?
+  \item Give a real-world example where a high-bias model might be better.
+  \item Describe what happens to bias and variance as you increase model complexity.
+\end{enumerate}
+\end{exercise}
+
 
 
 
