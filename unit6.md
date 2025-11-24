@@ -12,6 +12,7 @@ At this point we have seen that models can be too complicated, but thus far **co
 
 Material: 
 - [Notes and exercises](/public/latex_notes/unit6/unit6.pdf)
+- Unit 5 Problem Contributions for Extra Credit- Daniel Hernandez: [Math_50_Unit_6_Problem_Contributions_for_Extra_Credit__Daniel_Hernandez.pdf](https://github.com/user-attachments/files/23730949/Math_50_Unit_6_Problem_Contributions_for_Extra_Credit__Daniel_Hernandez.pdf)
 - [Colab notebook]()
 
 # Concepts
