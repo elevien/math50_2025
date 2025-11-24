@@ -13,6 +13,7 @@ This unit introduces statistical inference for **single‑predictor linear regre
 
 Material: 
 - [Notes and exercises](/public/latex_notes/unit3/unit3.pdf)
+- Contributions to Unit 3 Practice Problems - Daniel Hernandez: [Math_50_Unit_3_Problem_Contributions_for_Extra_Credit___Daniel_Hernandez.pdf](https://github.com/user-attachments/files/23730566/Math_50_Unit_3_Problem_Contributions_for_Extra_Credit___Daniel_Hernandez.pdf)
 - [Colab notebook from class (2024)](https://colab.research.google.com/drive/1_4zOruAWfJ3HQoIf9sjefk3z0APko94-?usp=sharing)
 - [Colab notebook from class (2025)](https://colab.research.google.com/drive/1QZUXeu7-QhJ0X1mKIEN4ZiTplmdWbqfv?usp=sharing)
 
