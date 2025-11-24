@@ -12,6 +12,7 @@ This unit covers linear regression with **multiple predictors**. Many new ideas 
 
 Material:
 - [Notes and exercises](/public/latex_notes/unit4/unit4.pdf)
+- Contribution to Unit 4 Practice Problems : [Math_50_Unit_4_Problems_Contributions_for_Extra_Credit___Daniel_Hernandez.pdf](https://github.com/user-attachments/files/23730774/Math_50_Unit_4_Problems_Contributions_for_Extra_Credit___Daniel_Hernandez.pdf)
 - [Colab exercise solutions](https://colab.research.google.com/drive/1_AomvOjmTUmkucxqDPCP4SAY46h7n8Sc?usp=sharing)
 - [Colab notebook (2024)](https://colab.research.google.com/drive/1oIRgP_7-c5DGV1D2iz5nj406mZfJxUIG?usp=sharing)
 - [Colab notebook (2025)](https://colab.research.google.com/drive/10G3DKAsKcxk33l3OO_hfPTyrWetTxdaS?usp=sharing)
