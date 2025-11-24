@@ -1030,6 +1030,59 @@ Calculate the conditional probabilities \(P(u,v)\).
 %\begin{exercise}{}
 %Given \(X \sim \text{Bernoulli}(0.3)\) and \(Y|X \sim \text{Bernoulli}(q_i)\), where \(q_0 = 0.4\) and \(q_1 = 0.7\), write a function that generates \(n\) samples of \((X,Y)\) according to this distribution, returning two numpy arrays (one for \(X\) samples and one for \(Y\) samples).
 %\end{exercise}
+\begin{exercise}[]
+Consider the following Python code that simulates a probabilistic process involving two random variables, $X$ and $Y$.
+
+\begin{lstlisting}[language=Python]
+import numpy as np
+
+# --- Helper Function ---
+
+def sample_XY():
+
+    X = np.random.choice([0, 1], p=[2/3, 1/3])
+
+    if X == 1:
+        Y = np.random.choice([1, 2, 3, 4], 
+                             p=[0.25, 0.25, 0.25, 0.25])
+    else:
+        Y = np.random.choice([2, 4, 6, 8], 
+                             p=[0.25, 0.25, 0.25, 0.25])
+    return X, Y
+
+# --- Simulation and Analysis ---
+
+# Run the simulation N times
+N = 10000
+data = [sample_XY() for _ in range(N)]
+
+# Separate into lists for easier analysis
+X_samples = np.array([d[0] for d in data])
+Y_samples = np.array([d[1] for d in data])
+
+# Calculate conditional and marginal probabilities
+# Note: (Y % 2 == 0) checks if Y is even
+
+# Probability that Y is even given X = 0
+p_even_x0 = np.mean(Y_samples[X_samples == 0] % 2 == 0)
+
+# Probability that Y is even given X = 1
+p_even_x1 = np.mean(Y_samples[X_samples == 1] % 2 == 0)
+
+# Overall probability that Y is even
+p_even = np.mean(Y_samples % 2 == 0)
+\end{lstlisting}
+
+\noindent \textbf{Questions:}
+\begin{enumerate}
+    \item[(a)] Based on the logic in \texttt{sample\_XY}, write the joint probability table for $X$ and $Y$.
+    \item[(b)] What are the estimated numerical values (theoretical probabilities) of \texttt{p\_even\_x0}, \texttt{p\_even\_x1}, and \texttt{p\_even}? 
+    \item[(c)] For the event ``$Y$ is even'' to be \textbf{independent} of $X$, the probability of getting an even number must be the same regardless of the value of $X$. If you keep the list for $X=1$ fixed as \texttt{[1, 2, 3, 4]}, provide an example of a list of 4 integers for the \texttt{else} block that would achieve this independence.
+\end{enumerate}
+
+\end{exercise}
+
+
 
 
 \bibliographystyle{unsrt}
