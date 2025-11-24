@@ -20,6 +20,8 @@ Probability models, random variables, sample spaces, probability distributions, 
 
 Material: 
 - [Notes and exercises](/public/latex_notes/unit1/unit1.pdf)
+- (Contribution made by Daniel Hernandez): [Short Python simulation primer for Unit 1](https://numpy.org/doc/stable/reference/random/index.html)
+- (Exercise Contributions made by Daniel Hernandez): [Math_50_Unit_1_Problem_Contributions = Daniel_Hernandez.pdf](https://github.com/user-attachments/files/23730109/Math_50_Unit_1_Problem_Contributions_for_Extra_Credit___Daniel_Hernandez.pdf)
 - [Colab notebook from class (2024)](https://colab.research.google.com/drive/1COqhCR5zFuxUJZ6MCCFC4ZqBu9iVkdMJ?usp=sharing)
 - [Colab notebook from class (2025)](https://colab.research.google.com/drive/1TJbczFilGLYf5hAH-nqxDJPZ6PABPeLT?usp=sharing)
 - [Colab notebook for code examples in notes](https://colab.research.google.com/drive/1zTVe5CYrYBabzKnQ79ozk_fh0-8mMt1k?usp=sharing)
