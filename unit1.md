@@ -23,6 +23,8 @@ Material:
 - [Colab notebook from class (2024)](https://colab.research.google.com/drive/1COqhCR5zFuxUJZ6MCCFC4ZqBu9iVkdMJ?usp=sharing)
 - [Colab notebook from class (2025)](https://colab.research.google.com/drive/1TJbczFilGLYf5hAH-nqxDJPZ6PABPeLT?usp=sharing)
 - [Colab notebook for code examples in notes](https://colab.research.google.com/drive/1zTVe5CYrYBabzKnQ79ozk_fh0-8mMt1k?usp=sharing)
+- [More coding problems for Unit 1, added by Daniel Hernandez (2025)](https://colab.research.google.com/drive/1-IG7yuGU6zSSW3waHPjwnS81lW176gFj?usp=sharing)
+
 
 ## Things to practice
 
