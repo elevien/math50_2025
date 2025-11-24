@@ -9,27 +9,101 @@
 
 
 
-\title{Unit 6: regularization, priors and Bayesian inference}
-\author{Ethan Levien}
+\title{Unit 6: Regularization, Priors, and Bayesian Inference}
 \maketitle
-
 
 \section{Introduction to Bayesian inference: Simple examples}
 
-So far, our models encode our assumptions about how data was generated. Our models depend on parameters for which the true values are fixed. When use data to \dfn{fit} or \dfn{infer} parameters, obtain a sample distribution which roughly speaking quantifies uncertainty in our estimates. This way of performing statistics, where the uncertainty is thought of as a distribution over repeated experiments, is \dfn{frequentist} approach to statistics.  In this formulation of statistical inference we are pretending to have complete ignorance of the parameters before we see the data, but in reality, this is never true. For example, if we flip a coin $N=3$ times and get $Y=3$ heads, our estimate of the probability this coin will land on heads in the next flip is $\hat{q} = 1$, which is clearly not in line with out understanding that both sides are at least possible. It is also worth noting that the usual estimate standard error, ${\rm se}(\hat{q}) = \sqrt{q(1-q)/N} \approx  \sqrt{\hat{q} (1-\hat{q} )/N}$ gives zero, but this is obviously not a good estimate of the uncertainty. 
+So far, our models encode our assumptions about how data was generated. Our models depend on parameters for which the true values are fixed. When we use data to \dfn{fit} or \dfn{infer} parameters, we obtain a sample distribution which roughly speaking quantifies uncertainty in our estimates. This way of performing statistics, where the uncertainty is thought of as a distribution over repeated experiments, is called the \dfn{frequentist} approach to statistics.  
 
-Similar issues emerge in the context of more machine learning-style data analysis, sometimes we want to incorporate vague information, such as ``the function describing my data is very smooth and changes roughly on a time-scale of 5 hours". Or, we might want to include many predictors, but to avoid overfitting penalize high values of the predictors. For example, we might believe there is an interaction term, but suspect it is much smaller than the additive terms. 
+In this formulation of statistical inference, we are pretending to have complete ignorance of the parameters before we see the data, but in reality, this is never true. For example, if we flip a coin $N=3$ times and get $Y=3$ heads, our estimate of the probability this coin will land on heads in the next flip is $\hat{q} = 1$, which is clearly not in line with our understanding that both sides are at least possible. It is also worth noting that the usual estimate of standard error, ${\rm se}(\hat{q}) = \sqrt{q(1-q)/N} \approx \sqrt{\hat{q}(1-\hat{q})/N}$, gives zero, which is obviously not a good estimate of uncertainty.  
 
- While there are ways handle these problems within the frequentist framework, they are handled more naturally by taking an entirely different treatment of parameters and statistical inference. This is called \dfn{Bayesian statistics}. In the Bayesian formulation of statistics, we will think of parameters as themselves random variables which are given a distribution before we have seen the data. Mathematically, this means instead of having a model with fixed parameter: 
- \begin{equation}
-X \sim {\rm ModelDistribution}(\theta)
- \end{equation}
- we think of our model as a conditional on $\theta$
-  \begin{equation}
-X|\theta \sim {\rm ModelDistribution}(\theta). 
- \end{equation}
-We call $X|\theta$ the \dfn{likelihood} (this term is used in both frequentists and Bayesian approaches). 
-Then, we add a new distribution for $\theta$, called the prior. The goal is then to condition on the observed data $X_1,\dots,X_N$ to find a new distribution $\theta|X_1,\dots,X_N$, called the posterior. The posterior plays a similar role to the sample distribution, and naturally we often use its mean as an estimate of $\theta$. However, there are both philosophical and mathematical differences between these two approaches which make the comparison imperfect. We will focus less on the philosophical aspect and see what is practically different about the approaches. This is best illustrated with the following example. 
+Similar issues emerge in machine learning-style data analysis. Sometimes we want to incorporate vague information, such as ``the function describing my data is very smooth and changes roughly on a time-scale of 5 hours." Or, we might want to include many predictors but avoid overfitting by penalizing large values of the predictors. For example, we might believe there is an interaction term, but suspect it is much smaller than the additive terms.  
+
+While there are ways to handle these problems in the frequentist framework, they are more naturally handled by a different treatment of parameters called \dfn{Bayesian statistics}. In the Bayesian formulation, parameters themselves are treated as random variables given a distribution before observing the data. Mathematically, instead of
+\begin{equation*}
+X \sim {\rm ModelDistribution}(\theta),
+\end{equation*}
+we write
+\begin{equation*}
+X|\theta \sim {\rm ModelDistribution}(\theta),
+\end{equation*}
+where $X|\theta$ is the \dfn{likelihood}. We then specify a \dfn{prior} distribution for $\theta$, and condition on the observed data $X_1,\dots,X_N$ to obtain the \dfn{posterior} distribution
+\begin{equation*}
+\theta | X_1,\dots,X_N.
+\end{equation*}
+The posterior is used analogously to a sample distribution, and its mean is often taken as an estimate of $\theta$.
+
+\subsection{Ridge Regularization for a Sample Mean}
+
+Consider estimating the mean $\mu$ of $n$ observations $x_1,\dots,x_n$. The standard maximum likelihood estimate is
+\begin{equation*}
+\hat{\mu}_{\rm MLE} = \frac{1}{n}\sum_{i=1}^{n} x_i.
+\end{equation*}
+
+To reduce overfitting, we introduce \dfn{ridge regularization} by shrinking the estimate toward zero:
+\begin{equation*}
+\hat{\mu}_\lambda = \arg\min_{\mu} \sum_{i=1}^{n} (x_i - \mu)^2 + \lambda \mu^2,
+\end{equation*}
+where $\lambda \ge 0$ is the regularization parameter.
+
+Solving for $\hat{\mu}_\lambda$, we set the derivative to zero:
+\begin{align*}
+-2\sum_{i=1}^{n} (x_i - \hat{\mu}_\lambda) + 2 \lambda \hat{\mu}_\lambda &= 0 \\
+\Rightarrow \hat{\mu}_\lambda &= \frac{\sum_{i=1}^{n} x_i}{n + \lambda}.
+\end{align*}
+
+\subsubsection*{Bayesian Interpretation}
+
+Assume a Gaussian prior on $\mu$:
+\begin{equation*}
+\mu \sim \mathcal{N}(0, \tau^2).
+\end{equation*}
+Then the posterior mode is
+\begin{equation*}
+\hat{\mu}_{\rm MAP} = \frac{\sum_{i=1}^{n} x_i}{n + \sigma^2 / \tau^2},
+\end{equation*}
+where $\sigma^2$ is the observation variance. Comparing to the ridge solution, we see
+\begin{equation*}
+\lambda = \frac{\sigma^2}{\tau^2}.
+\end{equation*}
+
+\subsection{Ridge Regularization in Linear Regression}
+
+Consider the linear regression model
+\begin{equation*}
+y = X\beta + \epsilon, \quad \epsilon \sim \mathcal{N}(0, \sigma^2 I),
+\end{equation*}
+where $X$ is the $n \times p$ design matrix. The ordinary least squares estimator is
+\begin{equation*}
+\hat{\beta}_{\rm OLS} = \arg\min_\beta \|y - X\beta\|_2^2.
+\end{equation*}
+
+Ridge regression adds an L2 penalty:
+\begin{equation*}
+\hat{\beta}_\lambda = \arg\min_\beta \|y - X\beta\|_2^2 + \lambda \|\beta\|_2^2,
+\end{equation*}
+with solution
+\begin{equation*}
+\hat{\beta}_\lambda = (X^\top X + \lambda I)^{-1} X^\top y.
+\end{equation*}
+
+\subsubsection*{Bayesian Interpretation}
+
+With a Gaussian prior
+\begin{equation*}
+\beta \sim \mathcal{N}(0, \tau^2 I),
+\end{equation*}
+the posterior mode is equivalent to ridge regression with
+\begin{equation*}
+\lambda = \frac{\sigma^2}{\tau^2}.
+\end{equation*}
+
+\subsection{Summary}
+
+Ridge regularization reduces variance at the cost of bias.  
+The regularization parameter $\lambda$ controls shrinkage and corresponds to the inverse prior variance in Bayesian inference: larger $\lambda$ implies stronger pull toward zero.  
+
  
  
 
