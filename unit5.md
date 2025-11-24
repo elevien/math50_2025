@@ -12,6 +12,7 @@ As I say many times in class, the linear regression model is the basis for many 
 
 Material: 
 - [Notes and exercises](/public/latex_notes/unit5/unit5.pdf)
+- Contribution to Unit 5 Practice Problems for Extra Credit by Daniel Hernandez [Math_50_Unit_5_Problem_Contributions_for_Extra_Credit__Daniel_Hernandez.pdf](https://github.com/user-attachments/files/23730864/Math_50_Unit_5_Problem_Contributions_for_Extra_Credit__Daniel_Hernandez.pdf)
 - [Colab exercise solutions](https://colab.research.google.com/drive/1StwGhDHL4BFMx4_y1LY3B5BVUUpuwqjl?usp=sharing)
 - [Colab notebook: interactions](https://colab.research.google.com/drive/1JVq9VHAbpSlGlngfMmf9N4NJuSKM8lKR?usp=sharing)
 - [Colab notebook: Polynomial regression and bias-variance](https://colab.research.google.com/drive/1UuydrSV7Q7-O-ZyjBUGT-mOzo9NUFD3P?usp=sharing)
