@@ -35,3 +35,119 @@ title: Posts
     <span class="pagination-item newer">Newer</span>
   {% endif %}
 </div>
+
+\documentclass{article}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage[margin=1in]{geometry}
+
+\begin{document}
+
+\section*{Math 50: Linear Regression Modeling -- Practice Contribution Questions}
+
+\textit{The following questions are based on a student's final project analyzing the ``13 Keys to the White House'' and other 2024 election forecasting models. Use the provided regression outputs and context to answer the questions regarding OLS diagnostics, logistic regression, and model validation.}
+
+\begin{enumerate}
+
+    % QUESTION 1
+    \item \textbf{Simple Linear Regression and Residual Analysis} \\
+    \textit{Context:} In a study of the ``13 Keys to the White House,'' a student attempts to predict the incumbent party's two-party vote share based on the number of ``False Keys'' (indicators unfavorable to the incumbent). The student runs an Ordinary Least Squares (OLS) regression using data from 1976--2020.
+    
+    \begin{enumerate}
+        [cite_start]\item The OLS regression of incumbent vote share ($Y$) on the number of false keys ($X$) produced a correlation coefficient of $r = -0.838$[cite: 59]. Calculate the Coefficient of Determination ($R^2$) and interpret its meaning in the context of this political science model. What percentage of the variance in the popular vote is explained by the ``Keys'' model?
+        
+        [cite_start]\item The regression analysis resulted in a statistically significant negative slope ($p < .01$)[cite: 62]. [cite_start]Based on the scatterplot provided in the study, the regression line passes through an incumbent vote share of roughly $0.57$ when $X=0$ (0 false keys) and drops to roughly $0.45$ when $X=9$[cite: 36].
+        \begin{enumerate}
+            \item Estimate the linear regression equation $\hat{y} = \hat{\beta}_0 + \hat{\beta}_1 x$.
+            \item Interpret the slope coefficient $\hat{\beta}_1$ in plain English. For every additional ``False Key'' triggered, how much vote share does the incumbent party lose on average?
+        \end{enumerate}
+        
+        [cite_start]\item The student notes that when predicting the \textit{Electoral College} vote share (rather than popular vote), the scatterplot becomes ``W-shaped,'' resulting in a weak correlation of $r = -0.224$[cite: 92, 93].
+        \begin{enumerate}
+            \item Explain why a ``W-shaped'' pattern in a residual plot or scatterplot violates the linearity assumption of Simple Linear Regression.
+            [cite_start]\item Why might a ``national'' model like the 13 Keys fail to predict Electoral College outcomes compared to popular vote outcomes? [cite: 94]
+        \end{enumerate}
+    \end{enumerate}
+
+    \vspace{0.5cm}
+
+    % QUESTION 2
+    \item \textbf{Multiple Regression and Multicollinearity} \\
+    \textit{Context:} A researcher suspects that Lichtman's ``13 Keys'' model might be overfitted and that the economy is the primary driver of election results. [cite_start]To test this, they isolate \textbf{Key 5} (Short-term economy) and \textbf{Key 6} (Long-term economy) and run a multiple regression predicting incumbent vote share[cite: 101, 140].
+
+    [cite_start]\textit{Data:} Use the provided regression output table[cite: 146]:
+    \begin{table}[h!]
+        \centering
+        \begin{tabular}{lcccc}
+            \toprule
+            \textbf{Variable} & \textbf{Coef} & \textbf{Std Err} & \textbf{$t$} & \textbf{$P>|t|$} \\
+            \midrule
+            Intercept (const) & 0.5440 & 0.032 & 16.823 & 0.000 \\
+            Num\_False\_Keys & -0.0108 & 0.004 & -2.628 & 0.030 \\
+            Key 5 & 0.0318 & 0.019 & 1.662 & 0.135 \\
+            Key 6 & -0.0016 & 0.014 & -0.113 & 0.913 \\
+            \bottomrule
+        \end{tabular}
+    \end{table}
+
+    \begin{enumerate}
+        \item Write out the estimated multiple regression equation. Based on the $p$-values at the $\alpha = 0.05$ significance level, which predictors are statistically significant?
+        
+        [cite_start]\item The study notes that Key 5 was the ``strongest factor of all'' in a single-feature analysis, yet in this multiple regression model, it has a $p$-value of 0.135 (insignificant)[cite: 99, 146]. Explain this apparent paradox. How does the inclusion of \texttt{Num\_False\_Keys} (which likely contains the economic information already) affect the standard errors and $p$-values of \texttt{Key 5}?
+        
+        [cite_start]\item The researcher argues that because the keys are ``connected and multicorrelational,'' the model should be viewed as a cohesive structure rather than summing individual parts[cite: 147]. If Key 5 and Key 6 are highly correlated with the total count of false keys, what would you expect to happen to the variance of the coefficients ($\text{Var}(\hat{\beta})$) if you removed the \texttt{Num\_False\_Keys} variable from the model?
+    \end{enumerate}
+
+    \vspace{0.5cm}
+
+    % QUESTION 3
+    \item \textbf{Logistic Regression and Classification Thresholds} \\
+    \textit{Context:} The ``13 Keys'' model is deterministic: it predicts that if 5 or fewer keys are false, the incumbent wins; otherwise, they lose. This is a binary classification problem. A student models this using Logistic Regression.
+
+    \begin{enumerate}
+        [cite_start]\item The ``inflection point'' of the model is identified at precisely five false keys[cite: 70]. In a logistic regression model, the probability of an incumbent win $P(Y=1)$ is given by the sigmoid function:
+        \[ P(Y=1) = \frac{1}{1 + e^{-(\beta_0 + \beta_1 x)}} \]
+        If the inflection point (decision boundary where $P=0.5$) occurs at $x = 5.5$ (the midpoint between 5 and 6 keys), find the ratio $-\frac{\beta_0}{\beta_1}$.
+        
+        [cite_start]\item The study mentions that 2016 was a ``calamitous'' year where probabilistic models gave Trump a low chance of winning (e.g., 29\%), while the deterministic Keys model predicted his victory[cite: 3, 6]. [cite_start]Discuss the trade-off between \textbf{Validity} (having a statistical guarantee of error) and \textbf{Plausibility} (accounting for uncertainty)[cite: 8]. Why might a logistic regression model with wide confidence intervals be considered more ``plausible'' but less useful to the public than a deterministic step-function model like the 13 Keys?
+        
+        \item Look at the ``Keys vs. Electoral College Win Probability'' plot referenced in the study. [cite_start]The curve resembles a step function (Heaviside) rather than a smooth Sigmoid[cite: 72]. What does this imply about the ``separation'' of the data classes in this limited dataset ($n=12$)? [cite_start]Why might ``quasi-separation'' be a problem for fitting a standard logistic regression using Maximum Likelihood Estimation (MLE)? [cite: 73]
+    \end{enumerate}
+
+    \vspace{0.5cm}
+
+    % QUESTION 4
+    \item \textbf{The Linear Extrapolation Problem} \\
+    [cite_start]\textit{Context:} The project critiques a forecasting model (Morris) by attempting to reverse-engineer it using polling data and ``fundamentals.'' The student suggests the model is likely \textit{not} a linear regression because of the ``linear extrapolation problem''[cite: 157].
+
+    \begin{enumerate}
+        \item Suppose a forecasting model predicts the Democratic vote margin ($M$) using a linear combination of Economic Indicators ($E$) and Polling Average ($P$):
+        \[ M = \beta_0 + \beta_1 E + \beta_2 P \]
+        [cite_start]The study notes that for certain states, a linear model would require weighting polls \textit{negatively} to fit the data, which is theoretically unsound[cite: 157]. Explain mathematically how a linear model could predict a vote share $> 100\%$ or $< 0\%$ if the inputs $E$ or $P$ are extreme.
+        
+        [cite_start]\item The student suggests a ``logistic transform'' is used in the toy simulation to fix this[cite: 161]. If the linear model outputs a raw ``score'' $z = \beta_0 + \beta_1 E + \beta_2 P$, how does applying the transformation $f(z) = \frac{1}{1+e^{-z}}$ resolve the extrapolation problem described in Unit 4?
+        
+        [cite_start]\item In the Monte Carlo simulation provided, the output is a probability distribution of electoral votes[cite: 158]. Explain why the histogram of outcomes spreads out (variance) rather than being a single bar. Which term in the standard regression model $Y = \beta X + \epsilon$ accounts for this spread?
+    \end{enumerate}
+
+    \vspace{0.5cm}
+
+    % QUESTION 5
+    \item \textbf{Sample Size and Degrees of Freedom} \\
+    [cite_start]\textit{Context:} The student acknowledges that their dataset is ``extremely limited'' (1976--2020), containing only 12 observations[cite: 139]. [cite_start]The regression model uses the ``Number of False Keys'' as a predictor, which is a summation of 13 individual binary variables[cite: 21].
+
+    \begin{enumerate}
+        \item Calculate the Degrees of Freedom ($df$) for the error term in the OLS regression shown in Question 2, where $n=12$ and the model estimates an intercept plus three coefficients (\texttt{Num\_False\_Keys}, \texttt{Key 5}, \texttt{Key 6}).
+        \[ df_{residual} = n - (k + 1) \]
+        Is this sample size sufficient for a reliable multiple regression analysis according to standard ``Rules of Thumb'' (e.g., 10 observations per predictor)?
+        
+        [cite_start]\item The project performs ``feature selection'' on the keys to see if the model can be reduced[cite: 97]. If the researcher decided to regress the vote share against \textit{all 13 keys individually} instead of the aggregate score, what would happen to the linear algebra solution for the OLS estimator $\hat{\beta} = (X^TX)^{-1}X^T Y$? [cite_start](Hint: Consider the dimensions of matrix $X$ with $n=12$ and $p=13$ [cite: 137]).
+        
+        [cite_start]\item The text mentions that 2016 polling errors were attributed to ``faulty turnout modeling'' and ``undecided voter treatment''[cite: 11]. If a regression model is trained on 1976-2012 data, and the mechanism of sampling error changes in 2016 (a ``structural break''), prediction error will increase. [cite_start]In the context of the ``Model Wars'' mentioned[cite: 14], how does \textbf{regularization} (like Ridge or Lasso) help a model generalize better to unseen data compared to a standard OLS model that perfectly fits the limited history?
+    \end{enumerate}
+
+\end{enumerate}
+
+\end{document}
