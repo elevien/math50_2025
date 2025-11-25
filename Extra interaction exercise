@@ -1,0 +1,110 @@
+\documentclass{article}
+\usepackage{graphicx} % Required for inserting images
+
+\title{Interaction Practice Problems}
+% \author{katherine.a.marine.28 }
+
+\usepackage[a4paper, margin=1in]{geometry} % uniform margins
+\begin{document}
+
+\maketitle
+
+% \section{Introduction}
+\subsubsection{Interpreting interaction between continuous and categorical predictors}
+
+A professor models final exam score $Y$ (out of 100) using the number of hours studied $X$ and whether the student attended an optional review course. Let $D$ be an indicator for attending the review course:
+\vspace{15pt}
+D = 1 if the student attended the review course and 0 otherwise.
+
+
+They fit the linear regression model
+\[
+Y = \beta_0 + \beta_1 X + \beta_2 D + \beta_3 (X \cdot D) + \epsilon,
+\]
+\indent and obtain the following estimates:
+\[
+\hat{Y} = 60 + 5X - 8D + 3(X \cdot D).
+\]
+
+\noindent
+\underline{Questions}:
+\begin{enumerate}
+    \item Write the fitted regression line for students who did \emph{not} attend the review course ($D=0$). What is the interpretation of the intercept and slope in this group?
+
+    \item Write the fitted regression line for students who \emph{did} attend the review course ($D=1$). What is the interpretation of the intercept and slope in this group?
+
+    \item Interpret the coefficients $\beta_2$ and $\beta_3$ in words. In particular, describe how attending the review course changes:
+    \begin{itemize}
+        \item the intercept (predicted score at $X=0$),
+        \item the slope with respect to hours studied.
+    \end{itemize}
+
+    \item For which value of $X$ (number of study hours) do the two fitted lines predict the same exam score for students who did and did not attend the review course?
+
+    \item Suppose a residual plot against $X$ shows that for students who did not attend the review course, residuals become more spread out (larger variance) for $X > 12$, while residuals for students who attended the review course remain roughly homoscedastic. Briefly explain one way in which the model might be misspecified and how you might modify the model to address this.
+\end{enumerate}
+
+
+\vspace{30pt}
+
+
+\noindent\underline{Solution}:
+\begin{enumerate}
+
+\item For students who did \emph{not} attend the review course, we set $D=0$. The fitted model becomes
+\[
+\hat{Y} = 60 + 5X - 8 \cdot 0 + 3(X \cdot 0) = 60 + 5X.
+\]
+Interpretation:
+\begin{itemize}
+    \item Intercept $60$: predicted exam score for a student who studied $X=0$ hours and did not attend the review course.
+    \item Slope $5$: for students who did not attend the review course, each additional hour of study is associated with an average increase of $5$ points in the predicted exam score.
+\end{itemize}
+
+\item For students who \emph{did} attend the review course, we set $D=1$. The fitted model becomes
+\[
+\hat{Y} = 60 + 5X - 8 \cdot 1 + 3(X \cdot 1) = (60 - 8) + (5 + 3)X = 52 + 8X.
+\]
+Interpretation:
+\begin{itemize}
+    \item Intercept $52$: predicted exam score for a student who attended the review course but studied $X=0$ hours.
+    \item Slope $8$: for students who attended the review course, each additional hour of study is associated with an average increase of $8$ points in the predicted exam score.
+\end{itemize}
+
+\item In the full model
+\[
+\hat{Y} = 60 + 5X - 8D + 3(XD),
+\]
+the coefficients $\beta_2$ and $\beta_3$ describe how the review course changes the intercept and slope relative to the baseline group ($D=0$).
+
+\begin{itemize}
+    \item $\beta_2 = -8$: attending the review course changes the intercept by $-8$ points. In other words, at $X=0$ hours of studying, the predicted score for a student who attended the review course is $8$ points lower than for a student who did not, all else equal.
+
+    \item $\beta_3 = 3$: attending the review course increases the slope with respect to $X$ by $3$ points per hour. The baseline slope is $5$ (for $D=0$); for $D=1$ it becomes $5 + 3 = 8$. So each hour of study has a larger effect on predicted score for students who attended the review course.
+\end{itemize}
+
+\item To find the number of hours $X$ at which the two fitted lines predict the same exam score, we set the two group-specific equations equal:
+\[
+60 + 5X = 52 + 8X.
+\]
+Solving for $X$:
+\begin{align*}
+60 + 5X &= 52 + 8X \\
+60 - 52 &= 8X - 5X \\
+8 &= 3X \\
+X &= \frac{8}{3} \approx 2.67.
+\end{align*}
+
+\indent So for $X \approx 2.67$ hours of studying, the model predicts the same exam score for students who did and did not attend the review course. For $X$ larger than this value, the review-course group is predicted to score higher on average.
+
+\item The residual plot suggests that for students who did not attend the review course, the error variance increases for $X > 12$ (a fan shape), while for the review-course group, the residuals look more homoscedastic. This indicates that the assumption of constant variance may be violated in the $D=0$ group, especially at large $X$.
+
+One possible model misspecification is that the relationship between $X$ and $Y$ is not purely linear for students who did not attend the review course (for example, performance may plateau or become more variable at high study times). To address this, we could:
+\begin{itemize}
+    \item add a nonlinear term such as $X^2$ and possibly allow an interaction between $X^2$ and $D$, or
+    \item fit separate models or use a transformation of $Y$ or $X$ for the $D=0$ group.
+\end{itemize}
+Either approach attempts to better capture the change in variability or shape of the relationship at higher study hours.
+\end{enumerate}
+
+\end{document}
