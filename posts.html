@@ -35,3 +35,115 @@ title: Posts
     <span class="pagination-item newer">Newer</span>
   {% endif %}
 </div>
+
+\subsection*{Contribution Problems: Presidential Forecasting Models}
+
+\textit{The following problems are based on a student's final project analyzing the ``13 Keys to the White House'' and other 2024 election forecasting models. Use the provided regression outputs and context to answer the questions regarding OLS diagnostics, logistic regression, and model validation.}
+
+\begin{enumerate}
+
+% QUESTION 1
+\item \textbf{Simple Linear Regression and Residual Analysis.} \\
+\textit{Context:} In a study of the ``13 Keys to the White House,'' a student attempts to predict the incumbent party's two-party vote share based on the number of ``False Keys'' (indicators unfavorable to the incumbent). The student runs an OLS regression using data from 1976--2020.
+
+\begin{enumerate}
+    \item The OLS regression of incumbent vote share \((Y)\) on the number of false keys \((X)\) produced a correlation coefficient of \(r = -0.838\). Calculate the Coefficient of Determination \(R^2\). What percentage of the variance in the popular vote is explained by the Keys model?
+
+    \item Based on the scatterplot in the project, the regression line passes through approximately \(0.57\) when \(X=0\) (0 false keys) and approximately \(0.45\) when \(X=9\).
+    \begin{enumerate}
+        \item Estimate the linear regression equation \(\hat{y} = \hat{\beta}_0 + \hat{\beta}_1 x\).
+        \item Interpret the slope coefficient \(\hat{\beta}_1\). For each additional False Key, how much vote share does the incumbent party lose on average?
+    \end{enumerate}
+
+    \item When predicting Electoral College vote share, the scatterplot becomes ``W-shaped,'' and the correlation weakens to \(r = -0.224\).
+    \begin{enumerate}
+        \item Explain why a W-shaped pattern in a residual plot violates the linearity assumption of Simple Linear Regression.
+        \item Why might a national model like the 13 Keys fail to predict Electoral College outcomes as well as popular vote outcomes?
+    \end{enumerate}
+\end{enumerate}
+
+\vspace{0.5cm}
+
+% QUESTION 2
+\item \textbf{Multiple Regression and Multicollinearity.} \\
+\textit{Context:} A researcher suspects that the Keys model may be overfitted and that the economy is the primary driver of election results. To test this, they isolate Key 5 (Short-term economy) and Key 6 (Long-term economy) and run a multiple regression predicting incumbent vote share.
+
+\textit{Regression output:}
+
+\begin{table}[h!]
+    \centering
+    \begin{tabular}{lcccc}
+        \toprule
+        \textbf{Variable} & \textbf{Coef} & \textbf{Std Err} & \textbf{$t$} & \textbf{$P>|t|$} \\
+        \midrule
+        Intercept (const) & 0.5440 & 0.032 & 16.823 & 0.000 \\
+        Num\_False\_Keys & -0.0108 & 0.004 & -2.628 & 0.030 \\
+        Key 5 & 0.0318 & 0.019 & 1.662 & 0.135 \\
+        Key 6 & -0.0016 & 0.014 & -0.113 & 0.913 \\
+        \bottomrule
+    \end{tabular}
+\end{table}
+
+\begin{enumerate}
+    \item Write out the estimated multiple regression equation. Based on the \(p\)-values at the \(\alpha = 0.05\) level, which predictors are statistically significant?
+
+    \item Key 5 was the strongest single-feature predictor in the project, yet in the multiple regression it becomes insignificant (\(p = 0.135\)). Explain this paradox. How does including \texttt{Num\_False\_Keys} (which already encodes economic conditions) affect the standard error and significance of Key 5?
+
+    \item The researcher argues that the Keys are ``connected and multicorrelational.'' If Key 5 and Key 6 are highly correlated with the total number of False Keys, what happens to the variance of the coefficients \(\mathrm{Var}(\hat{\beta})\) if \texttt{Num\_False\_Keys} is removed from the model?
+\end{enumerate}
+
+\vspace{0.5cm}
+
+% QUESTION 3
+\item \textbf{Logistic Regression and Classification Thresholds.} \\
+\textit{Context:} The 13 Keys model is deterministic: if five or fewer keys are false, the incumbent wins; otherwise, they lose. A student models this using logistic regression.
+
+\begin{enumerate}
+    \item The inflection point of the logistic model occurs when the predicted probability is \(0.5\). The project identifies this point at \(x=5.5\). For a logistic model
+    \[
+        P(Y=1) = \frac{1}{1 + e^{-(\beta_0 + \beta_1 x)}},
+    \]
+    solve for the ratio \(-\beta_0/\beta_1\).
+
+    \item The project contrasts probabilistic models (e.g., giving Trump a 29\% chance in 2016) with the deterministic Keys model. Discuss the trade-off between \textbf{Validity} (error guarantees) and \textbf{Plausibility} (realistic uncertainty). Why might a logistic model with wide confidence intervals be more plausible but less useful to the public?
+
+    \item The ``Keys vs. Electoral College Win Probability'' plot resembles a step function rather than a smooth sigmoid. What does this suggest about class separation in a sample of only \(n=12\)? Why does quasi-separation pose a problem for logistic regression estimated via Maximum Likelihood?
+\end{enumerate}
+
+\vspace{0.5cm}
+
+% QUESTION 4
+\item \textbf{The Linear Extrapolation Problem.} \\
+\textit{Context:} The project critiques a forecasting model by reverse-engineering its fundamentals-plus-polls structure and argues it may not be linear due to extrapolation issues.
+
+\begin{enumerate}
+    \item Suppose a model predicts Democratic vote margin using
+    \[
+        M = \beta_0 + \beta_1 E + \beta_2 P.
+    \]
+    Explain how a linear model can produce predictions exceeding \(100\%\) or below \(0\%\) when inputs \(E\) or \(P\) take extreme values.
+
+    \item A logistic transform
+    \[
+        f(z) = \frac{1}{1+e^{-z}}
+    \]
+    is used in the project's simulation to fix this issue. Explain how applying this transform ensures predictions remain between 0 and 1.
+
+    \item In the project's Monte Carlo simulation, the output is a distribution of electoral votes rather than a single value. Explain how the error term \(\epsilon\) in the regression model \(Y = \beta X + \epsilon\) leads to variance across simulation outcomes.
+\end{enumerate}
+
+\vspace{0.5cm}
+
+% QUESTION 5
+\item \textbf{Sample Size and Degrees of Freedom.} \\
+\textit{Context:} The dataset includes only 12 presidential elections (1976--2020). The model uses the total number of False Keys, a sum of 13 binary indicators.
+
+\begin{enumerate}
+    \item Compute the residual degrees of freedom for the regression in Question 2 with \(n=12\) and three predictors. Is this sample size adequate by common rules of thumb (e.g., 10 observations per predictor)?
+
+    \item If one attempted to regress vote share on all 13 keys individually (with \(n=12\) and \(p=13\)), what happens to the OLS formula \(\hat{\beta} = (X^T X)^{-1} X^T Y\)? Discuss in terms of matrix dimensions.
+
+    \item The project notes that 2016 polling errors were driven by changes in turnout modeling and undecided-voter behavior (a structural break). Explain how regularization methods (Ridge, Lasso) help prevent overfitting and improve generalization relative to ordinary least squares.
+\end{enumerate}
+
+\end{enumerate}
